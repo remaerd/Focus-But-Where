@@ -1,5 +1,4 @@
 import Phaser from 'phaser';
-import Vision from '@mediapipe/tasks-vision';
 
 // const gameConfig: Phaser.Types.Core.GameConfig = {
 //   title: 'Sample',
