@@ -13,7 +13,7 @@ canvas {
 }
 
 #main {
-  position: relative;
+  display: none;
   margin: 0;
 }
 
