@@ -1,24 +1,12 @@
-import Phaser from 'phaser';
+import  './faceLandmarkDetector'
+import { setupFaceLandmarkDetector } from './faceLandmarkDetector';
 
-// const gameConfig: Phaser.Types.Core.GameConfig = {
-//   title: 'Sample',
- 
-//   type: Phaser.AUTO,
- 
-//   scale: {
-//     width: window.innerWidth,
-//     height: window.innerHeight,
-//   },
- 
-//   physics: {
-//     default: 'arcade',
-//     arcade: {
-//       debug: true,
-//     },
-//   },
- 
-//   parent: 'game',
-//   backgroundColor: '#FFF',
-// };
- 
-// export const game = new Phaser.Game(gameConfig);
+async function app() 
+{
+	try { 
+    await setupFaceLandmarkDetector() 
+  } 
+  catch (error) { console.log(error) }
+};
+
+app();

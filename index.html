@@ -1,24 +1,30 @@
-<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Sample Project</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>Focus But ... What?</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="/src/style.css">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
     <meta http-equiv="cleartype" content="on">
-    <style>
-      html,
-      body,
-      canvas {
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
-      }
-    </style>
   </head>
+
   <body>
     <div id="content"></div>
-    <script src="/src/main.ts" type="module"></script>
+    <div id="main">
+      <div class="container">
+        <video id="video" playsinline style="
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+            visibility: hidden;
+            width: auto;
+            height: auto;
+            ">
+          </video>
+      </div>
+    </div>
+    </div>
   </body>
+  <script src="/src/main.ts" type="module"></script>
+
 </html>
