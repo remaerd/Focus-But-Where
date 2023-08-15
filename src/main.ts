@@ -1,5 +1,5 @@
 
-import { setupFaceLandmarkDetector } from './faceLandmarkDetector'
+import { Detector } from './faceLandmarkDetector'
 import * as Phaser from 'phaser'
 
 import { MainMenuScene } from './scenes/mainMenuScene'
@@ -33,7 +33,7 @@ async function app()
 {
 	try 
   { 
-    await setupFaceLandmarkDetector() 
+    await Detector.setup()
   } 
   catch (error) { console.log(error) }
 };
