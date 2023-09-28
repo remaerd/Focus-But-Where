@@ -1,3 +1,5 @@
+import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
+
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {
 	active: false,
@@ -5,7 +7,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 	key: 'Chapter1',
 };
   
-export class Chapter1Scene extends Phaser.Scene 
+export class Chapter1Scene extends FaceDetectorScene
 {
 	constructor() 
 	{
@@ -26,4 +28,8 @@ export class Chapter1Scene extends Phaser.Scene
 	{
 	  // TODO
 	}
-  }
+
+	onBlinkStatusChanged(status: BlinkingStatus): void {
+		
+	}
+}

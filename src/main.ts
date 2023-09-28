@@ -8,6 +8,7 @@ import { Chapter2Scene } from './scenes/chapter2Scene'
 import { Chapter3Scene } from './scenes/chapter3Scene'
 import { Chapter4Scene } from './scenes/chapter4Scene'
 import { Chapter5Scene } from './scenes/chapter5Scene'
+import { FaceDetectorScene } from './FaceDetectorScene'
 
 const gameConfig: Phaser.Types.Core.GameConfig = 
 {
@@ -27,13 +28,14 @@ const gameConfig: Phaser.Types.Core.GameConfig =
   scene: [ MainMenuScene, Chapter1Scene, Chapter2Scene, Chapter3Scene, Chapter4Scene, Chapter5Scene]
 };
 
-const game = new Phaser.Game(gameConfig);
- 
+export const game = new Phaser.Game(gameConfig);
+
 async function app() 
 {
 	try 
-  { 
+  {   
     await Detector.setup()
+    FaceDetectorScene.currentScene = game.scene.getAt(0)
   } 
   catch (error) { console.log(error) }
 };
