@@ -108,7 +108,7 @@ export class Detector
 	{
 		this.translateX = (Camera.videoConfig.video.width - (face.box.xMin + face.box.width / 2)) / Camera.videoConfig.video.width
 		this.translateY = (face.box.yMin + (face.box.height / 2)) / Camera.videoConfig.video.height
-		this.scale = Math.round(Math.abs(((Camera.videoConfig.video.height / 2.5) / face.box.height) + 1))
+		this.scale = Math.round(((Camera.videoConfig.video.height / 2.5) / face.box.height) + 1)
 
 		// 159: Left eye lid up / 145: Left eye lid down / 385: Right eye lid up / 380: Right eye lid down
 		let leftEyeLidDistance = Math.round(face.keypoints[159].y - face.keypoints[145].y)
