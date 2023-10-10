@@ -8,7 +8,11 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class Chapter1Scene extends FaceDetectorScene {
+  private depth = 1;
+
   private eyeMask!: Phaser.GameObjects.Image;
+  private blackBackground!: Phaser.GameObjects.Rectangle;
+
   private maskX = Phaser.Math.Between(0, 800);
   private maskY = Phaser.Math.Between(0, 600);
 
@@ -17,12 +21,28 @@ export class Chapter1Scene extends FaceDetectorScene {
     { x: 600, y: 600 },
   ];
 
-  private scope = 100;
+  private scope = 80;
 
   private phoneMap = new Map();
 
   isNear = (x1: number, y1: number, x2: number, y2: number) => {
     return Math.abs(x1 - x2) < this.scope && Math.abs(y1 - y2) < this.scope;
+  };
+
+  playFrameAnimation = (
+    object: Phaser.GameObjects.Sprite,
+    frameNames: string[]
+  ) => {
+    const anim = object.anims.create({
+      key: "frameAnimation",
+      frames: frameNames.map((frameName) => ({
+        key: object.texture.key,
+        frame: frameName,
+      })),
+      frameRate: 1,
+      repeat: -1,
+    });
+    object.anims.play("frameAnimation");
   };
 
   constructor() {
@@ -33,33 +53,79 @@ export class Chapter1Scene extends FaceDetectorScene {
     console.log("Preload");
     this.load.image("eyeMask", "/EyeMask.svg");
     this.load.multiatlas(
-      "Chapter1",
-      "/Chapter1/chapter_01_50__300ppi.json",
+      "backgrounds",
+      "/Chapter1/background.json",
       "/Chapter1/"
     );
     console.log(this.phonesPosition);
+    for (let i = 0; i < this.phonesPosition.length; i++) {
+      this.load.multiatlas(
+        `phone_0${i + 1}`,
+        `/Chapter1/phone_0${i + 1}.json`,
+        "/Chapter1/"
+      );
+    }
   }
 
   public create() {
-    this.eyeMask = this.add.image(this.maskX, this.maskY, "eyeMask");
-    const mask = this.eyeMask.createBitmapMask(undefined);
-
+    //Load background
+    const backgroundsTexture = this.textures.get("backgrounds");
     const backgrounds = [];
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < backgroundsTexture.getFrameNames().length; i++) {
       backgrounds.push(
         this.add.sprite(
           window.innerWidth / 2,
           window.innerHeight / 2,
-          "Chapter1",
-          `300ppi/background_0${i + 1}.png`
+          "backgrounds",
+          `background_0${i + 1}.png`
         )
       );
       backgrounds[i].setScale(
         window.innerWidth / backgrounds[i].width,
         window.innerHeight / backgrounds[i].height
       );
-      backgrounds[i].setMask(mask);
+      backgrounds[i].setDepth(this.depth);
+      this.depth++;
     }
+
+    //Load Phones
+
+    const phones = [];
+    for (let i = 0; i < this.phonesPosition.length; i++) {
+      const texture = this.textures.get(`phone_0${i + 1}`);
+      phones.push(
+        this.add.sprite(
+          this.phonesPosition[i].x,
+          this.phonesPosition[i].y,
+          `phone_0${i + 1}`,
+          texture.getFrameNames()[0]
+        )
+      );
+
+      phones[i].setScale(
+        phones[i].width / backgrounds[i].width,
+        phones[i].height / backgrounds[i].height
+      );
+      this.playFrameAnimation(phones[i], texture.getFrameNames());
+      phones[i].setDepth(this.depth);
+      this.depth++;
+    }
+
+    //Load Eye Mask
+    this.blackBackground = this.add.rectangle(
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      window.innerWidth,
+      window.innerHeight,
+      0x000000
+    );
+    this.blackBackground.setDepth(this.depth);
+    this.depth++;
+
+    this.eyeMask = this.add.image(this.maskX, this.maskY, "eyeMask");
+    const mask = this.eyeMask.createBitmapMask();
+    mask.invertAlpha = true;
+    this.blackBackground.setMask(mask);
   }
 
   public update() {
@@ -67,10 +133,6 @@ export class Chapter1Scene extends FaceDetectorScene {
 
     this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
     this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
-    // console.log(
-    //   Detector.default!.translateX * window.innerWidth,
-    //   Detector.default!.translateY * window.innerHeight
-    // );
   }
 
   onBlinkStatusChanged(status: BlinkingStatus): void {

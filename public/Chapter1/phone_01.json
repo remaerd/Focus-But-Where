@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "phone_01-0.png",
+			"image": "phone_01.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 832,
