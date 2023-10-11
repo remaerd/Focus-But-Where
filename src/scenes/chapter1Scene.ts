@@ -16,12 +16,25 @@ export class Chapter1Scene extends FaceDetectorScene {
   private maskX = Phaser.Math.Between(0, 800);
   private maskY = Phaser.Math.Between(0, 600);
 
+  private windowWidth = window.innerWidth;
+  private windowHeight = window.innerHeight;
+
+  private backgroundImageWidth = 8525;
+  private backgroundImageHeight = 4796;
+
   private phonesPosition = [
-    { x: 500, y: 500 },
-    { x: 600, y: 600 },
+    { x: 833.56, y: 1913.68 },
+    { x: 2475.68, y: 1279.96 },
+    { x: -629.34, y: 838.02 },
+    { x: 350.1, y: 612.88 },
+    { x: -475.138, y: 120.91 },
+    { x: 516.81, y: 112.57 },
+    { x: -1271.18, y: -341.88 },
+    { x: 33.34, y: -358.55 },
+    { x: -129.2, y: -1438.39 },
   ];
 
-  private scope = 80;
+  private scope = 120;
 
   private phoneMap = new Map();
 
@@ -57,7 +70,6 @@ export class Chapter1Scene extends FaceDetectorScene {
       "/Chapter1/background.json",
       "/Chapter1/"
     );
-    console.log(this.phonesPosition);
     for (let i = 0; i < this.phonesPosition.length; i++) {
       this.load.multiatlas(
         `phone_0${i + 1}`,
@@ -65,6 +77,18 @@ export class Chapter1Scene extends FaceDetectorScene {
         "/Chapter1/"
       );
     }
+
+    //format phone position
+    this.phonesPosition = this.phonesPosition.map((phonePosition) => ({
+      x:
+        (this.backgroundImageWidth / 2 + phonePosition.x) *
+        (this.windowWidth / this.backgroundImageWidth),
+
+      y:
+        (this.backgroundImageHeight / 2 - phonePosition.y) *
+        (this.windowHeight / this.backgroundImageHeight),
+    }));
+    console.log(this.phonesPosition);
   }
 
   public create() {
@@ -74,15 +98,16 @@ export class Chapter1Scene extends FaceDetectorScene {
     for (let i = 0; i < backgroundsTexture.getFrameNames().length; i++) {
       backgrounds.push(
         this.add.sprite(
-          window.innerWidth / 2,
-          window.innerHeight / 2,
+          this.windowWidth / 2,
+          this.windowHeight / 2,
           "backgrounds",
           `background_0${i + 1}.png`
         )
       );
+
       backgrounds[i].setScale(
-        window.innerWidth / backgrounds[i].width,
-        window.innerHeight / backgrounds[i].height
+        this.windowWidth / this.backgroundImageWidth,
+        this.windowHeight / this.backgroundImageHeight
       );
       backgrounds[i].setDepth(this.depth);
       this.depth++;
@@ -93,6 +118,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     const phones = [];
     for (let i = 0; i < this.phonesPosition.length; i++) {
       const texture = this.textures.get(`phone_0${i + 1}`);
+
       phones.push(
         this.add.sprite(
           this.phonesPosition[i].x,
@@ -103,8 +129,8 @@ export class Chapter1Scene extends FaceDetectorScene {
       );
 
       phones[i].setScale(
-        phones[i].width / backgrounds[i].width,
-        phones[i].height / backgrounds[i].height
+        this.windowWidth / this.backgroundImageWidth,
+        this.windowHeight / this.backgroundImageHeight
       );
       this.playFrameAnimation(phones[i], texture.getFrameNames());
       phones[i].setDepth(this.depth);
@@ -119,8 +145,7 @@ export class Chapter1Scene extends FaceDetectorScene {
       window.innerHeight,
       0x000000
     );
-    this.blackBackground.setDepth(this.depth);
-    this.depth++;
+    this.blackBackground.setDepth(100);
 
     this.eyeMask = this.add.image(this.maskX, this.maskY, "eyeMask");
     const mask = this.eyeMask.createBitmapMask();
