@@ -18,7 +18,7 @@ As part of the 2023 winter residency of [Kexin Liu](https://www.watershed.co.uk/
 1. Download / Clone the Project
 2. Install [Node.js](https://nodejs.org/en)
 3. Open [Terminal.app (macOS)](https://support.apple.com/en-gb/guide/terminal/trmld4c92d55/mac) / [PowerShell with Admin Access (Windows)](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.3)
-4. Enable Corepack with `corepack enable`
+4. Enable Corepack with `corepack enable` in Windows or `sudo corepack enable` in macOS
 5. Open the folder with `cd **downloaded project folder url**`
 6. Use [Yarn](https://yarnpkg.com/) to install package dependencies with command `yarn`
 7. Use [Vite](https://vitejs.dev/) to run the project locally in your device with command `npx vite`
