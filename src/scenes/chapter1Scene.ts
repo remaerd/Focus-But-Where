@@ -13,6 +13,9 @@ export class Chapter1Scene extends FaceDetectorScene {
   private eyeMask!: Phaser.GameObjects.Image;
   private blackBackground!: Phaser.GameObjects.Rectangle;
 
+  private backgrounds = [] as Phaser.GameObjects.Sprite[];
+  private phones = [] as Phaser.GameObjects.Sprite[];
+
   private maskX = Phaser.Math.Between(0, 800);
   private maskY = Phaser.Math.Between(0, 600);
 
@@ -105,9 +108,8 @@ export class Chapter1Scene extends FaceDetectorScene {
   public create() {
     //Load background
     const backgroundsTexture = this.textures.get("backgrounds");
-    const backgrounds = [];
     for (let i = 0; i < backgroundsTexture.getFrameNames().length; i++) {
-      backgrounds.push(
+      this.backgrounds.push(
         this.add.sprite(
           this.windowWidth / 2,
           this.windowHeight / 2,
@@ -116,17 +118,16 @@ export class Chapter1Scene extends FaceDetectorScene {
         )
       );
 
-      backgrounds[i].setScale(this.widthScale, this.heightScale);
-      backgrounds[i].setDepth(this.depth);
+      this.backgrounds[i].setScale(this.widthScale, this.heightScale);
+      this.backgrounds[i].setDepth(this.depth);
       this.depth++;
     }
 
     //Load Phones
 
-    const phones = [];
     for (let i = 0; i < this.phonesPosition.length; i++) {
       const texture = this.textures.get(`phone_0${i + 1}`);
-      phones.push(
+      this.phones.push(
         this.add.sprite(
           this.phonesPosition[i].x,
           this.phonesPosition[i].y,
@@ -135,9 +136,9 @@ export class Chapter1Scene extends FaceDetectorScene {
         )
       );
 
-      phones[i].setScale(this.widthScale, this.heightScale);
-      this.playFrameAnimation(phones[i], texture.getFrameNames());
-      phones[i].setDepth(this.depth);
+      this.phones[i].setScale(this.widthScale, this.heightScale);
+      this.playFrameAnimation(this.phones[i], texture.getFrameNames());
+      this.phones[i].setDepth(this.depth);
       this.depth++;
     }
 
@@ -151,7 +152,11 @@ export class Chapter1Scene extends FaceDetectorScene {
     );
     this.blackBackground.setDepth(100);
 
-    this.eyeMask = this.add.image(this.maskX, this.maskY, "eyeMask");
+    this.eyeMask = this.add.image(
+      this.windowWidth / 2,
+      this.windowHeight / 2,
+      "eyeMask"
+    );
     const mask = this.eyeMask.createBitmapMask();
     mask.invertAlpha = true;
     this.blackBackground.setMask(mask);
@@ -159,9 +164,25 @@ export class Chapter1Scene extends FaceDetectorScene {
 
   public update() {
     // TODO
+    // this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
+    // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
 
-    this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
-    this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
+    this.backgrounds.forEach((background) => {
+      background.setX(Detector.default!.translateX * window.innerWidth);
+      background.setY(Detector.default!.translateY * window.innerHeight);
+    });
+    this.phones.forEach((phone, index) => {
+      phone.setX(
+        Detector.default!.translateX * window.innerWidth +
+          this.phonesPosition[index].x -
+          this.windowWidth / 2
+      );
+      phone.setY(
+        Detector.default!.translateY * window.innerHeight +
+          this.phonesPosition[index].y -
+          this.windowHeight / 2
+      );
+    });
   }
 
   onBlinkStatusChanged(status: BlinkingStatus): void {
