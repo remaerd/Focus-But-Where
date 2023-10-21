@@ -6,12 +6,12 @@ As part of the 2023 winter residency of [Kexin Liu](https://www.watershed.co.uk/
 
 # Members
 
-Project Manager & Director - **Kexin Liu**
-Researcher - **Jing Huang**
-Researcher / Script Writer - **Kai Charles**
-Illustrator / Animator - **Inigo Hartas**
-Sound Designer - **Jake Wild**
-Game Designer & Developer - **Xingzhi Zheng**
+- Project Manager & Director - **Kexin Liu**
+- Researcher - **Jing Huang**
+- Researcher / Script Writer - **Kai Charles**
+- Illustrator / Animator - **Inigo Hartas**
+- Sound Designer - **Jake Wild**
+- Game Designer & Developer - **Xingzhi Zheng**
 
 ## Deploy a local environment
 
