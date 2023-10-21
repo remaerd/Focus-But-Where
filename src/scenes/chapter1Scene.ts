@@ -157,7 +157,9 @@ export class Chapter1Scene extends FaceDetectorScene {
       this.windowHeight / 2,
       "eyeMask"
     );
+    this.eyeMask.setScale(4, 4);
     const mask = this.eyeMask.createBitmapMask();
+
     mask.invertAlpha = true;
     this.blackBackground.setMask(mask);
   }
@@ -167,22 +169,32 @@ export class Chapter1Scene extends FaceDetectorScene {
     // this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
     // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
 
-    this.backgrounds.forEach((background) => {
-      background.setX(Detector.default!.translateX * window.innerWidth);
-      background.setY(Detector.default!.translateY * window.innerHeight);
-    });
-    this.phones.forEach((phone, index) => {
-      phone.setX(
-        Detector.default!.translateX * window.innerWidth +
-          this.phonesPosition[index].x -
-          this.windowWidth / 2
-      );
-      phone.setY(
-        Detector.default!.translateY * window.innerHeight +
-          this.phonesPosition[index].y -
-          this.windowHeight / 2
-      );
-    });
+    const widthScope = 0.3;
+    const heightScope = 0.35;
+
+    if (
+      Detector.default!.translateX >= widthScope &&
+      Detector.default!.translateX <= 1 - widthScope &&
+      Detector.default!.translateY >= heightScope &&
+      Detector.default!.translateY <= 1 - heightScope
+    ) {
+      this.backgrounds.forEach((background) => {
+        background.setX(Detector.default!.translateX * window.innerWidth);
+        background.setY(Detector.default!.translateY * window.innerHeight);
+      });
+      this.phones.forEach((phone, index) => {
+        phone.setX(
+          Detector.default!.translateX * window.innerWidth +
+            this.phonesPosition[index].x -
+            this.windowWidth / 2
+        );
+        phone.setY(
+          Detector.default!.translateY * window.innerHeight +
+            this.phonesPosition[index].y -
+            this.windowHeight / 2
+        );
+      });
+    }
   }
 
   onBlinkStatusChanged(status: BlinkingStatus): void {
