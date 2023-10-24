@@ -40,7 +40,9 @@ export class Chapter1Scene extends FaceDetectorScene {
     { x: -129.2, y: -1438.39 },
   ];
 
-  private scope = 120;
+  private phoneTrigger = [1, 5, 9];
+
+  private scope = 150;
 
   private phoneMap = new Map();
 
@@ -169,8 +171,8 @@ export class Chapter1Scene extends FaceDetectorScene {
     // this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
     // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
 
-    const widthScope = 0.3;
-    const heightScope = 0.35;
+    const widthScope = 0.2;
+    const heightScope = 0.25;
 
     if (
       Detector.default!.translateX >= widthScope &&
@@ -211,19 +213,21 @@ export class Chapter1Scene extends FaceDetectorScene {
           Detector.default!.translateX * window.innerWidth,
           Detector.default!.translateY * window.innerHeight
         );
-        for (let i = 0; i < this.phonesPosition.length; i++) {
+
+        for (let i = 0; i < this.phoneTrigger.length; i++) {
           if (
             this.isNear(
-              this.phonesPosition[i].x,
-              this.phonesPosition[i].y,
+              this.phonesPosition[this.phoneTrigger[i] - 1].x,
+              this.phonesPosition[this.phoneTrigger[i] - 1].y,
               Detector.default!.translateX * window.innerWidth,
               Detector.default!.translateY * window.innerHeight
             )
           ) {
-            this.phoneMap.set(i, true);
+            this.phoneMap.set(this.phoneTrigger[i], true);
             console.log(this.phoneMap);
           }
         }
+
         if (this.phoneMap.size === this.phonesPosition.length) {
           this.scene.start("Chapter2");
         }
