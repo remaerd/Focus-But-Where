@@ -66,6 +66,23 @@ export class Chapter1Scene extends FaceDetectorScene {
     object.anims.play("frameAnimation");
   };
 
+  private icons !: Phaser.GameObjects.Sprite[]; 
+  iconTween = (
+    object: Phaser.GameObjects.Sprite,
+  ) => {
+    this.tweens.add({
+      targets: object,
+      duration: 2000,
+      scaleX: 1.5*this.widthScale,
+      scaleY: 1.5*this.heightScale,
+      alpha:0.7,
+      yoyo: true,
+      repeat: 0,
+    });
+  }
+  
+  
+
   constructor() {
     super(sceneConfig);
   }
@@ -159,11 +176,28 @@ export class Chapter1Scene extends FaceDetectorScene {
       this.windowHeight / 2,
       "eyeMask"
     );
-    this.eyeMask.setScale(4, 4);
+    this.eyeMask.setScale(3, 3);
     const mask = this.eyeMask.createBitmapMask();
 
     mask.invertAlpha = true;
     this.blackBackground.setMask(mask);
+
+    //Load Icons
+    const iconsTexture = this.textures.get("icons");
+    this.icons = [];
+    for (let i = 0; i < iconsTexture.getFrameNames().length; i++) {
+      
+      this.icons.push(
+        this.add.sprite(
+          this.windowWidth / 2+this.windowWidth/6*(i-1),
+          this.windowHeight / 12*11,
+          "icons",
+          iconsTexture.getFrameNames()[i]
+        )
+      );
+      this.icons[i].setDepth(1000);
+      this.icons[i].setScale(this.widthScale, this.heightScale);
+    }
   }
 
   public update() {
@@ -171,8 +205,8 @@ export class Chapter1Scene extends FaceDetectorScene {
     // this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
     // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
 
-    const widthScope = 0.2;
-    const heightScope = 0.25;
+    const widthScope = 0.15;
+    const heightScope = 0.2;
 
     if (
       Detector.default!.translateX >= widthScope &&
@@ -222,8 +256,11 @@ export class Chapter1Scene extends FaceDetectorScene {
               Detector.default!.translateX * window.innerWidth,
               Detector.default!.translateY * window.innerHeight
             )
+            && 
+            !this.phoneMap.get(this.phoneTrigger[i])
           ) {
             this.phoneMap.set(this.phoneTrigger[i], true);
+            this.iconTween(this.icons[this.phoneMap.size-1]);
             console.log(this.phoneMap);
           }
         }
