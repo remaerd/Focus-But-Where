@@ -1,5 +1,5 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
-import { Detector } from "../faceLandmarkDetector";
+import { Detector } from "../FaceLandmarkDetector";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -40,7 +40,9 @@ export class Chapter1Scene extends FaceDetectorScene {
     { x: -129.2, y: -1438.39 },
   ];
 
-  private scope = 120;
+  private phoneTrigger = [1, 5, 9];
+
+  private scope = 150;
 
   private phoneMap = new Map();
 
@@ -63,6 +65,24 @@ export class Chapter1Scene extends FaceDetectorScene {
     });
     object.anims.play("frameAnimation");
   };
+
+  private icons !: Phaser.GameObjects.Sprite[]; 
+  iconTween = (
+    object: Phaser.GameObjects.Sprite,
+  ) => {
+    this.tweens.add({
+      targets: object,
+      duration: 2000,
+      // BUG: This block of code scale the objects unportionally. Please Check
+      // scaleX: 1.5*this.widthScale,
+      // scaleY: 1.5*this.heightScale,
+      alpha:0.7,
+      yoyo: true,
+      repeat: 0,
+    });
+  }
+  
+  
 
   constructor() {
     super(sceneConfig);
@@ -157,9 +177,28 @@ export class Chapter1Scene extends FaceDetectorScene {
       this.windowHeight / 2,
       "eyeMask"
     );
+    this.eyeMask.setScale(3, 3);
     const mask = this.eyeMask.createBitmapMask();
+
     mask.invertAlpha = true;
     this.blackBackground.setMask(mask);
+
+    //Load Icons
+    const iconsTexture = this.textures.get("icons");
+    this.icons = [];
+    for (let i = 0; i < iconsTexture.getFrameNames().length; i++) {
+      
+      this.icons.push(
+        this.add.sprite(
+          this.windowWidth / 2+this.windowWidth/6*(i-1),
+          this.windowHeight / 12*11,
+          "icons",
+          iconsTexture.getFrameNames()[i]
+        )
+      );
+      this.icons[i].setDepth(1000);
+      this.icons[i].setScale(this.widthScale, this.heightScale);
+    }
   }
 
   public update() {
@@ -167,22 +206,32 @@ export class Chapter1Scene extends FaceDetectorScene {
     // this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
     // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
 
-    this.backgrounds.forEach((background) => {
-      background.setX(Detector.default!.translateX * window.innerWidth);
-      background.setY(Detector.default!.translateY * window.innerHeight);
-    });
-    this.phones.forEach((phone, index) => {
-      phone.setX(
-        Detector.default!.translateX * window.innerWidth +
-          this.phonesPosition[index].x -
-          this.windowWidth / 2
-      );
-      phone.setY(
-        Detector.default!.translateY * window.innerHeight +
-          this.phonesPosition[index].y -
-          this.windowHeight / 2
-      );
-    });
+    const widthScope = 0.15;
+    const heightScope = 0.2;
+
+    if (
+      Detector.default!.translateX >= widthScope &&
+      Detector.default!.translateX <= 1 - widthScope &&
+      Detector.default!.translateY >= heightScope &&
+      Detector.default!.translateY <= 1 - heightScope
+    ) {
+      this.backgrounds.forEach((background) => {
+        background.setX(Detector.default!.translateX * window.innerWidth);
+        background.setY(Detector.default!.translateY * window.innerHeight);
+      });
+      this.phones.forEach((phone, index) => {
+        phone.setX(
+          Detector.default!.translateX * window.innerWidth +
+            this.phonesPosition[index].x -
+            this.windowWidth / 2
+        );
+        phone.setY(
+          Detector.default!.translateY * window.innerHeight +
+            this.phonesPosition[index].y -
+            this.windowHeight / 2
+        );
+      });
+    }
   }
 
   onBlinkStatusChanged(status: BlinkingStatus): void {
@@ -199,19 +248,24 @@ export class Chapter1Scene extends FaceDetectorScene {
           Detector.default!.translateX * window.innerWidth,
           Detector.default!.translateY * window.innerHeight
         );
-        for (let i = 0; i < this.phonesPosition.length; i++) {
+
+        for (let i = 0; i < this.phoneTrigger.length; i++) {
           if (
             this.isNear(
-              this.phonesPosition[i].x,
-              this.phonesPosition[i].y,
+              this.phonesPosition[this.phoneTrigger[i] - 1].x,
+              this.phonesPosition[this.phoneTrigger[i] - 1].y,
               Detector.default!.translateX * window.innerWidth,
               Detector.default!.translateY * window.innerHeight
             )
+            && 
+            !this.phoneMap.get(this.phoneTrigger[i])
           ) {
-            this.phoneMap.set(i, true);
+            this.phoneMap.set(this.phoneTrigger[i], true);
+            this.iconTween(this.icons[this.phoneMap.size-1]);
             console.log(this.phoneMap);
           }
         }
+
         if (this.phoneMap.size === this.phonesPosition.length) {
           this.scene.start("Chapter2");
         }
