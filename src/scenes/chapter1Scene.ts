@@ -60,28 +60,25 @@ export class Chapter1Scene extends FaceDetectorScene {
         key: object.texture.key,
         frame: frameName,
       })),
-      frameRate: 1,
+      frameRate: 0.5,
       repeat: -1,
     });
     object.anims.play("frameAnimation");
   };
 
-  private icons !: Phaser.GameObjects.Sprite[]; 
-  iconTween = (
-    object: Phaser.GameObjects.Sprite,
-  ) => {
+  private iconList = ["flag.png", "oil.png", "flowers.png"];
+  private icons!: Phaser.GameObjects.Sprite[];
+  iconTween = (object: Phaser.GameObjects.Sprite) => {
     this.tweens.add({
       targets: object,
       duration: 2000,
-      scaleX: 1.5*this.widthScale,
-      scaleY: 1.5*this.heightScale,
-      alpha:0.7,
+      scaleX: 1.5 * this.widthScale,
+      scaleY: 1.5 * this.heightScale,
+      alpha: 0.7,
       yoyo: true,
       repeat: 0,
     });
-  }
-  
-  
+  };
 
   constructor() {
     super(sceneConfig);
@@ -176,23 +173,26 @@ export class Chapter1Scene extends FaceDetectorScene {
       this.windowHeight / 2,
       "eyeMask"
     );
-    this.eyeMask.setScale(3, 3);
+    console.log(this.eyeMask.width, this.eyeMask.height);
+    console.log(this.windowWidth, this.windowHeight);
+    this.eyeMask.setScale(
+      ((this.windowWidth / this.eyeMask.width) * 2) / 3,
+      ((this.windowHeight / this.eyeMask.height) * 2) / 3
+    );
     const mask = this.eyeMask.createBitmapMask();
 
     mask.invertAlpha = true;
     this.blackBackground.setMask(mask);
 
     //Load Icons
-    const iconsTexture = this.textures.get("icons");
     this.icons = [];
-    for (let i = 0; i < iconsTexture.getFrameNames().length; i++) {
-      
+    for (let i = 0; i < this.iconList.length; i++) {
       this.icons.push(
         this.add.sprite(
-          this.windowWidth / 2+this.windowWidth/6*(i-1),
-          this.windowHeight / 12*11,
+          this.windowWidth / 2 + (this.windowWidth / 6) * (i - 1),
+          (this.windowHeight / 10) * 9,
           "icons",
-          iconsTexture.getFrameNames()[i]
+          this.iconList[i]
         )
       );
       this.icons[i].setDepth(1000);
@@ -255,12 +255,11 @@ export class Chapter1Scene extends FaceDetectorScene {
               this.phonesPosition[this.phoneTrigger[i] - 1].y,
               Detector.default!.translateX * window.innerWidth,
               Detector.default!.translateY * window.innerHeight
-            )
-            && 
+            ) &&
             !this.phoneMap.get(this.phoneTrigger[i])
           ) {
             this.phoneMap.set(this.phoneTrigger[i], true);
-            this.iconTween(this.icons[this.phoneMap.size-1]);
+            this.iconTween(this.icons[this.phoneMap.size - 1]);
             console.log(this.phoneMap);
           }
         }
