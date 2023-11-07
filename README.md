@@ -4,7 +4,7 @@
 
 "Focus, But Where?" is a web-based hiden object game that playfully delves into the intersection of climate change activism and our complex digital landscape. 
 It's inital narrative and concept design was created by Artist Kexin Liu, and was later further co-developed by a team of 7 researchers and creatives. 
-Since early 2023, this project has received generous support from Watershed Art Trust (Date: 01/02/2023-13/04/2023 Amount: £4,900) and Grounding Technologies (Date: 01/08/2023- 01/12/2023 Amount: £15,000) for project development.
+Since early 2023, this project has received generous support from [Watershed Art Trust](https://www.watershed.co.uk/studio/projects/focus-where) (Date: 01/02/2023-13/04/2023 Amount: £4,900) and [Grounding Technologies](https://www.watershed.co.uk/studio/projects/grounding-technologies) (Date: 01/08/2023- 01/12/2023 Amount: £15,000) for project development.
 
 # Members
 
