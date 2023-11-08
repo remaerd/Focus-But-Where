@@ -22,10 +22,10 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
   },
   parent: "game",
   backgroundColor: "#000000",
-  scene: [
+  scene: [    
+    Chapter3Scene,
     Chapter1Scene,
     Chapter2Scene,
-    Chapter3Scene,
     Chapter4Scene,
     Chapter5Scene,
   ],
