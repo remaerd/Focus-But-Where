@@ -66,7 +66,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     object.anims.play("frameAnimation");
   };
 
-  private iconList = ["flag.png", "oil.png", "flowers.png"];
+  private iconList = ["flag.png", "oil.png", "wreath.png"];
   private icons!: Phaser.GameObjects.Sprite[];
   iconTween = (object: Phaser.GameObjects.Sprite) => {
     this.tweens.add({

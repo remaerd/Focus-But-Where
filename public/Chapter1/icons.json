@@ -4,72 +4,72 @@
 			"image": "icons-0.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 2181,
-				"h": 727
+				"w": 1069,
+				"h": 413
 			},
 			"scale": 1,
 			"frames": [
 				{
 					"filename": "flag.png",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 725,
-						"h": 725
+						"w": 448,
+						"h": 448
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 725,
-						"h": 725
+						"x": 16,
+						"y": 13,
+						"w": 414,
+						"h": 411
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 725,
-						"h": 725
+						"w": 414,
+						"h": 411
 					}
 				},
 				{
-					"filename": "flowers.png",
+					"filename": "wreath.png",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 725,
-						"h": 725
+						"w": 591,
+						"h": 591
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 725,
-						"h": 725
+						"x": 93,
+						"y": 90,
+						"w": 417,
+						"h": 386
 					},
 					"frame": {
-						"x": 728,
+						"x": 417,
 						"y": 1,
-						"w": 725,
-						"h": 725
+						"w": 417,
+						"h": 386
 					}
 				},
 				{
 					"filename": "oil.png",
 					"rotated": false,
-					"trimmed": false,
+					"trimmed": true,
 					"sourceSize": {
-						"w": 725,
-						"h": 725
+						"w": 490,
+						"h": 491
 					},
 					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 725,
-						"h": 725
+						"x": 127,
+						"y": 49,
+						"w": 232,
+						"h": 359
 					},
 					"frame": {
-						"x": 1455,
+						"x": 836,
 						"y": 1,
-						"w": 725,
-						"h": 725
+						"w": 232,
+						"h": 359
 					}
 				}
 			]
@@ -78,6 +78,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:e3dece3b0d8ad3037afc473d69f436c2:2f54c0db87dea82ac1450de0e68e246d:d0dcb225dd952922d6b87a09d6c72353$"
+		"smartupdate": "$TexturePacker:SmartUpdate:16d11c9490bde5c151a6bb861e25e29d:5f00d05844bd44d321a1e4baf0434bd7:4118f940c4ca25bdab7013502fc30555$"
 	}
 }
