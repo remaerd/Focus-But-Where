@@ -118,9 +118,10 @@ export class Detector {
       Camera.videoConfig.video.width;
     this.translateY =
       (face.box.yMin + face.box.height / 2) / Camera.videoConfig.video.height;
-    this.scale = Math.round(
-      Camera.videoConfig.video.height / 2.5 / face.box.height + 1
-    );
+    this.scale =
+      Math.round(
+        (Camera.videoConfig.video.height / 2.5 / face.box.height + 1) * 100
+      ) / 100;
 
     // 159: Left eye lid up / 145: Left eye lid down / 385: Right eye lid up / 380: Right eye lid down
     let leftEyeLidDistance = Math.round(

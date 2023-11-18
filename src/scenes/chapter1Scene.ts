@@ -5,6 +5,11 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
   key: "Chapter1",
+  physics: {
+    arcade: {
+      debug: false,
+    },
+  },
 };
 
 export class Chapter1Scene extends FaceDetectorScene {
@@ -13,20 +18,17 @@ export class Chapter1Scene extends FaceDetectorScene {
   private eyeMask!: Phaser.GameObjects.Image;
   private blackBackground!: Phaser.GameObjects.Rectangle;
 
-  private backgrounds = [] as Phaser.GameObjects.Sprite[];
-  private phones = [] as Phaser.GameObjects.Sprite[];
+  private backgroundSprites!: Phaser.GameObjects.Group;
+  private phoneSprites!: Phaser.GameObjects.Group;
 
-  private maskX = Phaser.Math.Between(0, 800);
-  private maskY = Phaser.Math.Between(0, 600);
+  private orginalBackgrondWidth!: number;
+  private orginalBackgrondHeight!: number;
 
   private windowWidth = window.innerWidth;
   private windowHeight = window.innerHeight;
 
-  private backgroundImageWidth = 8525;
-  private backgroundImageHeight = 4796;
-
-  private widthScale = this.windowWidth / this.backgroundImageWidth;
-  private heightScale = this.windowHeight / this.backgroundImageHeight;
+  private widthScale!: number;
+  private heightScale!: number;
 
   private phonesPosition = [
     { x: 833.56, y: 1913.68 },
@@ -87,17 +89,6 @@ export class Chapter1Scene extends FaceDetectorScene {
   public preload() {
     console.log("Preload");
 
-    //format phone position
-    this.phonesPosition = this.phonesPosition.map((phonePosition) => ({
-      x:
-        (this.backgroundImageWidth / 2 + phonePosition.x) *
-        (this.windowWidth / this.backgroundImageWidth),
-      y:
-        (this.backgroundImageHeight / 2 - phonePosition.y) *
-        (this.windowHeight / this.backgroundImageHeight),
-    }));
-    console.log(this.phonesPosition);
-
     //load eye mask
     this.load.image("eyeMask", "/EyeMask.svg");
 
@@ -122,41 +113,66 @@ export class Chapter1Scene extends FaceDetectorScene {
   }
 
   public create() {
+    this.backgroundSprites = this.physics.add.group();
+    this.phoneSprites = this.physics.add.group();
+
     //Load background
     const backgroundsTexture = this.textures.get("backgrounds");
-    for (let i = 0; i < backgroundsTexture.getFrameNames().length; i++) {
-      this.backgrounds.push(
-        this.add.sprite(
-          this.windowWidth / 2,
-          this.windowHeight / 2,
-          "backgrounds",
-          `background_0${i + 1}.png`
-        )
-      );
 
-      this.backgrounds[i].setScale(this.widthScale, this.heightScale);
-      this.backgrounds[i].setDepth(this.depth);
-      this.depth++;
+    let background;
+    for (let i = 0; i < backgroundsTexture.getFrameNames().length; i++) {
+      background = this.backgroundSprites.create(
+        this.windowWidth / 2,
+        this.windowHeight / 2,
+        "backgrounds",
+        `background_0${i + 1}.png`
+      );
     }
 
-    //Load Phones
+    this.orginalBackgrondWidth = background.width;
+    this.orginalBackgrondHeight = background.height;
+    this.widthScale = this.windowWidth / this.orginalBackgrondWidth;
+    this.heightScale = this.windowHeight / this.orginalBackgrondHeight;
 
+    this.backgroundSprites.children.iterate(
+      (sprite: Phaser.GameObjects.GameObject) => {
+        if (sprite instanceof Phaser.GameObjects.Sprite) {
+          sprite.setScale(this.widthScale, this.heightScale);
+          sprite.setDepth(this.depth);
+          this.depth++;
+        }
+        return true;
+      }
+    );
+
+    //format phone position
+    this.phonesPosition = this.phonesPosition.map((phonePosition) => ({
+      x: (this.orginalBackgrondWidth / 2 + phonePosition.x) * this.widthScale,
+      y: (this.orginalBackgrondHeight / 2 - phonePosition.y) * this.heightScale,
+    }));
+    console.log(this.phonesPosition);
+    //Load Phones
     for (let i = 0; i < this.phonesPosition.length; i++) {
       const texture = this.textures.get(`phone_0${i + 1}`);
-      this.phones.push(
-        this.add.sprite(
-          this.phonesPosition[i].x,
-          this.phonesPosition[i].y,
-          `phone_0${i + 1}`,
-          texture.getFrameNames()[0]
-        )
+      this.phoneSprites.create(
+        this.phonesPosition[i].x,
+        this.phonesPosition[i].y,
+        `phone_0${i + 1}`,
+        texture.getFrameNames()[0]
       );
-
-      this.phones[i].setScale(this.widthScale, this.heightScale);
-      this.playFrameAnimation(this.phones[i], texture.getFrameNames());
-      this.phones[i].setDepth(this.depth);
-      this.depth++;
     }
+
+    this.phoneSprites.children.iterate(
+      (sprite: Phaser.GameObjects.GameObject) => {
+        if (sprite instanceof Phaser.GameObjects.Sprite) {
+          sprite.setScale(this.widthScale, this.heightScale);
+          this.playFrameAnimation(sprite, sprite.texture.getFrameNames());
+          sprite.setDepth(this.depth);
+          this.depth++;
+        }
+        return true;
+      }
+    );
 
     //Load Eye Mask
     this.blackBackground = this.add.rectangle(
@@ -200,36 +216,66 @@ export class Chapter1Scene extends FaceDetectorScene {
     }
   }
 
+  updatePostionAndScale(translateX: number, translateY: number, scale: number) {
+    this.widthScale = this.windowWidth / this.orginalBackgrondWidth;
+    this.heightScale = this.windowHeight / this.orginalBackgrondHeight;
+    const scaleRate = 2 / scale;
+
+    this.backgroundSprites.children.iterate(
+      (background: Phaser.GameObjects.GameObject) => {
+        if (background instanceof Phaser.GameObjects.Sprite) {
+          background.setPosition(
+            translateX * window.innerWidth * scaleRate,
+            translateY * window.innerHeight * scaleRate
+          );
+          background.setScale(
+            this.widthScale * scaleRate,
+            this.heightScale * scaleRate
+          );
+        }
+        return true;
+      }
+    );
+
+    this.phoneSprites.children.iterate(
+      (sprite: Phaser.GameObjects.GameObject, index) => {
+        if (sprite instanceof Phaser.GameObjects.Sprite) {
+          sprite.setPosition(
+            (translateX * window.innerWidth +
+              this.phonesPosition[index].x -
+              this.windowWidth / 2) *
+              scaleRate,
+            (translateY * window.innerHeight +
+              this.phonesPosition[index].y -
+              this.windowHeight / 2) *
+              scaleRate
+          );
+          sprite.setScale(
+            this.widthScale * scaleRate,
+            this.heightScale * scaleRate
+          );
+        }
+        return true;
+      }
+    );
+  }
+
   public update() {
     // TODO
-    // this.eyeMask.setX(Detector.default!.translateX * window.innerWidth);
-    // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
 
     const widthScope = 0.15;
-    const heightScope = 0.2;
-
+    const heightScope = 0.05;
     if (
       Detector.default!.translateX >= widthScope &&
       Detector.default!.translateX <= 1 - widthScope &&
       Detector.default!.translateY >= heightScope &&
       Detector.default!.translateY <= 1 - heightScope
     ) {
-      this.backgrounds.forEach((background) => {
-        background.setX(Detector.default!.translateX * window.innerWidth);
-        background.setY(Detector.default!.translateY * window.innerHeight);
-      });
-      this.phones.forEach((phone, index) => {
-        phone.setX(
-          Detector.default!.translateX * window.innerWidth +
-            this.phonesPosition[index].x -
-            this.windowWidth / 2
-        );
-        phone.setY(
-          Detector.default!.translateY * window.innerHeight +
-            this.phonesPosition[index].y -
-            this.windowHeight / 2
-        );
-      });
+      this.updatePostionAndScale(
+        Detector.default!.translateX,
+        Detector.default!.translateY,
+        Detector.default!.scale * 0.9
+      );
     }
   }
 
@@ -242,25 +288,23 @@ export class Chapter1Scene extends FaceDetectorScene {
         console.log("LeftEye");
         return;
       case BlinkingStatus.RightEye:
-        console.log(
-          "RightEye",
-          Detector.default!.translateX * window.innerWidth,
-          Detector.default!.translateY * window.innerHeight
-        );
+        console.log("RightEye");
 
         for (let i = 0; i < this.phoneTrigger.length; i++) {
           if (
             this.isNear(
               this.phonesPosition[this.phoneTrigger[i] - 1].x,
               this.phonesPosition[this.phoneTrigger[i] - 1].y,
-              Detector.default!.translateX * window.innerWidth,
-              Detector.default!.translateY * window.innerHeight
+              (Detector.default!.translateX * window.innerWidth * 2) /
+                Detector.default!.scale,
+              (Detector.default!.translateY * window.innerHeight * 2) /
+                Detector.default!.scale
             ) &&
             !this.phoneMap.get(this.phoneTrigger[i])
           ) {
             this.phoneMap.set(this.phoneTrigger[i], true);
             this.iconTween(this.icons[this.phoneMap.size - 1]);
-            console.log(this.phoneMap);
+            console.log("choosed:", this.phoneMap, Detector.default!.scale);
           }
         }
 
