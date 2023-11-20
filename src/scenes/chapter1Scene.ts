@@ -30,6 +30,8 @@ export class Chapter1Scene extends FaceDetectorScene {
   private widthScale!: number;
   private heightScale!: number;
 
+  private scaleRate!: number;
+
   private phonesPosition = [
     { x: 833.56, y: 1913.68 },
     { x: 2475.68, y: 1279.96 },
@@ -90,7 +92,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     console.log("Preload");
 
     //load eye mask
-    this.load.image("eyeMask", "/EyeMask.svg");
+    this.load.image("eyeMask", "/mask_v3.png");
 
     //load background
     this.load.multiatlas(
@@ -154,12 +156,14 @@ export class Chapter1Scene extends FaceDetectorScene {
     //Load Phones
     for (let i = 0; i < this.phonesPosition.length; i++) {
       const texture = this.textures.get(`phone_0${i + 1}`);
-      this.phoneSprites.create(
-        this.phonesPosition[i].x,
-        this.phonesPosition[i].y,
-        `phone_0${i + 1}`,
-        texture.getFrameNames()[0]
-      );
+      this.phoneSprites
+        .create(
+          this.phonesPosition[i].x,
+          this.phonesPosition[i].y,
+          `phone_0${i + 1}`,
+          texture.getFrameNames()[0]
+        )
+        .setName(`phone_0${i + 1}`);
     }
 
     this.phoneSprites.children.iterate(
@@ -219,18 +223,18 @@ export class Chapter1Scene extends FaceDetectorScene {
   updatePostionAndScale(translateX: number, translateY: number, scale: number) {
     this.widthScale = this.windowWidth / this.orginalBackgrondWidth;
     this.heightScale = this.windowHeight / this.orginalBackgrondHeight;
-    const scaleRate = 2 / scale;
+    this.scaleRate = 2 / scale;
 
     this.backgroundSprites.children.iterate(
       (background: Phaser.GameObjects.GameObject) => {
         if (background instanceof Phaser.GameObjects.Sprite) {
           background.setPosition(
-            translateX * window.innerWidth * scaleRate,
-            translateY * window.innerHeight * scaleRate
+            translateX * window.innerWidth * this.scaleRate,
+            translateY * window.innerHeight * this.scaleRate
           );
           background.setScale(
-            this.widthScale * scaleRate,
-            this.heightScale * scaleRate
+            this.widthScale * this.scaleRate,
+            this.heightScale * this.scaleRate
           );
         }
         return true;
@@ -239,20 +243,21 @@ export class Chapter1Scene extends FaceDetectorScene {
 
     this.phoneSprites.children.iterate(
       (sprite: Phaser.GameObjects.GameObject, index) => {
+        let nowX =
+          (translateX * window.innerWidth +
+            this.phonesPosition[index].x -
+            this.windowWidth / 2) *
+          this.scaleRate;
+        let nowY =
+          (translateY * window.innerHeight +
+            this.phonesPosition[index].y -
+            this.windowHeight / 2) *
+          this.scaleRate;
         if (sprite instanceof Phaser.GameObjects.Sprite) {
-          sprite.setPosition(
-            (translateX * window.innerWidth +
-              this.phonesPosition[index].x -
-              this.windowWidth / 2) *
-              scaleRate,
-            (translateY * window.innerHeight +
-              this.phonesPosition[index].y -
-              this.windowHeight / 2) *
-              scaleRate
-          );
+          sprite.setPosition(nowX, nowY);
           sprite.setScale(
-            this.widthScale * scaleRate,
-            this.heightScale * scaleRate
+            this.widthScale * this.scaleRate,
+            this.heightScale * this.scaleRate
           );
         }
         return true;
@@ -263,7 +268,7 @@ export class Chapter1Scene extends FaceDetectorScene {
   public update() {
     // TODO
 
-    const widthScope = 0.15;
+    const widthScope = 0.05;
     const heightScope = 0.05;
     if (
       Detector.default!.translateX >= widthScope &&
@@ -274,7 +279,7 @@ export class Chapter1Scene extends FaceDetectorScene {
       this.updatePostionAndScale(
         Detector.default!.translateX,
         Detector.default!.translateY,
-        Detector.default!.scale * 0.9
+        Detector.default!.scale
       );
     }
   }
@@ -290,23 +295,30 @@ export class Chapter1Scene extends FaceDetectorScene {
       case BlinkingStatus.RightEye:
         console.log("RightEye");
 
-        for (let i = 0; i < this.phoneTrigger.length; i++) {
-          if (
-            this.isNear(
-              this.phonesPosition[this.phoneTrigger[i] - 1].x,
-              this.phonesPosition[this.phoneTrigger[i] - 1].y,
-              (Detector.default!.translateX * window.innerWidth * 2) /
-                Detector.default!.scale,
-              (Detector.default!.translateY * window.innerHeight * 2) /
-                Detector.default!.scale
-            ) &&
-            !this.phoneMap.get(this.phoneTrigger[i])
-          ) {
-            this.phoneMap.set(this.phoneTrigger[i], true);
-            this.iconTween(this.icons[this.phoneMap.size - 1]);
-            console.log("choosed:", this.phoneMap, Detector.default!.scale);
+        this.phoneSprites.children.iterate(
+          (sprite: Phaser.GameObjects.GameObject, index) => {
+            if (sprite instanceof Phaser.GameObjects.Sprite) {
+              if (
+                this.isNear(
+                  Detector.default!.translateX *
+                    this.windowWidth *
+                    this.scaleRate,
+                  Detector.default!.translateY *
+                    this.windowHeight *
+                    this.scaleRate,
+                  sprite.x,
+                  sprite.y
+                ) &&
+                !this.phoneMap.get(this.phoneTrigger[index])
+              ) {
+                this.phoneMap.set(this.phoneTrigger[index], true);
+                this.iconTween(this.icons[this.phoneMap.size - 1]);
+                console.log("choosed:", this.phoneMap);
+              }
+            }
+            return true;
           }
-        }
+        );
 
         if (this.phoneMap.size === this.phonesPosition.length) {
           this.scene.start("Chapter2");
