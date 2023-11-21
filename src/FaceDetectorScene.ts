@@ -1,22 +1,42 @@
 import { Scene } from "phaser";
-import { UIScene } from "./Scenes/uiScene";
+import { UIScene } from "./Scenes/UIScene";
+import { HiddenObject } from "./Models/HiddenObject";
 
 export enum BlinkingStatus { None, LeftEye, RightEye, Both	}
 
 export interface IBlinkDetectable
 {
 	onBlinkStatusChanged(status: BlinkingStatus) : void;
-	sceneHeight: integer;
-	sceneWidth: integer;
 	sceneStopped: boolean;
 	parent: Phaser.Structs.Size;
 	sizer: Phaser.Structs.Size;
 }
 
-export class FaceDetectorScene extends Scene implements IBlinkDetectable
+export abstract class FaceDetectorScene extends Scene implements IBlinkDetectable
 {
-	public sceneHeight: number;
-	public sceneWidth: number;
+	// Screen Size
+
+	public abstract sceneHeight: number;
+	public abstract sceneWidth: number;
+	public abstract hiddenObjects: HiddenObject[] 
+	
+	public get windowWidth() : number { return window.innerWidth }
+	public get windowHeight() : number { return window.innerHeight }
+
+	public get widthScale() : number { return this.windowWidth / this.sceneWidth }
+	public get heightScale() : number { return this.windowHeight / this.sceneHeight }
+	
+	public get mask() : Phaser.Display.Masks.BitmapMask 
+	{
+		return (this.scene.get('UserInterface') as UIScene).eyeMask
+	}
+
+	public findHiddenObject(at: integer)
+	{
+		
+	}
+	
+
 	public sceneStopped = false;
 	public parent!: Phaser.Structs.Size;
 	public sizer!: Phaser.Structs.Size;
@@ -26,11 +46,9 @@ export class FaceDetectorScene extends Scene implements IBlinkDetectable
 		return this.scene.get('UserInterface') as UIScene;
 	}
 
-	constructor(config: Phaser.Types.Scenes.SettingsConfig, height: number, width: number) 
+	constructor(config: Phaser.Types.Scenes.SettingsConfig) 
 	{
 	  super(config);
-	  this.sceneHeight = height;
-	  this.sceneWidth = width;
 	}
 	
 	
@@ -41,7 +59,7 @@ export class FaceDetectorScene extends Scene implements IBlinkDetectable
    
 	public create() 
 	{
-		this.getUIScene().updateResize();
+		// TODO
 	}
    
 	public update() 

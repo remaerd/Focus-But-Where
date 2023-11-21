@@ -1,4 +1,10 @@
 import { FaceDetectorScene } from "../FaceDetectorScene";
+import { HiddenObject } from "../Models/HiddenObject";
+
+export interface IObserver 
+{
+	hiddenObjectIsFound(object: HiddenObject): void
+}
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {
@@ -18,29 +24,57 @@ export class UIScene extends Phaser.Scene
   public isUserInterfaceVisible = false;
 
   public isLoadingVisible = false;
-  
-  // Windows Scaling Controls
 
-  private windowWidth = window.innerWidth;
-  private windowHeight = window.innerHeight;
+  // Eye mask
+  public eyeMask!: Phaser.Display.Masks.BitmapMask;
 
-  // private widthScale = this.windowWidth / this._currentScene.scale.width;
-  // private heightScale = this.windowHeight / this._currentScene.scale.height;
+  // Hidden Object Icons Indicators
+	private hiddenObjectIndicators!: Phaser.GameObjects.Sprite[]; 
+
+  // Zoom Indicator
+  private zoomIndicator!: Phaser.GameObjects.Sprite;
+  private zoomIndicatorBackground!: Phaser.GameObjects.Sprite;
+
+	iconTween = (
+		object: Phaser.GameObjects.Sprite,
+	) => {
+		this.tweens.add({
+		targets: object,
+		duration: 2000,
+		// BUG: This block of code scale the objects unportionally. Please Check
+		// scaleX: 1.5*this.widthScale,
+		// scaleY: 1.5*this.heightScale,
+		alpha:0.7,
+		yoyo: true,
+		repeat: 0,
+		});
+	}
 
   constructor() 
   {
     super(sceneConfig);
-
   }
 
   public preload() 
   {
-    console.log("Preload");
+    //load eye mask
+    this.load.image("eyeMask", "Interface/Mask_Eye.svg");
   }
 
   public create() 
   {
-    this.launchScene('Chapter1');
+    const eyeMask = this.add.image(
+      window.innerWidth / 2,
+      window.innerHeight / 2,
+      "eyeMask"
+    );
+
+    this.eyeMask = eyeMask.createBitmapMask();
+    this.eyeMask.invertAlpha = true;
+
+    this.changeScene('Chapter1');
+
+    this.scale.on('resize', this.resize, this);
   }
 
   public update() 
@@ -50,25 +84,57 @@ export class UIScene extends Phaser.Scene
     // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
   }
 
-  public toggleUserInterface()
-  {
-
-  }
-
-  public changeScene(scene: string)
-  {
-
-  }
-
-  private launchScene(scene: string, data?: object)
+  private changeScene(scene: string, data?: object)
   {
     this.scene.launch(scene, data);
     this._currentScene = this.scene.get(scene) as FaceDetectorScene;
+    this.reloadIcons();
   }
 
-  public updateResize()
+  private reloadIcons()
   {
-    this._currentScene.scale.on('resize', this.resize);
+		// Remove Icons from Previous Scene
+    if (this.hiddenObjectIndicators.length != 0)
+    {
+      for (let i = 0; i < this.hiddenObjectIndicators.length; i++)
+      {
+        this.hiddenObjectIndicators[i].removedFromScene();
+      }
+      this.hiddenObjectIndicators = [];
+    }
+
+    // Load New Icons
+    
+    this.load.multiatlas("icons", "/Chapter1/icons.json", "/Chapter1/");
+
+    const iconsTexture = this.textures.get("icons");
+    
+    for (let i = 0; i < iconsTexture.getFrameNames().length; i++) {
+      
+      this.hiddenObjectIndicators.push(
+        this.add.sprite(
+          window.innerWidth / 2 + window.innerWidth / 6 * (i - 1),
+          window.innerHeight / 12 * 11,
+          "icons",
+          iconsTexture.getFrameNames()[i]
+        )
+      );
+      this.hiddenObjectIndicators[i].setDepth(1000);
+      this.hiddenObjectIndicators[i].setScale(1, 1);
+    }
+  }
+
+  hiddenObjectIsFound(object: HiddenObject): void
+  {
+		
+	}
+
+
+  private resize (gameSize:any, baseSize:any, displaySize:any, resolution:any)
+  {
+    var width = gameSize.width;
+    var height = gameSize.height;
+
     const scaleWidth = this._currentScene.scale.gameSize.width;
     const scaleHeight = this._currentScene.scale.gameSize.height;
 
@@ -80,14 +146,5 @@ export class UIScene extends Phaser.Scene
 
     this._currentScene.cameras.main.setZoom(Math.max(scaleX, scaleY))
     this._currentScene.cameras.main.centerOn(this.game.canvas.width / 2, this.game.canvas.height / 2);
-
-  }
-
-  private resize(gameSize)
-  {
-    if (!this._currentScene.sceneStopped)
-    {
-      const width = gameSize.width 
-    }
   }
 }
