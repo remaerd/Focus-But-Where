@@ -16,11 +16,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 export class UIScene extends Phaser.Scene 
 {
   // Current Scene
-
   public currentScene!: FaceDetectorScene;
 
   // User Interface
-
   public isUserInterfaceVisible = false;
 
   public isLoadingVisible = false;
@@ -132,9 +130,6 @@ export class UIScene extends Phaser.Scene
 
   private resize (gameSize:any, baseSize:any, displaySize:any, resolution:any)
   {
-    var width = gameSize.width;
-    var height = gameSize.height;
-
     const scaleWidth = this.currentScene.scale.gameSize.width;
     const scaleHeight = this.currentScene.scale.gameSize.height;
 

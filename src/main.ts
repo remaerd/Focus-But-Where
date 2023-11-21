@@ -8,7 +8,6 @@ import { Chapter4Scene } from "./Scenes/Chapter4Scene";
 import { Chapter5Scene } from "./Scenes/Chapter5Scene";
 import { MainMenuScene } from "./Scenes/MainMenuScene";
 import { UIScene } from "./Scenes/UIScene";
-import { FaceDetectorScene } from "./FaceDetectorScene";
 
 const MAX_SIZE_WIDTH_SCREEN = 1920
 const MAX_SIZE_HEIGHT_SCREEN = 1080

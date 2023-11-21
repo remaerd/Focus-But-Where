@@ -16,11 +16,7 @@ import {
   SupportedModels,
   createDetector,
 } from "@tensorflow-models/face-landmarks-detection";
-import {
-  BlinkingStatus,
-  FaceDetectorScene,
-  IBlinkDetectable,
-} from "./FaceDetectorScene";
+import { BlinkingStatus } from "./FaceDetectorScene";
 import { game } from "./main";
 import { UIScene } from "./Scenes/UIScene";
 
