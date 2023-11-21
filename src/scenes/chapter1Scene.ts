@@ -152,7 +152,7 @@ export class Chapter1Scene extends FaceDetectorScene {
       x: (this.orginalBackgrondWidth / 2 + phonePosition.x) * this.widthScale,
       y: (this.orginalBackgrondHeight / 2 - phonePosition.y) * this.heightScale,
     }));
-    console.log(this.phonesPosition);
+
     //Load Phones
     for (let i = 0; i < this.phonesPosition.length; i++) {
       const texture = this.textures.get(`phone_0${i + 1}`);
@@ -193,8 +193,7 @@ export class Chapter1Scene extends FaceDetectorScene {
       this.windowHeight / 2,
       "eyeMask"
     );
-    console.log(this.eyeMask.width, this.eyeMask.height);
-    console.log(this.windowWidth, this.windowHeight);
+
     this.eyeMask.setScale(
       ((this.windowWidth / this.eyeMask.width) * 2) / 3,
       ((this.windowHeight / this.eyeMask.height) * 2) / 3
@@ -224,13 +223,14 @@ export class Chapter1Scene extends FaceDetectorScene {
     this.widthScale = this.windowWidth / this.orginalBackgrondWidth;
     this.heightScale = this.windowHeight / this.orginalBackgrondHeight;
     this.scaleRate = 2 / scale;
+    console.log("scaleRate:", this.scaleRate);
 
     this.backgroundSprites.children.iterate(
       (background: Phaser.GameObjects.GameObject) => {
         if (background instanceof Phaser.GameObjects.Sprite) {
           background.setPosition(
-            translateX * window.innerWidth * this.scaleRate,
-            translateY * window.innerHeight * this.scaleRate
+            (translateX / 2) * window.innerWidth * this.scaleRate,
+            (translateY / 2) * window.innerHeight * this.scaleRate
           );
           background.setScale(
             this.widthScale * this.scaleRate,
@@ -244,12 +244,12 @@ export class Chapter1Scene extends FaceDetectorScene {
     this.phoneSprites.children.iterate(
       (sprite: Phaser.GameObjects.GameObject, index) => {
         let nowX =
-          (translateX * window.innerWidth +
+          ((translateX / 2) * window.innerWidth +
             this.phonesPosition[index].x -
             this.windowWidth / 2) *
           this.scaleRate;
         let nowY =
-          (translateY * window.innerHeight +
+          ((translateY / 2) * window.innerHeight +
             this.phonesPosition[index].y -
             this.windowHeight / 2) *
           this.scaleRate;
@@ -270,6 +270,7 @@ export class Chapter1Scene extends FaceDetectorScene {
 
     const widthScope = 0.05;
     const heightScope = 0.05;
+
     if (
       Detector.default!.translateX >= widthScope &&
       Detector.default!.translateX <= 1 - widthScope &&
