@@ -7,7 +7,7 @@ tensorflow.setWasmPaths(
   `https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tensorflow.version_wasm}/dist/`
 );
 
-import { Camera } from "./camera";
+import { Camera } from "./Camera";
 
 import {
   Face,

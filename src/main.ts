@@ -1,4 +1,4 @@
-import { Detector } from "./faceLandmarkDetector";
+import { Detector } from "./FaceLandmarkDetector";
 import * as Phaser from "phaser";
 
 import { Chapter1Scene } from "./Scenes/Chapter1Scene";
