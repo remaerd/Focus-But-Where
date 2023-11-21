@@ -103,7 +103,7 @@ export class UIScene extends Phaser.Scene
 
     // Load New Icons
     
-    this.load.multiatlas("icons", "/Chapter1/icons.json", "/Chapter1/");
+    this.load.multiatlas("icons", "/Interface/icons.json", "/Interface/");
 
     const iconsTexture = this.textures.get("icons");
     

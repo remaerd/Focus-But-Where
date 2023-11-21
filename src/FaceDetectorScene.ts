@@ -1,6 +1,5 @@
 import { Scene } from "phaser";
 import { UIScene } from "./Scenes/UIScene";
-import { HiddenObject } from "./Models/HiddenObject";
 
 export enum BlinkingStatus { None, LeftEye, RightEye, Both	}
 
@@ -18,7 +17,6 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	public abstract sceneHeight: number;
 	public abstract sceneWidth: number;
-	public abstract hiddenObjects: HiddenObject[] 
 	
 	public get windowWidth() : number { return window.innerWidth }
 	public get windowHeight() : number { return window.innerHeight }
@@ -30,12 +28,6 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 	{
 		return (this.scene.get('UserInterface') as UIScene).eyeMask
 	}
-
-	public findHiddenObject(at: integer)
-	{
-		
-	}
-	
 
 	public sceneStopped = false;
 	public parent!: Phaser.Structs.Size;

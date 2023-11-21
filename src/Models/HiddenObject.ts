@@ -13,24 +13,39 @@ interface IObservable
 
 export class HiddenObject implements IObservable
 {
-	public chapterIndex: integer;
-	public objectIndex: integer;
+	static allHiddenObjects: Array<HiddenObject>[] = [
+		// Chapter 1
+		[new HiddenObject("","",""),
+		new HiddenObject("","",""),
+		new HiddenObject("","","")],
+		// Chapter 2
+		[],
+		// Chapter 3
+		[new HiddenObject("","",""),
+		new HiddenObject("","",""),
+		new HiddenObject("","",""),
+		new HiddenObject("","","")],
+		// Chapter 4
+		[],
+		// Chapter 5
+		[],
+	];
 
 	public name: string;
 	public description: string;
+	public referenceLink: string;
 	
 	public isFound: boolean = false;
 
 	// The Subject (a.k.a Observable)
 	#observers: Set<IObserver>
 	
-	constructor(chapter: integer, index: integer, name: string, description: string)
+	constructor(name: string, description: string, referenceLink: string)
 	{
 		this.#observers = new Set()
 		this.name = name;
-		this.chapterIndex = chapter;
-		this.objectIndex = index;
 		this.description = description;
+		this.referenceLink = referenceLink;
 	}
 
 	subscribe(observer: IObserver) 

@@ -1,5 +1,4 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
-import { HiddenObject } from "../Models/HiddenObject";
 import { Detector } from "../faceLandmarkDetector";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
@@ -10,13 +9,6 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class Chapter1Scene extends FaceDetectorScene 
 {
-  public hiddenObjects: HiddenObject[] = 
-  [
-    new HiddenObject(1, 1, "News 1", "Description 1"),
-    new HiddenObject(1, 2, "News 2", "Description 2"),
-    new HiddenObject(1, 3, "News 3", "Description 3"),
-  ]
-
   public sceneHeight: number = 8525;
   public sceneWidth: number = 4796;
 
