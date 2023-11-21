@@ -1,13 +1,14 @@
 import { Detector } from "./faceLandmarkDetector";
 import * as Phaser from "phaser";
 
-import { Chapter1Scene } from "./Scenes/chapter1Scene";
-import { Chapter2Scene } from "./Scenes/chapter2Scene";
-import { Chapter3Scene } from "./Scenes/chapter3Scene";
-import { Chapter4Scene } from "./Scenes/chapter4Scene";
-import { Chapter5Scene } from "./Scenes/chapter5Scene";
-import { MainMenuScene } from "./Scenes/mainMenuScene";
+import { Chapter1Scene } from "./Scenes/Chapter1Scene";
+import { Chapter2Scene } from "./Scenes/Chapter2Scene";
+import { Chapter3Scene } from "./Scenes/Chapter3Scene";
+import { Chapter4Scene } from "./Scenes/Chapter4Scene";
+import { Chapter5Scene } from "./Scenes/Chapter5Scene";
+import { MainMenuScene } from "./Scenes/MainMenuScene";
 import { UIScene } from "./Scenes/UIScene";
+import { FaceDetectorScene } from "./FaceDetectorScene";
 
 const MAX_SIZE_WIDTH_SCREEN = 1920
 const MAX_SIZE_HEIGHT_SCREEN = 1080
@@ -48,6 +49,7 @@ export const game = new Phaser.Game(gameConfig);
 async function app() {
   try {
     await Detector.setup();
+    FaceDetectorScene.currentScene = game.scene.getAt(0);
   } catch (error) {
     console.log(error);
   }

@@ -17,7 +17,7 @@ export class UIScene extends Phaser.Scene
 {
   // Current Scene
 
-  private _currentScene!: FaceDetectorScene;
+  public currentScene!: FaceDetectorScene;
 
   // User Interface
 
@@ -87,7 +87,7 @@ export class UIScene extends Phaser.Scene
   private changeScene(scene: string, data?: object)
   {
     this.scene.launch(scene, data);
-    this._currentScene = this.scene.get(scene) as FaceDetectorScene;
+    this.currentScene = this.scene.get(scene) as FaceDetectorScene;
     this.reloadIcons();
   }
 
@@ -135,16 +135,16 @@ export class UIScene extends Phaser.Scene
     var width = gameSize.width;
     var height = gameSize.height;
 
-    const scaleWidth = this._currentScene.scale.gameSize.width;
-    const scaleHeight = this._currentScene.scale.gameSize.height;
+    const scaleWidth = this.currentScene.scale.gameSize.width;
+    const scaleHeight = this.currentScene.scale.gameSize.height;
 
-    this._currentScene.parent = new Phaser.Structs.Size(scaleWidth, scaleHeight);
-    this._currentScene.sizer = new Phaser.Structs.Size(this._currentScene.scale.width, this._currentScene.scale.height); 
+    this.currentScene.parent = new Phaser.Structs.Size(scaleWidth, scaleHeight);
+    this.currentScene.sizer = new Phaser.Structs.Size(this.currentScene.scale.width, this.currentScene.scale.height); 
 
-    const scaleX = this._currentScene.sizer.width / this.game.canvas.width
-    const scaleY = this._currentScene.sizer.height / this.game.canvas.height
+    const scaleX = this.currentScene.sizer.width / this.game.canvas.width
+    const scaleY = this.currentScene.sizer.height / this.game.canvas.height
 
-    this._currentScene.cameras.main.setZoom(Math.max(scaleX, scaleY))
-    this._currentScene.cameras.main.centerOn(this.game.canvas.width / 2, this.game.canvas.height / 2);
+    this.currentScene.cameras.main.setZoom(Math.max(scaleX, scaleY))
+    this.currentScene.cameras.main.centerOn(this.game.canvas.width / 2, this.game.canvas.height / 2);
   }
 }

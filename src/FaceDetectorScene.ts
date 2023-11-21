@@ -14,6 +14,8 @@ export interface IBlinkDetectable
 
 export abstract class FaceDetectorScene extends Scene implements IBlinkDetectable
 {
+	static currentScene: FaceDetectorScene
+	
 	// Screen Size
 
 	public abstract sceneHeight: number;
