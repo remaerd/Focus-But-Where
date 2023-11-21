@@ -21,6 +21,8 @@ import {
   FaceDetectorScene,
   IBlinkDetectable,
 } from "./FaceDetectorScene";
+import { game } from "./main";
+import { UIScene } from "./Scenes/UIScene";
 
 export class Detector {
   static default?: Detector;
@@ -150,8 +152,9 @@ export class Detector {
       if (this.blinkConfirmationDelay == 10) {
         this.blinkingStatus = this._previousBlink;
         this.blinkConfirmationDelay = 0;
-        if (FaceDetectorScene.currentScene) {
-          FaceDetectorScene.currentScene.onBlinkStatusChanged(
+        let uiScene = (game.scene.getAt(0) as UIScene).currentScene;
+        if (uiScene) {
+          uiScene.onBlinkStatusChanged(
             this.blinkingStatus
           );
         }

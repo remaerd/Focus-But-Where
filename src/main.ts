@@ -49,7 +49,6 @@ export const game = new Phaser.Game(gameConfig);
 async function app() {
   try {
     await Detector.setup();
-    FaceDetectorScene.currentScene = game.scene.getAt(0);
   } catch (error) {
     console.log(error);
   }
