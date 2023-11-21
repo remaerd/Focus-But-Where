@@ -1,6 +1,6 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
 import { HiddenObject } from "../Models/HiddenObject";
-import { Detector } from "../FaceLandmarkDetector";
+import { Detector } from "../faceLandmarkDetector";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,

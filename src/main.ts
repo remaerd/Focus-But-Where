@@ -1,12 +1,12 @@
-import { Detector } from "./FaceLandmarkDetector";
+import { Detector } from "./faceLandmarkDetector";
 import * as Phaser from "phaser";
 
-import { Chapter1Scene } from "./Scenes/Chapter1Scene";
+import { Chapter1Scene } from "./Scenes/chapter1Scene";
 import { Chapter2Scene } from "./Scenes/Chapter2Scene";
-import { Chapter3Scene } from "./Scenes/Chapter3Scene";
+import { Chapter3Scene } from "./Scenes/chapter3Scene";
 import { Chapter4Scene } from "./Scenes/Chapter4Scene";
 import { Chapter5Scene } from "./Scenes/Chapter5Scene";
-import { MainMenuScene } from "./Scenes/MainMenuScene";
+import { MainMenuScene } from "./Scenes/mainMenuScene";
 import { UIScene } from "./Scenes/UIScene";
 
 const MAX_SIZE_WIDTH_SCREEN = 1920
