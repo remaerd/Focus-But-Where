@@ -33,15 +33,15 @@ export class Chapter1Scene extends FaceDetectorScene {
   private scaleRate!: number;
 
   private phonesPosition = [
-    { x: 833.56, y: 1913.68 },
-    { x: 2475.68, y: 1279.96 },
-    { x: -629.34, y: 838.02 },
-    { x: 350.1, y: 612.88 },
-    { x: -475.138, y: 120.91 },
-    { x: 516.81, y: 112.57 },
-    { x: -1271.18, y: -341.88 },
-    { x: 33.34, y: -358.55 },
-    { x: -129.2, y: -1438.39 },
+    { x: 833.56, y: -1913.68 },
+    { x: 2475.68, y: -1279.96 },
+    { x: -629.34, y: -838.02 },
+    { x: 350.1, y: -612.88 },
+    { x: -475.138, y: -120.91 },
+    { x: 516.81, y: -112.57 },
+    { x: -1271.18, y: 341.88 },
+    { x: 33.34, y: 358.55 },
+    { x: -129.2, y: 1438.39 },
   ];
 
   private phoneTrigger = [1, 5, 9];
@@ -150,7 +150,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     //format phone position
     this.phonesPosition = this.phonesPosition.map((phonePosition) => ({
       x: (this.orginalBackgrondWidth / 2 + phonePosition.x) * this.widthScale,
-      y: (this.orginalBackgrondHeight / 2 - phonePosition.y) * this.heightScale,
+      y: (this.orginalBackgrondHeight / 2 + phonePosition.y) * this.heightScale,
     }));
 
     //Load Phones
