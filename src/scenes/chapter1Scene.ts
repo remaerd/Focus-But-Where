@@ -68,7 +68,7 @@ export class Chapter1Scene extends FaceDetectorScene {
         key: object.texture.key,
         frame: frameName,
       })),
-      frameRate: 0.5,
+      frameRate: 0.2,
       repeat: -1,
     });
     object.anims.play("frameAnimation");
