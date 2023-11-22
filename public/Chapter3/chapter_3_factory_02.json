@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "chapter_3_factory.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 8002,
+				"h": 4502
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "factory_03.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 8000,
+						"h": 4500
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8000,
+						"h": 4500
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 8000,
+						"h": 4500
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:038dc33f05c058da669061637a3f397f:f596f6bbb68e1269894a89c66f2e960e:58ab5c271667e64aef665a716a7039b0$"
+	}
+}
