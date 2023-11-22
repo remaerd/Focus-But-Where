@@ -223,14 +223,14 @@ export class Chapter1Scene extends FaceDetectorScene {
     this.widthScale = this.windowWidth / this.orginalBackgrondWidth;
     this.heightScale = this.windowHeight / this.orginalBackgrondHeight;
     this.scaleRate = 2 / scale;
-    console.log("scaleRate:", this.scaleRate);
+    // console.log("scaleRate:", this.scaleRate);
 
     this.backgroundSprites.children.iterate(
       (background: Phaser.GameObjects.GameObject) => {
         if (background instanceof Phaser.GameObjects.Sprite) {
           background.setPosition(
-            (translateX / 2) * window.innerWidth * this.scaleRate,
-            (translateY / 2) * window.innerHeight * this.scaleRate
+            (translateX / 2) * this.windowWidth * this.scaleRate,
+            (translateY / 2) * this.windowHeight * this.scaleRate
           );
           background.setScale(
             this.widthScale * this.scaleRate,
@@ -244,12 +244,12 @@ export class Chapter1Scene extends FaceDetectorScene {
     this.phoneSprites.children.iterate(
       (sprite: Phaser.GameObjects.GameObject, index) => {
         let nowX =
-          ((translateX / 2) * window.innerWidth +
+          ((translateX / 2) * this.windowWidth +
             this.phonesPosition[index].x -
             this.windowWidth / 2) *
           this.scaleRate;
         let nowY =
-          ((translateY / 2) * window.innerHeight +
+          ((translateY / 2) * this.windowHeight +
             this.phonesPosition[index].y -
             this.windowHeight / 2) *
           this.scaleRate;
