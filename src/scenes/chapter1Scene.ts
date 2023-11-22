@@ -44,14 +44,22 @@ export class Chapter1Scene extends FaceDetectorScene {
     { x: -129.2, y: 1438.39 },
   ];
 
-  private phoneTrigger = [1, 5, 9];
+  private phoneTrigger = new Map([
+    [1, true],
+    [5, true],
+    [9, true],
+  ]);
 
   private scope = 150;
 
   private phoneMap = new Map();
 
   isNear = (x1: number, y1: number, x2: number, y2: number) => {
-    return Math.abs(x1 - x2) < this.scope && Math.abs(y1 - y2) < this.scope;
+    console.log(x1 - x2, y1 - y2);
+    return (
+      Math.abs(x1 - x2) < this.scope * this.scaleRate &&
+      Math.abs(y1 - y2) < this.scope * this.scaleRate
+    );
   };
 
   playFrameAnimation = (
@@ -225,12 +233,15 @@ export class Chapter1Scene extends FaceDetectorScene {
     this.scaleRate = 2 / scale;
     // console.log("scaleRate:", this.scaleRate);
 
+    translateX = translateX - 0.3;
+    translateY = translateY - 0.3;
+
     this.backgroundSprites.children.iterate(
       (background: Phaser.GameObjects.GameObject) => {
         if (background instanceof Phaser.GameObjects.Sprite) {
           background.setPosition(
-            (translateX / 2) * this.windowWidth * this.scaleRate,
-            (translateY / 2) * this.windowHeight * this.scaleRate
+            translateX * this.windowWidth * this.scaleRate,
+            translateY * this.windowHeight * this.scaleRate
           );
           background.setScale(
             this.widthScale * this.scaleRate,
@@ -244,12 +255,12 @@ export class Chapter1Scene extends FaceDetectorScene {
     this.phoneSprites.children.iterate(
       (sprite: Phaser.GameObjects.GameObject, index) => {
         let nowX =
-          ((translateX / 2) * this.windowWidth +
+          (translateX * this.windowWidth +
             this.phonesPosition[index].x -
             this.windowWidth / 2) *
           this.scaleRate;
         let nowY =
-          ((translateY / 2) * this.windowHeight +
+          (translateY * this.windowHeight +
             this.phonesPosition[index].y -
             this.windowHeight / 2) *
           this.scaleRate;
@@ -268,8 +279,8 @@ export class Chapter1Scene extends FaceDetectorScene {
   public update() {
     // TODO
 
-    const widthScope = 0.05;
-    const heightScope = 0.05;
+    const widthScope = -0.5;
+    const heightScope = -0.5;
 
     if (
       Detector.default!.translateX >= widthScope &&
@@ -299,6 +310,7 @@ export class Chapter1Scene extends FaceDetectorScene {
         this.phoneSprites.children.iterate(
           (sprite: Phaser.GameObjects.GameObject, index) => {
             if (sprite instanceof Phaser.GameObjects.Sprite) {
+              console.log(sprite.name);
               if (
                 this.isNear(
                   Detector.default!.translateX *
@@ -310,13 +322,21 @@ export class Chapter1Scene extends FaceDetectorScene {
                   sprite.x,
                   sprite.y
                 ) &&
-                !this.phoneMap.get(this.phoneTrigger[index])
+                this.phoneTrigger.get(index) &&
+                !this.phoneMap.has(index)
               ) {
-                this.phoneMap.set(this.phoneTrigger[index], true);
+                console.log(
+                  Detector.default!.translateX,
+                  Detector.default!.translateY,
+                  sprite.x,
+                  sprite.y
+                );
+                this.phoneMap.set(index, true);
                 this.iconTween(this.icons[this.phoneMap.size - 1]);
                 console.log("choosed:", this.phoneMap);
               }
             }
+
             return true;
           }
         );

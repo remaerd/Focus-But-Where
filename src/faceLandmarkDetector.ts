@@ -119,6 +119,15 @@ export class Detector {
     this.translateY =
       (face.box.yMin + face.box.height / 1.8) / Camera.videoConfig.video.height;
 
+    //normalize translateX from -0.7 to 1.7
+    this.translateX = this.translateX * 2.4 - 0.7;
+    //normalize translateY from -0.7 to 1.7
+    this.translateY = this.translateY * 2.4 - 0.7;
+
+    //format translateX and translateY
+    this.translateX = Math.round(this.translateX * 1000) / 1000;
+    this.translateY = Math.round(this.translateY * 1000) / 1000;
+
     this.scale =
       Math.round(
         (Camera.videoConfig.video.height / 2 / face.box.height) * 100
