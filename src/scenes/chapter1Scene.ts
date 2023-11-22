@@ -44,7 +44,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     { x: -129.2, y: 1438.39 },
   ];
 
-  private phoneTrigger = new Map([
+  private phoneTrigger: Map<number, boolean> = new Map([
     [1, true],
     [5, true],
     [9, true],
@@ -55,11 +55,7 @@ export class Chapter1Scene extends FaceDetectorScene {
   private phoneMap = new Map();
 
   isNear = (x1: number, y1: number, x2: number, y2: number) => {
-    console.log(x1 - x2, y1 - y2);
-    return (
-      Math.abs(x1 - x2) < this.scope * this.scaleRate &&
-      Math.abs(y1 - y2) < this.scope * this.scaleRate
-    );
+    return Math.abs(x1 - x2) < this.scope && Math.abs(y1 - y2) < this.scope;
   };
 
   playFrameAnimation = (
@@ -100,7 +96,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     console.log("Preload");
 
     //load eye mask
-    this.load.image("eyeMask", "/mask_v3.png");
+    this.load.image("eyeMask", "/EyeMask.svg");
 
     //load background
     this.load.multiatlas(
@@ -306,32 +302,20 @@ export class Chapter1Scene extends FaceDetectorScene {
         return;
       case BlinkingStatus.RightEye:
         console.log("RightEye");
-
         this.phoneSprites.children.iterate(
           (sprite: Phaser.GameObjects.GameObject, index) => {
             if (sprite instanceof Phaser.GameObjects.Sprite) {
-              console.log(sprite.name);
               if (
                 this.isNear(
-                  Detector.default!.translateX *
-                    this.windowWidth *
-                    this.scaleRate,
-                  Detector.default!.translateY *
-                    this.windowHeight *
-                    this.scaleRate,
+                  this.windowWidth / 2,
+                  this.windowHeight / 2,
                   sprite.x,
                   sprite.y
                 ) &&
-                this.phoneTrigger.get(index) &&
-                !this.phoneMap.has(index)
+                this.phoneTrigger.get(index + 1) &&
+                !this.phoneMap.has(index + 1)
               ) {
-                console.log(
-                  Detector.default!.translateX,
-                  Detector.default!.translateY,
-                  sprite.x,
-                  sprite.y
-                );
-                this.phoneMap.set(index, true);
+                this.phoneMap.set(index + 1, true);
                 this.iconTween(this.icons[this.phoneMap.size - 1]);
                 console.log("choosed:", this.phoneMap);
               }
