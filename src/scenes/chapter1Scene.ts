@@ -275,8 +275,8 @@ export class Chapter1Scene extends FaceDetectorScene {
   public update() {
     // TODO
 
-    const widthScope = -0.5;
-    const heightScope = -0.5;
+    const widthScope = 0.1;
+    const heightScope = 0.1;
 
     if (
       Detector.default!.translateX >= widthScope &&
