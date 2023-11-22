@@ -101,7 +101,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     //load background
     this.load.multiatlas(
       "backgrounds",
-      "/Chapter1/background.json",
+      "/Chapter1/chapter_01_updated_foreground.json",
       "/Chapter1/"
     );
 

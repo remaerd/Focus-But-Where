@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "chapter_01_updated_foreground.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 8527,
+				"h": 4798
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "lostintheflood_foreground_02.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 8525,
+						"h": 4796
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 8525,
+						"h": 4796
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 8525,
+						"h": 4796
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:a66b2594199dec00b3833ab125d5f9bd:b7d57af7fdff0ed463dc35a8174f86ce:45d83a320942e382f8fc19fb1197b437$"
+	}
+}
