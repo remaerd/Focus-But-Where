@@ -161,8 +161,5 @@ export class Detector {
         this.blinkConfirmationDelay += 1;
       }
     }
-
-    // console.log('X: ' + this.translateX + '/ Y: ' + this.translateY + '/ SCALE: ' + this.scale )
-    //
   }
 }

@@ -13,8 +13,18 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
   key: "UserInterface",
 };
 
+export const headlineTypeface = 'Road Rage';
+export const defaultTypeface = 'Gaegu';
+export const headlineFontSize = 128;
+export const subtitleFontSize = 32;
+export const bodyFontSize = 22;
+export const buttonTextFontSize = 18;
+export const bubbleTextFontSize = 18;
+
 export class UIScene extends Phaser.Scene 
 {
+  public showUserInterface: boolean = false;
+
   // Current Scene
   public currentScene!: FaceDetectorScene;
 
@@ -33,18 +43,22 @@ export class UIScene extends Phaser.Scene
   private zoomIndicator!: Phaser.GameObjects.Sprite;
   private zoomIndicatorBackground!: Phaser.GameObjects.Sprite;
 
-	iconTween = (
-		object: Phaser.GameObjects.Sprite,
-	) => {
+  // Cutscene
+  private cutsceneBackground!: Phaser.GameObjects.Rectangle;
+  private cutsceneTitleText!: Phaser.GameObjects.BitmapText;
+  private cutsceneSubtitleText!: Phaser.GameObjects.BitmapText;
+
+	iconTween = ( object: Phaser.GameObjects.Sprite, ) => 
+  {
 		this.tweens.add({
-		targets: object,
-		duration: 2000,
-		// BUG: This block of code scale the objects unportionally. Please Check
-		// scaleX: 1.5*this.widthScale,
-		// scaleY: 1.5*this.heightScale,
-		alpha:0.7,
-		yoyo: true,
-		repeat: 0,
+      targets: object,
+      duration: 2000,
+      // BUG: This block of code scale the objects unportionally. Please Check
+      // scaleX: 1.5*this.widthScale,
+      // scaleY: 1.5*this.heightScale,
+      alpha:0.7,
+      yoyo: true,
+      repeat: 0,
 		});
 	}
 
@@ -57,6 +71,9 @@ export class UIScene extends Phaser.Scene
   {
     //load eye mask
     this.load.image("eyeMask", "Interface/Mask_Eye.svg");
+    this.load.image('zoomIndicator', 'Interface/Control_Zoom_Indicator.svg');
+    this.load.bitmapFont(headlineTypeface, "Fonts/RoadRage_0.png", "Fonts/RoadRage.fnt");
+    this.load.bitmapFont(defaultTypeface, "Fonts/Gaegu_0.png", "Fonts/Gaegu.fnt");
   }
 
   public create() 
@@ -70,8 +87,7 @@ export class UIScene extends Phaser.Scene
     this.eyeMask = eyeMask.createBitmapMask();
     this.eyeMask.invertAlpha = true;
 
-    this.changeScene('Chapter1');
-
+    this.changeScene('Permission');
     this.scale.on('resize', this.resize, this);
   }
 
@@ -84,9 +100,16 @@ export class UIScene extends Phaser.Scene
 
   private changeScene(scene: string, data?: object)
   {
-    this.scene.launch(scene, data);
     this.currentScene = this.scene.get(scene) as FaceDetectorScene;
-    this.reloadIcons();
+    // this.reloadIcons();
+    if (this.currentScene.title && this.currentScene.subtitle)
+    {
+      this.showCutscene(this.currentScene.title!, this.currentScene.subtitle!);
+    }
+    else
+    {
+      this.scene.launch(this.currentScene);
+    }
   }
 
   private reloadIcons()
@@ -102,7 +125,7 @@ export class UIScene extends Phaser.Scene
     }
 
     // Load New Icons
-    
+
     this.load.multiatlas("icons", "/Interface/icons.json", "/Interface/");
 
     const iconsTexture = this.textures.get("icons");
@@ -122,13 +145,65 @@ export class UIScene extends Phaser.Scene
     }
   }
 
+  /**
+   * Temporary display Cutscene with Title and subtitle
+   * @param title Cutscene Title
+   * @param subtitle Cutscene Subtitle
+   * @param duration Delay Millisecond
+   */
+  showCutscene(title: string, subtitle: string, duration: number = 3000)
+  {
+    this.cutsceneBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0x000000);
+    this.cutsceneBackground.setDepth(10000);
+    this.cutsceneBackground.alpha = 0;
+
+    this.cutsceneTitleText = this.add.bitmapText(0,0,headlineTypeface, title, headlineFontSize);
+    this.cutsceneTitleText.tint = 0xffffff;
+    this.cutsceneTitleText.x = window.innerWidth / 2 - this.cutsceneTitleText.width / 2
+    this.cutsceneTitleText.y = window.innerHeight / 2 - this.cutsceneTitleText.height / 2
+    this.cutsceneTitleText.setDepth(10001);
+    this.cutsceneTitleText.alpha = 0;
+
+    this.cutsceneSubtitleText = this.add.bitmapText(0,0,defaultTypeface, subtitle.toUpperCase(), subtitleFontSize);
+    this.cutsceneSubtitleText.letterSpacing = 0.5;
+    this.cutsceneSubtitleText.tint = 0xffffff;
+    this.cutsceneSubtitleText.x = window.innerWidth / 2 - this.cutsceneSubtitleText.width / 2
+    this.cutsceneSubtitleText.y = window.innerHeight / 2 + this.cutsceneTitleText.height / 2
+    this.cutsceneSubtitleText.setDepth(10002);
+    this.cutsceneSubtitleText.alpha = 0;
+    
+    this.tweens.add({
+      targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+      duration: 700,
+      alpha:1
+    });
+    this.time.delayedCall(duration, () => 
+    {
+      this.tweens.add({
+        targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+        duration: 700,
+        alpha:0,
+        onComplete: ()=>
+        {
+          this.cutsceneBackground.removedFromScene();
+          this.cutsceneTitleText.removedFromScene();
+          this.cutsceneSubtitleText.removedFromScene();
+          this.scene.launch(this.currentScene);
+        }
+      });
+    }, [], this);
+  }
+
+  /**
+   * Will demonstrate pop-up when hidden object found
+   * @param object Founded Hidden Object 
+   */
   hiddenObjectIsFound(object: HiddenObject): void
   {
 		
 	}
 
-
-  private resize (gameSize:any, baseSize:any, displaySize:any, resolution:any)
+  private resize (gameSize:any, baseSize:any, displaySize:any, resolution:any): void
   {
     const scaleWidth = this.currentScene.scale.gameSize.width;
     const scaleHeight = this.currentScene.scale.gameSize.height;

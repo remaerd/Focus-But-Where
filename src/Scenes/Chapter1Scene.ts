@@ -9,8 +9,12 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class Chapter1Scene extends FaceDetectorScene 
 {
-  public sceneHeight: number = 8525;
+  // Cutscene
+  public title: string = 'Lost in the Flood';
+  public subtitle: string = 'Chapter 1';
+
   public sceneWidth: number = 4796;
+  public sceneHeight: number = 8525;
 
   private depth = 1;
 

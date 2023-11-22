@@ -1,13 +1,15 @@
-import { Detector } from "./faceLandmarkDetector";
+import { Detector } from "./FaceLandmarkDetector";
 import * as Phaser from "phaser";
 
-import { Chapter1Scene } from "./Scenes/chapter1Scene";
+import { Chapter1Scene } from "./Scenes/Chapter1Scene";
 import { Chapter2Scene } from "./Scenes/Chapter2Scene";
-import { Chapter3Scene } from "./Scenes/chapter3Scene";
+import { Chapter3Scene } from "./Scenes/Chapter3Scene";
 import { Chapter4Scene } from "./Scenes/Chapter4Scene";
 import { Chapter5Scene } from "./Scenes/Chapter5Scene";
-import { MainMenuScene } from "./Scenes/mainMenuScene";
+import { MainMenuScene } from "./Scenes/MainMenuScene";
+import { PermissionScene } from "./Scenes/PermissionScene";
 import { UIScene } from "./Scenes/UIScene";
+
 
 const MAX_SIZE_WIDTH_SCREEN = 1920
 const MAX_SIZE_HEIGHT_SCREEN = 1080
@@ -40,7 +42,7 @@ const gameConfig: Phaser.Types.Core.GameConfig =
   },
   dom: { createContainer: true },
   backgroundColor: "#000000",
-  scene: [UIScene, MainMenuScene, Chapter1Scene, Chapter2Scene, Chapter3Scene, Chapter4Scene, Chapter5Scene],
+  scene: [UIScene, PermissionScene, MainMenuScene, Chapter1Scene, Chapter2Scene, Chapter3Scene, Chapter4Scene, Chapter5Scene],
 };
 
 export const game = new Phaser.Game(gameConfig);

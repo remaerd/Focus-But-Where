@@ -1,3 +1,4 @@
+import { Data } from "phaser";
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
@@ -9,6 +10,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
   
 export class MainMenuScene extends FaceDetectorScene
 {
+	public title?: string | undefined;
+	public subtitle?: string | undefined;
+	
 	public sceneHeight: number = 1080;
 	public sceneWidth: number = 1920;
 
@@ -27,6 +31,21 @@ export class MainMenuScene extends FaceDetectorScene
    
 	public create() 
 	{
+		this.load.on('progress', (value: number) =>
+		{
+			console.log(value);
+		});
+								
+		this.load.on('fileprogress',  (file: any) =>
+		{
+			console.log(file.src);
+		});
+
+		this.load.on('complete', (completed: boolean) =>
+		{
+			console.log(completed);
+		});
+
 		this.background = this.add.rectangle(0,0,this.sceneWidth,this.sceneHeight, 0xffff00).setMask(this.mask);
 	}
    
