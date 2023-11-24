@@ -41,6 +41,10 @@ export class Detector {
   _previousBlink: BlinkingStatus = BlinkingStatus.None;
   blinkConfirmationDelay: number = 0;
 
+  smoothFace!: Face;
+  smoothingFactor = 0.8;
+  faceInit: boolean = true;
+
   static async setup() {
     Detector.default = new Detector();
 
@@ -56,7 +60,7 @@ export class Detector {
       config
     );
 
-    await Detector.default.renderPrediction();
+    await Detector!.default!.renderPrediction();
   }
 
   beginEstimateFaceStats() {
@@ -102,7 +106,45 @@ export class Detector {
           { flipHorizontal: false }
         )) as Array<Face>;
         if (faces.length == 1) {
-          this.calculatePosition(faces[0]);
+          let newFace = faces[0];
+
+          if (this.smoothFace == null && this.faceInit == true) {
+            console.log("First Face");
+            this.smoothFace = newFace;
+            this.faceInit = false;
+          } else {
+            this.smoothFace = {
+              box: {
+                xMin: Math.round(
+                  this.smoothFace.box.xMin * this.smoothingFactor +
+                    newFace.box.xMin * (1 - this.smoothingFactor)
+                ),
+                xMax: Math.round(
+                  this.smoothFace.box.xMax * this.smoothingFactor +
+                    newFace.box.xMax * (1 - this.smoothingFactor)
+                ),
+                yMin: Math.round(
+                  this.smoothFace.box.yMin * this.smoothingFactor +
+                    newFace.box.yMin * (1 - this.smoothingFactor)
+                ),
+                yMax: Math.round(
+                  this.smoothFace.box.yMax * this.smoothingFactor +
+                    newFace.box.yMax * (1 - this.smoothingFactor)
+                ),
+                width: Math.round(
+                  this.smoothFace.box.width * this.smoothingFactor +
+                    newFace.box.width * (1 - this.smoothingFactor)
+                ),
+                height: Math.round(
+                  this.smoothFace.box.height * this.smoothingFactor +
+                    newFace.box.height * (1 - this.smoothingFactor)
+                ),
+              },
+              keypoints: [...newFace.keypoints],
+            };
+          }
+
+          await this.calculatePosition(this.smoothFace);
         }
       } catch (error) {
         this.detector?.dispose();
@@ -112,7 +154,7 @@ export class Detector {
     }
   }
 
-  calculatePosition(face: Face) {
+  async calculatePosition(face: Face) {
     this.translateX =
       (Camera.videoConfig.video.width - (face.box.xMin + face.box.width / 2)) /
       Camera.videoConfig.video.width;
