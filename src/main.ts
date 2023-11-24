@@ -1,4 +1,3 @@
-import { Detector } from "./FaceLandmarkDetector";
 import * as Phaser from "phaser";
 
 import { Chapter1Scene } from "./Scenes/Chapter1Scene";
@@ -9,7 +8,6 @@ import { Chapter5Scene } from "./Scenes/Chapter5Scene";
 import { MainMenuScene } from "./Scenes/MainMenuScene";
 import { PermissionScene } from "./Scenes/PermissionScene";
 import { UIScene } from "./Scenes/UIScene";
-
 
 const MAX_SIZE_WIDTH_SCREEN = 1920
 const MAX_SIZE_HEIGHT_SCREEN = 1080
@@ -46,13 +44,4 @@ const gameConfig: Phaser.Types.Core.GameConfig =
 };
 
 export const game = new Phaser.Game(gameConfig);
-
-async function app() {
-  try {
-    await Detector.setup();
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-app();
+game.input.globalTopOnly = false;

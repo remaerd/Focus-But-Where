@@ -1,5 +1,6 @@
 import { FaceDetectorScene } from "../FaceDetectorScene";
-import { bodyFontSize, bubbleTextFontSize, buttonTextFontSize, defaultTypeface, subtitleFontSize } from "./UIScene";
+import { Detector } from "../FaceLandmarkDetector";
+import { bodyFontSize, buttonTextFontSize, defaultTypeface, subtitleFontSize } from "./UIScene";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {
@@ -21,10 +22,8 @@ export class PermissionScene extends FaceDetectorScene
   private description!: Phaser.GameObjects.BitmapText;
   private image!: Phaser.GameObjects.Image;
 
-  private cameraPermissionButton!: Phaser.GameObjects.Graphics;
-  private keyboardButton!: Phaser.GameObjects.Graphics;
-  private camreaPermissionButtonText!: Phaser.GameObjects.BitmapText;
-  private keyboardButtonText!: Phaser.GameObjects.BitmapText;
+  private cameraPermissionButton!: Phaser.GameObjects.Container;
+  private keyboardButton!: Phaser.GameObjects.Container;
 
 	constructor() 
 	{
@@ -53,29 +52,31 @@ export class PermissionScene extends FaceDetectorScene
     
     this.image = this.add.image(0,0, "permission");
     
-    this.cameraPermissionButton = this.add.graphics();
-    this.cameraPermissionButton.fillStyle(0x000000);
-    this.cameraPermissionButton.fillRoundedRect(0,0,300,48,24);
-    this.cameraPermissionButton.setInteractive().on('pointerdown', () => 
-    { 
-      console.log('Hello'); 
-    });
-
-    this.keyboardButton = this.add.graphics();
-    this.keyboardButton.fillStyle(0x000000);
-    this.keyboardButton.fillRoundedRect(0,0,300,48,24);
-    this.keyboardButton.setInteractive().on('pointerdown', () => 
-    { 
-      console.log('Hello'); 
-    });
-
-    this.camreaPermissionButtonText = this.add.bitmapText(0,0,defaultTypeface, "Great, face tracking it is!", buttonTextFontSize);
-    this.camreaPermissionButtonText.tint = 0xffffff;
+    this.input.topOnly = false;
     
-    this.keyboardButtonText = this.add.bitmapText(0,0,defaultTypeface, "I wanna use cursor instead", bubbleTextFontSize);
-    this.keyboardButtonText.tint = 0xffffff;
+    this.cameraPermissionButton = this.createButton("Great, face tracking it is!");
+    this.keyboardButton = this.createButton("I wanna use cursor instead");
     
+    this.input.on('pointerup', (_pointer: any, gameObject: any) =>
+    {
+      if (gameObject[0] == this.cameraPermissionButton) this.askCameraPermission(); 
+      else this.enterGameWithoutCameraPermission(); 
+    })
 	}
+
+  private createButton(title: string): Phaser.GameObjects.Container
+  {
+    const background = this.add.graphics();
+    background.fillStyle(0x000000);
+    background.fillRoundedRect(0,0,300,48,24);
+
+    const text = this.add.bitmapText(0,0,defaultTypeface, title, buttonTextFontSize);
+    text.tint = 0xffffff;
+
+    const button = this.add.container(0,0,[background, text]);
+    button.setInteractive(new Phaser.Geom.Rectangle(0, 0, 300,48), Phaser.Geom.Rectangle.Contains);
+    return button;
+  }
    
   public update() 
   {
@@ -91,12 +92,23 @@ export class PermissionScene extends FaceDetectorScene
 
     this.cameraPermissionButton.x = window.innerWidth / 2 - 320;
     this.cameraPermissionButton.y = window.innerHeight - 150;
-    this.camreaPermissionButtonText.x = window.innerWidth / 2 - 270;
-    this.camreaPermissionButtonText.y = window.innerHeight - 135;
 
     this.keyboardButton.x = window.innerWidth / 2 + 20;
     this.keyboardButton.y = window.innerHeight - 150;
-    this.keyboardButtonText.x = window.innerWidth / 2 + 70;
-    this.keyboardButtonText.y = window.innerHeight - 135;
+  }
+
+  private enterGameWithoutCameraPermission()
+  {
+    this.defaultUIScene.changeScene('MainMenu');
+  }
+
+  private async askCameraPermission()
+  {
+    try {
+      await Detector.setup();
+      this.defaultUIScene.changeScene('MainMenu');
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

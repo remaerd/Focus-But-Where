@@ -27,26 +27,26 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	public get widthScale() : number { return this.windowWidth / this.sceneWidth }
 	public get heightScale() : number { return this.windowHeight / this.sceneHeight }
-	
-	public get mask() : Phaser.Display.Masks.BitmapMask 
-	{
-		return (this.scene.get('UserInterface') as UIScene).eyeMask
-	}
 
 	public sceneStopped = false;
 	public parent!: Phaser.Structs.Size;
 	public sizer!: Phaser.Structs.Size;
 
-	public getUIScene() : UIScene
+	
+	public get defaultUIScene() : UIScene 
 	{
-		return this.scene.get('UserInterface') as UIScene;
+		return this.scene.get('UserInterface') as UIScene; 
+	}
+
+	public get mask() : Phaser.Display.Masks.BitmapMask 
+	{
+		return (this.scene.get('UserInterface') as UIScene).eyeMask
 	}
 
 	constructor(config: Phaser.Types.Scenes.SettingsConfig) 
 	{
 	  super(config);
 	}
-	
 	
 	public preload()
 	{

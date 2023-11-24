@@ -31,6 +31,8 @@ export class MainMenuScene extends FaceDetectorScene
    
 	public create() 
 	{
+		super.create();
+		
 		this.load.on('progress', (value: number) =>
 		{
 			console.log(value);
@@ -51,7 +53,9 @@ export class MainMenuScene extends FaceDetectorScene
    
 	public update() 
 	{
-	  this.background
+		super.update();
+	  this.background.width = this.windowWidth * 2;
+		this.background.height = this.windowHeight * 2;
 	}
 
 	onBlinkStatusChanged(status: BlinkingStatus): void 

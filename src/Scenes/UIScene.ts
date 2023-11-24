@@ -98,8 +98,9 @@ export class UIScene extends Phaser.Scene
     // this.eyeMask.setY(Detector.default!.translateY * window.innerHeight);
   }
 
-  private changeScene(scene: string, data?: object)
+  public changeScene(scene: string, data?: object)
   {
+    if (this.currentScene) this.scene.remove(this.currentScene);
     this.currentScene = this.scene.get(scene) as FaceDetectorScene;
     // this.reloadIcons();
     if (this.currentScene.title && this.currentScene.subtitle)
