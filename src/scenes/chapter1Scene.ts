@@ -275,14 +275,16 @@ export class Chapter1Scene extends FaceDetectorScene {
   public update() {
     // TODO
 
-    const widthScope = 0.1;
-    const heightScope = 0.1;
+    const topScope = 0.15;
+    const bottomScope = 0.25;
+    const leftScope = 0.1;
+    const rightScope = 0.25;
 
     if (
-      Detector.default!.translateX >= widthScope &&
-      Detector.default!.translateX <= 1 - widthScope &&
-      Detector.default!.translateY >= heightScope &&
-      Detector.default!.translateY <= 1 - heightScope
+      Detector.default!.translateX >= rightScope &&
+      Detector.default!.translateX <= 1 - leftScope &&
+      Detector.default!.translateY >= bottomScope &&
+      Detector.default!.translateY <= 1 - topScope
     ) {
       this.updatePostionAndScale(
         Detector.default!.translateX,
@@ -302,6 +304,7 @@ export class Chapter1Scene extends FaceDetectorScene {
         return;
       case BlinkingStatus.RightEye:
         console.log("RightEye");
+        console.log(Detector.default!.translateX, Detector.default!.translateY);
         this.phoneSprites.children.iterate(
           (sprite: Phaser.GameObjects.GameObject, index) => {
             if (sprite instanceof Phaser.GameObjects.Sprite) {
