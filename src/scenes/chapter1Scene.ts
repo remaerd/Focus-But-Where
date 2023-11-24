@@ -131,7 +131,7 @@ export class Chapter1Scene extends FaceDetectorScene {
         this.windowWidth / 2,
         this.windowHeight / 2,
         "backgrounds",
-        `background_0${i + 1}.png`
+        backgroundsTexture.getFrameNames()[i]
       );
     }
 
