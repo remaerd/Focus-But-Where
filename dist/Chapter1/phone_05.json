@@ -1,0 +1,83 @@
+{
+	"textures": [
+		{
+			"image": "phone_05.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 838,
+				"h": 1449
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "5C2R.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 830,
+						"h": 479
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 830,
+						"h": 479
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 830,
+						"h": 479
+					}
+				},
+				{
+					"filename": "5I2R.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 834,
+						"h": 481
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 834,
+						"h": 481
+					},
+					"frame": {
+						"x": 1,
+						"y": 482,
+						"w": 834,
+						"h": 481
+					}
+				},
+				{
+					"filename": "5I7R.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 836,
+						"h": 483
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 836,
+						"h": 483
+					},
+					"frame": {
+						"x": 1,
+						"y": 965,
+						"w": 836,
+						"h": 483
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:bfae12ea8e04203ca02e81cea3d8690e:e90fa29ed216cab2031cb39ff8498134:5e4a871d16ad3cd430875cac4ad6ca93$"
+	}
+}
