@@ -14,6 +14,7 @@ Since early 2023, this project has received generous support from [Watershed Art
 - Illustrator / Animator - **Inigo Hartas**
 - Sound Designer - **Jake Wild**
 - Game Designer & Developer - **Xingzhi Zheng**
+- Game Developer - **Jiashun Wu**
 
 ## Deploy a local environment
 
