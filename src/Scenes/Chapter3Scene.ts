@@ -1,20 +1,22 @@
-import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
-import { Detector } from "../FaceLandmarkDetector";
+import { FaceDetectorScene } from "../FaceDetectorScene";
 
-const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
-  active: false,
-  visible: false,
-  key: "Chapter3",
+const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
+{
+	active: false,
+	visible: false,
+	key: 'Chapter3',
 };
+  
+export class Chapter3Scene extends FaceDetectorScene
+{
+	public sceneWidth: number = 1920;
+	public sceneHeight: number = 1080;
 
-export class Chapter3Scene extends Phaser.Scene {
+	// Cutscene
+  public title: string = 'Lost in the Flood';
+  public subtitle: string = 'Chapter 1';
+
   private depth = 1;
-
-  private eyeMask!: Phaser.GameObjects.Image;
-  private blackBackground!: Phaser.GameObjects.Rectangle;
-
-  private background!: Phaser.GameObjects.Image;
-
   private windowWidth = window.innerWidth;
   private windowHeight = window.innerHeight;
 
@@ -32,25 +34,27 @@ export class Chapter3Scene extends Phaser.Scene {
   ];
   private icons!: Phaser.GameObjects.Sprite[];
 
-  constructor() {
-    super(sceneConfig);
-  }
+	constructor() 
+	{
+	  super(sceneConfig);
+	}
+	
+	public preload()
+	{
+		console.log('Preload')
+     //load eyeMask
+     this.load.image("eyeMask", "/EyeMask.svg");
 
-  public preload() {
-    console.log("Preload");
-
-    //load eyeMask
-    this.load.image("eyeMask", "/EyeMask.svg");
-
-    //load chapter_3_factory
-    this.load.multiatlas(
-      "chapter_3_factory",
-      "/Chapter3/chapter_3_factory.json",
-      "/Chapter3/"
-    );
-  }
-
-  public create() {
+     //load chapter_3_factory
+     this.load.multiatlas(
+       "chapter_3_factory",
+       "/Chapter3/chapter_3_factory.json",
+       "/Chapter3/"
+     );
+	}
+   
+	public create() 
+	{
     const chapter_3_factoryTexture = this.textures.get("chapter_3_factory");
     console.log(chapter_3_factoryTexture.getFrameNames());
 
@@ -105,11 +109,11 @@ export class Chapter3Scene extends Phaser.Scene {
       this.icons[i].setScale(this.widthScale, this.heightScale);
       this.icons[i].setDepth(1000);
     }
-  }
-
-  public update() {
-    // TODO
-
+	}
+   
+	public update() 
+	{
+	  // TODO
     const widthScope = 0.15;
     const heightScope = 0.2;
 
@@ -122,18 +126,5 @@ export class Chapter3Scene extends Phaser.Scene {
       this.background.setX(Detector.default!.translateX * window.innerWidth);
       this.background.setY(Detector.default!.translateY * window.innerHeight);
     }
+	}
   }
-
-  onBlinkStatusChanged(status: BlinkingStatus): void {
-    switch (status) {
-      case BlinkingStatus.None:
-        console.log("None");
-        return;
-      case BlinkingStatus.LeftEye:
-        console.log("LeftEye");
-        return;
-      case BlinkingStatus.RightEye:
-        console.log("RightEye");
-    }
-  }
-}

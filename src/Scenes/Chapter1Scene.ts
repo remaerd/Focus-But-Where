@@ -1,5 +1,5 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
-import { Detector } from "../FaceLandmarkDetector";
+import { Detector } from "../faceLandmarkDetector";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
@@ -7,26 +7,21 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   key: "Chapter1",
 };
 
-export class Chapter1Scene extends FaceDetectorScene {
+export class Chapter1Scene extends FaceDetectorScene 
+{
+  // Cutscene
+  public title: string = 'Lost in the Flood';
+  public subtitle: string = 'Chapter 1';
+
+  public sceneWidth: number = 4796;
+  public sceneHeight: number = 8525;
+
   private depth = 1;
 
-  private eyeMask!: Phaser.GameObjects.Image;
   private blackBackground!: Phaser.GameObjects.Rectangle;
 
   private backgrounds = [] as Phaser.GameObjects.Sprite[];
   private phones = [] as Phaser.GameObjects.Sprite[];
-
-  private maskX = Phaser.Math.Between(0, 800);
-  private maskY = Phaser.Math.Between(0, 600);
-
-  private windowWidth = window.innerWidth;
-  private windowHeight = window.innerHeight;
-
-  private backgroundImageWidth = 8525;
-  private backgroundImageHeight = 4796;
-
-  private widthScale = this.windowWidth / this.backgroundImageWidth;
-  private heightScale = this.windowHeight / this.backgroundImageHeight;
 
   private phonesPosition = [
     { x: 833.56, y: 1913.68 },
@@ -60,24 +55,10 @@ export class Chapter1Scene extends FaceDetectorScene {
         key: object.texture.key,
         frame: frameName,
       })),
-      frameRate: 0.5,
+      frameRate: 1,
       repeat: -1,
     });
     object.anims.play("frameAnimation");
-  };
-
-  private iconList = ["flag.png", "oil.png", "flowers.png"];
-  private icons!: Phaser.GameObjects.Sprite[];
-  iconTween = (object: Phaser.GameObjects.Sprite) => {
-    this.tweens.add({
-      targets: object,
-      duration: 2000,
-      scaleX: 1.5 * this.widthScale,
-      scaleY: 1.5 * this.heightScale,
-      alpha: 0.7,
-      yoyo: true,
-      repeat: 0,
-    });
   };
 
   constructor() {
@@ -90,16 +71,14 @@ export class Chapter1Scene extends FaceDetectorScene {
     //format phone position
     this.phonesPosition = this.phonesPosition.map((phonePosition) => ({
       x:
-        (this.backgroundImageWidth / 2 + phonePosition.x) *
-        (this.windowWidth / this.backgroundImageWidth),
+        (this.sceneWidth / 2 + phonePosition.x) *
+        (this.windowWidth / this.sceneWidth),
       y:
-        (this.backgroundImageHeight / 2 - phonePosition.y) *
-        (this.windowHeight / this.backgroundImageHeight),
+        (this.sceneHeight / 2 - phonePosition.y) *
+        (this.windowHeight / this.sceneHeight),
     }));
     console.log(this.phonesPosition);
 
-    //load eye mask
-    this.load.image("eyeMask", "/EyeMask.svg");
 
     //load background
     this.load.multiatlas(
@@ -116,9 +95,6 @@ export class Chapter1Scene extends FaceDetectorScene {
         "/Chapter1/"
       );
     }
-
-    //load icons
-    this.load.multiatlas("icons", "/Chapter1/icons.json", "/Chapter1/");
   }
 
   public create() {
@@ -134,8 +110,9 @@ export class Chapter1Scene extends FaceDetectorScene {
         )
       );
 
-      this.backgrounds[i].setScale(this.widthScale, this.heightScale);
+      this.backgrounds[i].setScale(this.widthScale, this.widthScale);
       this.backgrounds[i].setDepth(this.depth);
+      // this.backgrounds[i].setMask(this.mask);
       this.depth++;
     }
 
@@ -152,13 +129,12 @@ export class Chapter1Scene extends FaceDetectorScene {
         )
       );
 
-      this.phones[i].setScale(this.widthScale, this.heightScale);
+      this.phones[i].setScale(this.widthScale, this.widthScale);
       this.playFrameAnimation(this.phones[i], texture.getFrameNames());
       this.phones[i].setDepth(this.depth);
       this.depth++;
     }
 
-    //Load Eye Mask
     this.blackBackground = this.add.rectangle(
       this.windowWidth / 2,
       this.windowHeight / 2,
@@ -167,37 +143,8 @@ export class Chapter1Scene extends FaceDetectorScene {
       0x000000
     );
     this.blackBackground.setDepth(100);
-
-    this.eyeMask = this.add.image(
-      this.windowWidth / 2,
-      this.windowHeight / 2,
-      "eyeMask"
-    );
-    console.log(this.eyeMask.width, this.eyeMask.height);
-    console.log(this.windowWidth, this.windowHeight);
-    this.eyeMask.setScale(
-      ((this.windowWidth / this.eyeMask.width) * 2) / 3,
-      ((this.windowHeight / this.eyeMask.height) * 2) / 3
-    );
-    const mask = this.eyeMask.createBitmapMask();
-
-    mask.invertAlpha = true;
-    this.blackBackground.setMask(mask);
-
-    //Load Icons
-    this.icons = [];
-    for (let i = 0; i < this.iconList.length; i++) {
-      this.icons.push(
-        this.add.sprite(
-          this.windowWidth / 2 + (this.windowWidth / 6) * (i - 1),
-          (this.windowHeight / 10) * 9,
-          "icons",
-          this.iconList[i]
-        )
-      );
-      this.icons[i].setDepth(1000);
-      this.icons[i].setScale(this.widthScale, this.heightScale);
-    }
+    // this.blackBackground.setScale(this.widthScale, this.widthScale);
+    this.blackBackground.setMask(this.mask);
   }
 
   public update() {
@@ -255,11 +202,13 @@ export class Chapter1Scene extends FaceDetectorScene {
               this.phonesPosition[this.phoneTrigger[i] - 1].y,
               Detector.default!.translateX * window.innerWidth,
               Detector.default!.translateY * window.innerHeight
-            ) &&
+            )
+            && 
             !this.phoneMap.get(this.phoneTrigger[i])
           ) {
             this.phoneMap.set(this.phoneTrigger[i], true);
-            this.iconTween(this.icons[this.phoneMap.size - 1]);
+            // FIX: Use the new Hidden Objects Model to Hide the 
+            // this.iconTween(this.icons[this.phoneMap.size-1]);
             console.log(this.phoneMap);
           }
         }
