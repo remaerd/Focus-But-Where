@@ -99,14 +99,14 @@ export class PermissionScene extends FaceDetectorScene
 
   private enterGameWithoutCameraPermission()
   {
-    this.defaultUIScene.changeScene('MainMenu');
+    this.defaultUIScene.changeScene('Chapter1');
   }
 
   private async askCameraPermission()
   {
     try {
       await Detector.setup();
-      this.defaultUIScene.changeScene('MainMenu');
+      this.defaultUIScene.changeScene('Chapter1');
     } catch (error) {
       console.log(error);
     }
