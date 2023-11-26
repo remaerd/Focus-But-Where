@@ -1,5 +1,5 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
-import { Detector } from "../faceLandmarkDetector";
+import { Detector } from "../FaceLandmarkDetector";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {

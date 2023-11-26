@@ -1,12 +1,12 @@
-import { Detector } from "./faceLandmarkDetector";
+import { Detector } from "./FaceLandmarkDetector";
 import * as Phaser from "phaser";
 
-import { MainMenuScene } from "./scenes/mainMenuScene";
-import { Chapter1Scene } from "./scenes/chapter1Scene";
-import { Chapter2Scene } from "./scenes/chapter2Scene";
-import { Chapter3Scene } from "./scenes/chapter3Scene";
-import { Chapter4Scene } from "./scenes/chapter4Scene";
-import { Chapter5Scene } from "./scenes/chapter5Scene";
+import { MainMenuScene } from "./Scenes/MainMenuScene";
+import { Chapter1Scene } from "./Scenes/Chapter1Scene";
+import { Chapter2Scene } from "./Scenes/Chapter2Scene";
+import { Chapter3Scene } from "./Scenes/Chapter3Scene";
+import { Chapter4Scene } from "./Scenes/Chapter4Scene";
+import { Chapter5Scene } from "./Scenes/Chapter5Scene";
 import { FaceDetectorScene } from "./FaceDetectorScene";
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
