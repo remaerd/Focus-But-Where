@@ -7,11 +7,10 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   key: "Chapter1",
 };
 
-export class Chapter1Scene extends FaceDetectorScene 
-{
+export class Chapter1Scene extends FaceDetectorScene {
   // Cutscene
-  public title: string = 'Lost in the Flood';
-  public subtitle: string = 'Chapter 1';
+  public title: string = "Lost in the Flood";
+  public subtitle: string = "Chapter 1";
 
   public sceneWidth: number = 4796;
   public sceneHeight: number = 8525;
@@ -78,7 +77,6 @@ export class Chapter1Scene extends FaceDetectorScene
         (this.windowHeight / this.sceneHeight),
     }));
     console.log(this.phonesPosition);
-
 
     //load background
     this.load.multiatlas(
@@ -202,12 +200,11 @@ export class Chapter1Scene extends FaceDetectorScene
               this.phonesPosition[this.phoneTrigger[i] - 1].y,
               Detector.default!.translateX * window.innerWidth,
               Detector.default!.translateY * window.innerHeight
-            )
-            && 
+            ) &&
             !this.phoneMap.get(this.phoneTrigger[i])
           ) {
             this.phoneMap.set(this.phoneTrigger[i], true);
-            // FIX: Use the new Hidden Objects Model to Hide the 
+            // FIX: Use the new Hidden Objects Model to Hide the
             // this.iconTween(this.icons[this.phoneMap.size-1]);
             console.log(this.phoneMap);
           }
