@@ -69,15 +69,7 @@ export class UIScene extends Phaser.Scene
 
   public preload() 
   {
-    this.load.multiatlas(
-      "interface",
-      "/Interface/hidden_object_game_icons_edit.json",
-      "/Interface/"
-    )
-
-    //load eye mask
-    // this.load.image("eyeMask", "Interface/Mask_Eye.svg");
-    // this.load.image('zoomIndicator', 'Interface/Control_Zoom_Indicator.svg');
+    this.load.multiatlas("interface", "/Interface/hidden_object_game_icons_edit.json", "/Interface/");
     this.load.bitmapFont(headlineTypeface, "Fonts/RoadRage_0.png", "Fonts/RoadRage.fnt");
     this.load.bitmapFont(defaultTypeface, "Fonts/Gaegu_0.png", "Fonts/Gaegu.fnt");
   }
@@ -87,8 +79,9 @@ export class UIScene extends Phaser.Scene
     const eyeMask = this.add.image(
       window.innerWidth / 2,
       window.innerHeight / 2,
-      "eyeMask"
+      "interface", "eye_view_01.png"
     );
+    eyeMask.setScale(0.1);
 
     this.eyeMask = eyeMask.createBitmapMask();
     this.eyeMask.invertAlpha = true;

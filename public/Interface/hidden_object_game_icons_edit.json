@@ -4,30 +4,282 @@
 			"image": "hidden_object_game_icons_edit.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 14401,
-				"h": 6168
+				"w": 13828,
+				"h": 5636
 			},
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "hidden object games icons edit.png",
+					"filename": "eye_view_01.png",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 14602,
-						"h": 6341
+						"w": 7542,
+						"h": 5067
 					},
 					"spriteSourceSize": {
-						"x": 8,
-						"y": 38,
-						"w": 14399,
-						"h": 6166
+						"x": 0,
+						"y": 0,
+						"w": 7542,
+						"h": 5067
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 14399,
-						"h": 6166
+						"w": 7542,
+						"h": 5067
+					}
+				},
+				{
+					"filename": "loading_text.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 6288,
+						"h": 3295
+					},
+					"spriteSourceSize": {
+						"x": 4,
+						"y": 0,
+						"w": 6282,
+						"h": 3295
+					},
+					"frame": {
+						"x": 7545,
+						"y": 1,
+						"w": 6282,
+						"h": 3295
+					}
+				},
+				{
+					"filename": "flag_white.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 571,
+						"h": 565
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 571,
+						"h": 565
+					},
+					"frame": {
+						"x": 1,
+						"y": 5070,
+						"w": 571,
+						"h": 565
+					}
+				},
+				{
+					"filename": "oil_white.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 341,
+						"h": 531
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 341,
+						"h": 531
+					},
+					"frame": {
+						"x": 574,
+						"y": 5070,
+						"w": 341,
+						"h": 531
+					}
+				},
+				{
+					"filename": "flowers_white.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 564,
+						"h": 522
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 564,
+						"h": 522
+					},
+					"frame": {
+						"x": 917,
+						"y": 5070,
+						"w": 564,
+						"h": 522
+					}
+				},
+				{
+					"filename": "zoom_ui.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 307,
+						"h": 1926
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 307,
+						"h": 1926
+					},
+					"frame": {
+						"x": 7545,
+						"y": 3298,
+						"w": 307,
+						"h": 1926
+					}
+				},
+				{
+					"filename": "eye_view_02.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1903,
+						"h": 1903
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1903,
+						"h": 1903
+					},
+					"frame": {
+						"x": 7854,
+						"y": 3298,
+						"w": 1903,
+						"h": 1903
+					}
+				},
+				{
+					"filename": "new_object_txt.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 3732,
+						"h": 660
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 3732,
+						"h": 660
+					},
+					"frame": {
+						"x": 9759,
+						"y": 3298,
+						"w": 3732,
+						"h": 660
+					}
+				},
+				{
+					"filename": "cube_shift.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 2480,
+						"h": 1180
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 2480,
+						"h": 1180
+					},
+					"frame": {
+						"x": 9759,
+						"y": 3960,
+						"w": 2480,
+						"h": 1180
+					}
+				},
+				{
+					"filename": "wheel_white.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 832,
+						"h": 578
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 832,
+						"h": 578
+					},
+					"frame": {
+						"x": 12241,
+						"y": 3960,
+						"w": 832,
+						"h": 578
+					}
+				},
+				{
+					"filename": "goggles_white.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 606,
+						"h": 739
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 606,
+						"h": 739
+					},
+					"frame": {
+						"x": 13075,
+						"y": 3960,
+						"w": 606,
+						"h": 739
+					}
+				},
+				{
+					"filename": "fight_white.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 788,
+						"h": 625
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 788,
+						"h": 625
+					},
+					"frame": {
+						"x": 12241,
+						"y": 4540,
+						"w": 788,
+						"h": 625
+					}
+				},
+				{
+					"filename": "brain_white.png",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 525,
+						"h": 578
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 525,
+						"h": 578
+					},
+					"frame": {
+						"x": 13031,
+						"y": 4701,
+						"w": 525,
+						"h": 578
 					}
 				}
 			]
@@ -36,6 +288,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:a398ee987554b4237a20b43cb26332eb:4ad0e4967ef37f9be7cd17a13e6c6a9a:60d95f3e57a544dec4cbb92da77f8845$"
+		"smartupdate": "$TexturePacker:SmartUpdate:9c2132ee6ed8ab515ab20ece35add198:100da2259609103b19a003215ab75294:60d95f3e57a544dec4cbb92da77f8845$"
 	}
 }

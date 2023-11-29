@@ -29,13 +29,7 @@ export class MainMenuScene extends FaceDetectorScene
 		console.log('Preload')
 
 		this.load.image('background', 'Interface/main_menu_edit.png');
-
-
-    this.load.multiatlas(
-      "icons",
-      "/Interface/main_menu_icon_edit.json",
-      "/Interface/"
-    );
+    this.load.multiatlas( "icons", "/Interface/main_menu_icon_edit.json", "/Interface/");
 	}
    
 	public create() 
