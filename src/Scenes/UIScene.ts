@@ -69,9 +69,15 @@ export class UIScene extends Phaser.Scene
 
   public preload() 
   {
+    this.load.multiatlas(
+      "interface",
+      "/Interface/hidden_object_game_icons_edit.json",
+      "/Interface/"
+    )
+
     //load eye mask
-    this.load.image("eyeMask", "Interface/Mask_Eye.svg");
-    this.load.image('zoomIndicator', 'Interface/Control_Zoom_Indicator.svg');
+    // this.load.image("eyeMask", "Interface/Mask_Eye.svg");
+    // this.load.image('zoomIndicator', 'Interface/Control_Zoom_Indicator.svg');
     this.load.bitmapFont(headlineTypeface, "Fonts/RoadRage_0.png", "Fonts/RoadRage.fnt");
     this.load.bitmapFont(defaultTypeface, "Fonts/Gaegu_0.png", "Fonts/Gaegu.fnt");
   }

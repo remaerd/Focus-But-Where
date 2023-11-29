@@ -106,7 +106,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     console.log(this.phonesPosition);
 
     //load eye mask
-    this.load.image("eyeMask", "/EyeMask.svg");
+    // this.load.image("eyeMask", "/EyeMask.svg");
 
     //load background
     this.load.multiatlas(
