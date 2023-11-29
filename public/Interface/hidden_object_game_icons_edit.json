@@ -1,0 +1,41 @@
+{
+	"textures": [
+		{
+			"image": "hidden_object_game_icons_edit.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 14401,
+				"h": 6168
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "hidden object games icons edit.png",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 14602,
+						"h": 6341
+					},
+					"spriteSourceSize": {
+						"x": 8,
+						"y": 38,
+						"w": 14399,
+						"h": 6166
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 14399,
+						"h": 6166
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:a398ee987554b4237a20b43cb26332eb:4ad0e4967ef37f9be7cd17a13e6c6a9a:60d95f3e57a544dec4cbb92da77f8845$"
+	}
+}
