@@ -4,6 +4,7 @@ export default
   base: '/Focus-But-Where/',
   build:
   {
-    outDir: 'docs'
+    outDir: 'docs',
+    minify: false
   }
 }
