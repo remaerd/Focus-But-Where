@@ -1,5 +1,8 @@
 import "@tensorflow/tfjs-backend-webgl";
 import * as faceMesh from "@mediapipe/face_mesh";
+import * as tfjsWasm from '@tensorflow/tfjs-backend-wasm';
+
+tfjsWasm.setWasmPaths(`https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tfjsWasm.version_wasm}/dist/`);
 
 import { Camera } from "./Camera";
 
