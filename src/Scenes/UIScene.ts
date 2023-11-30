@@ -46,12 +46,10 @@ export class UIScene extends Phaser.Scene
   {
 		this.tweens.add({
       targets: object,
-      duration: 2000,
-      // BUG: This block of code scale the objects unportionally. Please Check
-      // scaleX: 1.5*this.widthScale,
-      // scaleY: 1.5*this.heightScale,
-      alpha:0.7,
-      yoyo: true,
+      duration: 1000,
+      scaleX: 0.1,
+      scaleY: 0.1,
+      alpha:0.3,
       repeat: 0,
 		});
 	}
@@ -233,9 +231,14 @@ export class UIScene extends Phaser.Scene
 
   public foundHiddenObject(chapterIndex: integer, objectIndex: integer) 
   {
+    
     const hiddenObject = Defaults.shared.allHiddenObjects[chapterIndex][objectIndex];
-    hiddenObject.isFound = true;
-    this.iconTween(this.hiddenObjectIndicators[objectIndex]);
+    if (!hiddenObject.isFound)
+    {
+      this.iconTween(this.hiddenObjectIndicators[objectIndex]);
+      hiddenObject.isFound = true;
+    }
+    
   }
 
   private resize (): void

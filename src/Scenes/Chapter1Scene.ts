@@ -234,9 +234,7 @@ export class Chapter1Scene extends FaceDetectorScene {
   }
 
   onBlinkStatusChanged(status: BlinkingStatus): void {
-    
-    console.log(status);
-
+ 
     switch (status) {
       case BlinkingStatus.None:
         console.log("None");
@@ -263,7 +261,7 @@ export class Chapter1Scene extends FaceDetectorScene {
           ) {
             this.phoneMap.set(this.phoneTrigger[i], true);
             // FIX: Use the new Hidden Objects Model to Hide the
-            this.defaultUIScene.foundHiddenObject(0, i-1);
+            this.defaultUIScene.foundHiddenObject(0, i);
           }
         }
 
