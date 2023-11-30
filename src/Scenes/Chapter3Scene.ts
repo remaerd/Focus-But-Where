@@ -1,14 +1,16 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
 
+const name = 'Chapter3Scene'
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: "Chapter3Scene",
+  key: name,
 };
 
 export class Chapter3Scene extends FaceDetectorScene 
 {
+  public sceneName: string = name;
   public sceneWidth: number = 8000;
   public sceneHeight: number = 4500;
 

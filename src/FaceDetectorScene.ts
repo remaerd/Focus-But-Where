@@ -13,15 +13,9 @@ export interface IBlinkDetectable
 
 export abstract class FaceDetectorScene extends Scene implements IBlinkDetectable
 {
-	public static config : Phaser.Types.Scenes.SettingsConfig = 
-  {
-    active: false,
-    visible: false,
-    key: this.constructor.name,
-  }  
-
 	// Screen Size
 	public showUserInterface: boolean = true;
+	public abstract sceneName: string;
 	public abstract sceneWidth: number;
 	public abstract sceneHeight: number;
 

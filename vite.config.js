@@ -1,5 +1,9 @@
 // vite.config.js
 export default 
 {
-  base: '/Focus-But-Where/'
+  base: '/Focus-But-Where/',
+  build:
+  {
+    outDir: 'docs'
+  }
 }

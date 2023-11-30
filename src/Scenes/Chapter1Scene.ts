@@ -1,17 +1,21 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
 
+const name = 'Chapter1Scene';
+
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: "Chapter1Scene",
+  key: name,
 };
 
 export class Chapter1Scene extends FaceDetectorScene {
+ 
   // Cutscene
   static title: string = "Lost in the Flood";
   static subtitle: string = "Chapter 1";
 
+  public sceneName: string = name; 
   public sceneWidth: number = 8525;
   public sceneHeight: number = 4796;
 
