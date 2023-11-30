@@ -1,9 +1,6 @@
 import "@tensorflow/tfjs-backend-webgl";
 import * as faceMesh from "@mediapipe/face_mesh";
 
-// Use this to import the FaceMesh Framework to the minifier do not exclude the entire package.
-faceMesh.FACEMESH_LIPS;
-
 import { Camera } from "./Camera";
 
 import {
@@ -49,7 +46,7 @@ export class Detector {
     {
       runtime: 'mediapipe', // or 'tfjs'
       refineLandmarks: true,
-      solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh',
+      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@${faceMesh.VERSION}`,
     }
 
     Detector.default.detector = await createDetector(SupportedModels.MediaPipeFaceMesh, detectorConfig);
