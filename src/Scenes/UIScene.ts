@@ -69,7 +69,7 @@ export class UIScene extends Phaser.Scene
 
   public preload() 
   {
-    this.load.multiatlas("interface", "/Interface/hidden_object_games_icons_edit_packed.json", "/Interface/");
+    this.load.multiatlas("interface", "Interface/hidden_object_games_icons_edit_packed.json", "Interface");
     this.load.bitmapFont(headlineTypeface, "Fonts/RoadRage_0.png", "Fonts/RoadRage.fnt");
     this.load.bitmapFont(defaultTypeface, "Fonts/Gaegu_0.png", "Fonts/Gaegu.fnt");
   }
@@ -213,8 +213,9 @@ export class UIScene extends Phaser.Scene
    */
   hiddenObjectIsFound(object: HiddenObject): void
   {
-    this.hiddenObjectIndicators.indexOf(object)
-		this.iconTween
+    console.log('Object Found');
+    // this.hiddenObjectIndicators.indexOf(object)
+		// this.ic
 	}
 
   private resize (gameSize:any, baseSize:any, displaySize:any, resolution:any): void
