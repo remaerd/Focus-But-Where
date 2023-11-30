@@ -3,15 +3,18 @@ import { Detector } from "../FaceLandmarkDetector";
 import { Chapter1Scene } from "./Chapter1Scene";
 import { bodyFontSize, buttonTextFontSize, defaultTypeface, subtitleFontSize } from "./UIScene";
 
+const name = 'PermissionScene';
+
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {
 	active: false,
 	visible: false,
-	key: 'PermissionScene',
+	key: name,
 };
   
 export class PermissionScene extends FaceDetectorScene
 {
+  public sceneName: string = name;
   static title = undefined;
   static subtitle = undefined;
 

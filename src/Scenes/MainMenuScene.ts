@@ -1,15 +1,17 @@
-import { Data } from "phaser";
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
+
+const name = 'MainMenuScene';
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {
 	active: false,
 	visible: false,
-	key: 'MainMenuScene',
+	key: name,
 };
   
 export class MainMenuScene extends FaceDetectorScene
 {
+	public sceneName: string = name;
 	public title?: string | undefined;
 	public subtitle?: string | undefined;
 	
