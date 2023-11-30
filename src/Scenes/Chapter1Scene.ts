@@ -88,7 +88,8 @@ export class Chapter1Scene extends FaceDetectorScene {
     }
   }
 
-  public create() {
+  public create() 
+  {
     this.backgroundSprites = this.add.group();
     this.phoneSprites = this.add.group();
 
@@ -229,6 +230,9 @@ export class Chapter1Scene extends FaceDetectorScene {
   }
 
   onBlinkStatusChanged(status: BlinkingStatus): void {
+    
+    console.log(status);
+
     switch (status) {
       case BlinkingStatus.None:
         console.log("None");
@@ -255,13 +259,12 @@ export class Chapter1Scene extends FaceDetectorScene {
           ) {
             this.phoneMap.set(this.phoneTrigger[i], true);
             // FIX: Use the new Hidden Objects Model to Hide the
-            // this.iconTween(this.icons[this.phoneMap.size-1]);
-            console.log(this.phoneMap);
+            this.defaultUIScene.foundHiddenObject(0, i-1);
           }
         }
 
         if (this.phoneMap.size === this.phonesPosition.length) {
-          this.scene.start("Chapter2");
+          this.scene.start("Chapter3Scene");
         }
 
         return;

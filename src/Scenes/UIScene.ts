@@ -1,11 +1,7 @@
 import { FaceDetectorScene } from "../FaceDetectorScene";
-import { HiddenObject } from "../Models/HiddenObject";
+import { Detector } from "../FaceLandmarkDetector";
+import { Defaults } from "../Models/Defaults";
 import { PermissionScene } from "./PermissionScene";
-
-export interface IObserver 
-{
-	hiddenObjectIsFound(index: integer, object: HiddenObject): void
-}
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {
@@ -22,7 +18,7 @@ export const bodyFontSize = 22;
 export const buttonTextFontSize = 18;
 export const bubbleTextFontSize = 18;
 
-export class UIScene extends Phaser.Scene 
+export class UIScene extends Phaser.Scene
 {
   public showUserInterface: boolean = false;
 
@@ -42,13 +38,11 @@ export class UIScene extends Phaser.Scene
   private zoomIndicatorBackground!: Phaser.GameObjects.Image;
 
   // Cutscene
-  private cutscene!: Phaser.GameObjects.Container;
-  
   private cutsceneBackground!: Phaser.GameObjects.Rectangle;
   private cutsceneTitleText!: Phaser.GameObjects.BitmapText;
   private cutsceneSubtitleText!: Phaser.GameObjects.BitmapText;
 
-	iconTween = ( object: Phaser.GameObjects.Sprite, ) => 
+	iconTween = ( object: Phaser.GameObjects.Sprite ) => 
   {
 		this.tweens.add({
       targets: object,
@@ -76,30 +70,47 @@ export class UIScene extends Phaser.Scene
 
   public create() 
   {
-    
     this.zoomIndicatorBackground = this.add.image(100,100,"interface", "slider_map.png");
     this.zoomIndicatorBackground.setScale(0.2);
     this.zoomIndicatorBackground.setDepth(1);
+    this.zoomIndicatorBackground.setAlpha(0);
+
+    this.zoomIndicator = this.add.image(100,100,"interface", "slider_eye.png");
+    this.zoomIndicator.setScale(0.2);
+    this.zoomIndicator.setDepth(2);
+    this.zoomIndicator.setAlpha(0);
 
     this.changeScene(PermissionScene);
     this.scale.on('resize', this.resize, this);
+    
   }
 
   public update() 
   {
     // TODO
-    // this.mas.setX(window.innerWidth);
-    // this.eyeMask.setY(window.innerHeight);
+
     if (this.cutsceneBackground)
     {
       this.cutsceneBackground.width = window.innerWidth * 2;
       this.cutsceneBackground.height = window.innerHeight * 2;
     }
+
+    if (Detector.default)
+    {
+      let zoomIndicatorY = (window.innerHeight / 2 - this.zoomIndicatorBackground.height * 0.1 ) + ((this.zoomIndicatorBackground.height - 20) / 4) * (Detector.default!.scale - 1);
+      let minimumY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height * 0.1;
+      let maximumY = this.zoomIndicatorBackground.y + this.zoomIndicatorBackground.height * 0.1 - 40;
+      // console.log(zoomIndicatorY, minimumY, maximumY);
+      
+      if (zoomIndicatorY <= minimumY ) zoomIndicatorY = minimumY;
+      else if (zoomIndicatorY >= maximumY) zoomIndicatorY = maximumY;
+      this.zoomIndicator.y = zoomIndicatorY;
+    }
     
     this.zoomIndicatorBackground.y = window.innerHeight / 2;
   }
 
-  public changeScene(scene: typeof FaceDetectorScene, data?: object)
+  public changeScene(scene: typeof FaceDetectorScene, _data?: object)
   {
     if (scene.title && scene.subtitle) this.showCutscene(scene);
     else this.launchScene(scene);
@@ -108,15 +119,27 @@ export class UIScene extends Phaser.Scene
   private launchScene(scene: typeof FaceDetectorScene)
   {
     this.currentScene = this.scene.get(scene.name) as FaceDetectorScene;
+    console.log('Loading Scene '+ scene.name + ', Activated: ' + this.scene.isActive(scene.name));
     this.scene.launch(this.currentScene);
-    this.scene.sendToBack(this.currentScene);
 
-    switch(scene.name)
+    this.currentScene.load.on('fileprogress', (file: any, progress: any) =>
     {
-      case 'Chapter1Scene': this.reloadIcons(1); break;
-      case 'Chapter3Scene': this.reloadIcons(3); break;
-      default: 
-    }
+      console.log(file, progress);
+    })
+
+    this.currentScene.load.on('complete', () =>
+    {
+      console.log('Launching Scene '+ scene.name);
+      this.scene.setActive(true, scene.name);
+      this.scene.sendToBack(this.currentScene);
+
+      switch(scene.name)
+      { 
+        case 'Chapter1Scene': this.reloadIcons(1); break;
+        case 'Chapter3Scene': this.reloadIcons(3); break;
+        default: 
+      }
+    })
   }
 
   private reloadIcons(chapter: integer = 0)
@@ -133,7 +156,9 @@ export class UIScene extends Phaser.Scene
 
     if (chapter != 0)
     {
-      const hiddenObjects = HiddenObject.allHiddenObjects[chapter-1];
+      this.zoomIndicator.setAlpha(1);
+      this.zoomIndicatorBackground.setAlpha(1);
+      const hiddenObjects = Defaults.shared.allHiddenObjects[chapter-1];
       for (let i = 0; i < hiddenObjects.length; i++)
       {
         this.hiddenObjectIndicators.push(
@@ -176,7 +201,6 @@ export class UIScene extends Phaser.Scene
     this.cutsceneSubtitleText.setDepth(102);
     this.cutsceneSubtitleText.alpha = 0;
     
-    
     this.tweens.add({
       targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
       duration: 700,
@@ -207,18 +231,14 @@ export class UIScene extends Phaser.Scene
     }, [], this);
   }
 
-  /**
-   * Will demonstrate pop-up when hidden object found
-   * @param object Founded Hidden Object 
-   */
-  hiddenObjectIsFound(object: HiddenObject): void
+  public foundHiddenObject(chapterIndex: integer, objectIndex: integer) 
   {
-    console.log('Object Found');
-    // this.hiddenObjectIndicators.indexOf(object)
-		// this.ic
-	}
+    const hiddenObject = Defaults.shared.allHiddenObjects[chapterIndex][objectIndex];
+    hiddenObject.isFound = true;
+    this.iconTween(this.hiddenObjectIndicators[objectIndex]);
+  }
 
-  private resize (gameSize:any, baseSize:any, displaySize:any, resolution:any): void
+  private resize (): void
   {
     if (this.currentScene == undefined) return;
 
