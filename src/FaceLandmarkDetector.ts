@@ -2,7 +2,7 @@ import "@tensorflow/tfjs-backend-webgl";
 import * as faceMesh from "@mediapipe/face_mesh";
 
 // Use this to import the FaceMesh Framework to the minifier do not exclude the entire package.
-const _fakeImport = new faceMesh.FaceMesh();
+faceMesh.FACEMESH_LIPS;
 
 import { Camera } from "./Camera";
 
