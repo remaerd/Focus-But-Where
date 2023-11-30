@@ -1,11 +1,6 @@
 import "@tensorflow/tfjs-backend-webgl";
 
 import * as faceMesh from "@mediapipe/face_mesh";
-import * as tensorflow from "@tensorflow/tfjs-backend-wasm";
-
-tensorflow.setWasmPaths(
-  `https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tensorflow.version_wasm}/dist/`
-);
 
 import { Camera } from "./Camera";
 
@@ -72,7 +67,7 @@ export class Detector {
 
     const panelUpdateMilliseconds = 1000;
     if (endInferenceTime - this.lastPanelUpdate >= panelUpdateMilliseconds) {
-      const averageInferenceTime = this.inferenceTimeSum / this.numInferences;
+      // const averageInferenceTime = this.inferenceTimeSum / this.numInferences;
       this.inferenceTimeSum = 0;
       this.numInferences = 0;
       this.lastPanelUpdate = endInferenceTime;

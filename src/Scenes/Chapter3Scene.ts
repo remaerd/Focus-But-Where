@@ -1,4 +1,4 @@
-import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
+import { FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
 
 const name = 'Chapter3Scene'
