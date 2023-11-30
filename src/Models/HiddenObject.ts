@@ -15,22 +15,23 @@ export class HiddenObject implements IObservable
 {
 	static allHiddenObjects: Array<HiddenObject>[] = [
 		// Chapter 1
-		[new HiddenObject("","",""),
-		new HiddenObject("","",""),
-		new HiddenObject("","","")],
+		[new HiddenObject("oil","","",""),
+		new HiddenObject("flag","","",""),
+		new HiddenObject("flowers","","","")],
 		// Chapter 2
 		[],
 		// Chapter 3
-		[new HiddenObject("","",""),
-		new HiddenObject("","",""),
-		new HiddenObject("","",""),
-		new HiddenObject("","","")],
+		[new HiddenObject("goggles","","",""),
+		new HiddenObject("wheel","","",""),
+		new HiddenObject("fight","","",""),
+		new HiddenObject("brain","","","")],
 		// Chapter 4
 		[],
 		// Chapter 5
 		[],
 	];
 
+	public imageName: string;
 	public name: string;
 	public description: string;
 	public referenceLink: string;
@@ -40,9 +41,10 @@ export class HiddenObject implements IObservable
 	// The Subject (a.k.a Observable)
 	#observers: Set<IObserver>
 	
-	constructor(name: string, description: string, referenceLink: string)
+	constructor(imageName: string, name: string, description: string, referenceLink: string)
 	{
 		this.#observers = new Set()
+		this.imageName = imageName;
 		this.name = name;
 		this.description = description;
 		this.referenceLink = referenceLink;

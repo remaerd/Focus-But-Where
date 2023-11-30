@@ -4,13 +4,13 @@ import { Detector } from "../FaceLandmarkDetector";
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: "Chapter1",
+  key: "Chapter1Scene",
 };
 
 export class Chapter1Scene extends FaceDetectorScene {
   // Cutscene
-  public title: string = "Lost in the Flood";
-  public subtitle: string = "Chapter 1";
+  static title: string = "Lost in the Flood";
+  static subtitle: string = "Chapter 1";
 
   public sceneWidth: number = 8525;
   public sceneHeight: number = 4796;

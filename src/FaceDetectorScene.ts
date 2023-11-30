@@ -13,14 +13,21 @@ export interface IBlinkDetectable
 
 export abstract class FaceDetectorScene extends Scene implements IBlinkDetectable
 {
+	public static config : Phaser.Types.Scenes.SettingsConfig = 
+  {
+    active: false,
+    visible: false,
+    key: this.constructor.name,
+  }  
+
 	// Screen Size
 	public showUserInterface: boolean = true;
 	public abstract sceneWidth: number;
 	public abstract sceneHeight: number;
 
 	// Scene Title / Description
-	public abstract title?: string;
-	public abstract subtitle?: string;
+	static title?: string;
+	static subtitle?: string;
 	
 	public get windowWidth() : number { return window.innerWidth }
 	public get windowHeight() : number { return window.innerHeight }
@@ -40,7 +47,13 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	public get mask() : Phaser.Display.Masks.BitmapMask 
 	{
-		return (this.scene.get('UserInterface') as UIScene).eyeMask
+		const eyeMaskImage = this.add.image( window.innerWidth / 2, window.innerHeight / 2, "interface", "eye_view_01.png");
+    eyeMaskImage.setScale(0.11);
+
+    const eyeMask = this.add.bitmapMask(eyeMaskImage);
+    eyeMask.invertAlpha = true;
+
+		return eyeMask;
 	}
 
 	constructor(config: Phaser.Types.Scenes.SettingsConfig) 

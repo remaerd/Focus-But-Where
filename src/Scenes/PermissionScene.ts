@@ -1,18 +1,19 @@
 import { FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
+import { Chapter1Scene } from "./Chapter1Scene";
 import { bodyFontSize, buttonTextFontSize, defaultTypeface, subtitleFontSize } from "./UIScene";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
 {
 	active: false,
 	visible: false,
-	key: 'Permission',
+	key: 'PermissionScene',
 };
   
 export class PermissionScene extends FaceDetectorScene
 {
-  public title = undefined;
-  public subtitle = undefined;
+  static title = undefined;
+  static subtitle = undefined;
 
   public sceneWidth: number = 1920;
   public sceneHeight: number = 1080;
@@ -99,14 +100,14 @@ export class PermissionScene extends FaceDetectorScene
 
   private enterGameWithoutCameraPermission()
   {
-    this.defaultUIScene.changeScene('Chapter1');
+    this.defaultUIScene.changeScene(Chapter1Scene);
   }
 
   private async askCameraPermission()
   {
     try {
       await Detector.setup();
-      this.defaultUIScene.changeScene('Chapter1');
+      this.defaultUIScene.changeScene(Chapter1Scene);
     } catch (error) {
       console.log(error);
     }
