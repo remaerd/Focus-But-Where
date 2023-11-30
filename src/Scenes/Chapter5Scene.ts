@@ -2,7 +2,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 {
 	active: false,
 	visible: false,
-	key: 'Chapter5',
+	key: 'Chapter5Scene',
 };
   
 export class Chapter5Scene extends Phaser.Scene 

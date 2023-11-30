@@ -5,7 +5,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 {
 	active: false,
 	visible: false,
-	key: 'MainMenu',
+	key: 'MainMenuScene',
 };
   
 export class MainMenuScene extends FaceDetectorScene

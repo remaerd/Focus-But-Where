@@ -1,29 +1,25 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
+import { Detector } from "../FaceLandmarkDetector";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   active: false,
   visible: false,
-  key: "Chapter3",
+  key: "Chapter3Scene",
 };
 
-export class Chapter3Scene extends FaceDetectorScene {
-  public sceneWidth: number = 1920;
-  public sceneHeight: number = 1080;
+export class Chapter3Scene extends FaceDetectorScene 
+{
+  public sceneWidth: number = 8000;
+  public sceneHeight: number = 4500;
 
   // Cutscene
   public title: string = "Lost in the Flood";
-  public subtitle: string = "Chapter 1";
+  public subtitle: string = "Chapter 3";
 
   private depth = 1;
-  private windowWidth = window.innerWidth;
-  private windowHeight = window.innerHeight;
-
-  private backgroundImageWidth = 8000;
-  private backgroundImageHeight = 4500;
-
-  private widthScale = this.windowWidth / this.backgroundImageWidth;
-  private heightScale = this.windowHeight / this.backgroundImageHeight;
-
+  private background! : Phaser.GameObjects.Image;
+  private blackBackground!: Phaser.GameObjects.Rectangle;
+  
   private iconList = [
     "icons/fight.png",
     "icons/wheel.png",
@@ -38,8 +34,6 @@ export class Chapter3Scene extends FaceDetectorScene {
 
   public preload() {
     console.log("Preload");
-    //load eyeMask
-    this.load.image("eyeMask", "/EyeMask.svg");
 
     //load chapter_3_factory
     this.load.multiatlas(
@@ -73,22 +67,7 @@ export class Chapter3Scene extends FaceDetectorScene {
       0x000000
     );
     this.blackBackground.setDepth(100);
-
-    this.eyeMask = this.add.image(
-      this.windowWidth / 2,
-      this.windowHeight / 2,
-      "eyeMask"
-    );
-    console.log(this.eyeMask.width, this.eyeMask.height);
-    console.log(this.windowWidth, this.windowHeight);
-    this.eyeMask.setScale(
-      ((this.windowWidth / this.eyeMask.width) * 2) / 3,
-      ((this.windowHeight / this.eyeMask.height) * 2) / 3
-    );
-    const mask = this.eyeMask.createBitmapMask();
-
-    mask.invertAlpha = true;
-    this.blackBackground.setMask(mask);
+    this.blackBackground.setMask(this.mask);
 
     //load icons
     this.icons = [];
