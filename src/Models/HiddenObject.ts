@@ -61,7 +61,7 @@ export class HiddenObject implements IObservable
 
 	notify() {
 		this.#observers.forEach((observer) => {
-				observer.hiddenObjectIsFound(this);
+				observer.hiddenObjectIsFound(0,this);
 		})
 	}
 }
