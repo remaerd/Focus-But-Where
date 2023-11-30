@@ -47,7 +47,7 @@ export class Detector {
     {
       runtime: 'mediapipe', // or 'tfjs'
       refineLandmarks: true,
-      solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh',
+      solutionPath: './facemesh.js',
     }
 
     Detector.default.detector = await createDetector(SupportedModels.MediaPipeFaceMesh, detectorConfig);
