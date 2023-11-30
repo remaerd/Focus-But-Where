@@ -5,6 +5,5 @@ export default
   build:
   {
     outDir: 'docs',
-    minify: false
   }
 }
