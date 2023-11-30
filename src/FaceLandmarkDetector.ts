@@ -43,16 +43,14 @@ export class Detector {
 
     await Camera.setup();
 
-    let config: MediaPipeFaceMeshMediaPipeModelConfig = {
-      runtime: "mediapipe",
+    const detectorConfig : MediaPipeFaceMeshMediaPipeModelConfig = 
+    {
+      runtime: 'mediapipe', // or 'tfjs'
       refineLandmarks: true,
-      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@${faceMesh.VERSION}`,
-    };
-    Detector.default.detector = await createDetector(
-      SupportedModels.MediaPipeFaceMesh,
-      config
-    );
+      solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh',
+    }
 
+    Detector.default.detector = await createDetector(SupportedModels.MediaPipeFaceMesh, detectorConfig);
     await Detector!.default!.renderPrediction();
   }
 
