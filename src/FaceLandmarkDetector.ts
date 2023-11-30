@@ -1,5 +1,4 @@
 import "@tensorflow/tfjs-backend-webgl";
-
 import * as faceMesh from "@mediapipe/face_mesh";
 
 import { Camera } from "./Camera";
