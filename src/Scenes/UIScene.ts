@@ -129,11 +129,11 @@ export class UIScene extends Phaser.Scene
 
     this.currentScene.load.on('complete', () =>
     {
-      console.log('Launching Scene '+ scene.name);
-      this.scene.setActive(true, scene.name);
+      console.log('Launching Scene '+ scene.sceneName);
+      this.scene.setActive(true, scene.sceneName);
       this.scene.sendToBack(this.currentScene);
 
-      switch(scene.name)
+      switch(scene.sceneName)
       { 
         case 'Chapter1Scene': this.reloadIcons(1); break;
         case 'Chapter3Scene': this.reloadIcons(3); break;
