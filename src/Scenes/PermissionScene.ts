@@ -14,7 +14,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
   
 export class PermissionScene extends FaceDetectorScene
 {
-  public sceneName: string = name;
+  public static sceneName: string = name;
   static title = undefined;
   static subtitle = undefined;
 

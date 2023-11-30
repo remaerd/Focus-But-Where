@@ -11,7 +11,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
   
 export class MainMenuScene extends FaceDetectorScene
 {
-	public sceneName: string = name;
+	public static sceneName: string = name;
 	public title?: string | undefined;
 	public subtitle?: string | undefined;
 	

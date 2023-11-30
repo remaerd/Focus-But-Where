@@ -10,7 +10,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 
 export class Chapter3Scene extends FaceDetectorScene 
 {
-  public sceneName: string = name;
+  public static sceneName: string = name;
   public sceneWidth: number = 8000;
   public sceneHeight: number = 4500;
 

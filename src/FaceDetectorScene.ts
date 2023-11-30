@@ -15,7 +15,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 {
 	// Screen Size
 	public showUserInterface: boolean = true;
-	public abstract sceneName: string;
+	public static sceneName: string;
 	public abstract sceneWidth: number;
 	public abstract sceneHeight: number;
 

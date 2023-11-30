@@ -15,7 +15,7 @@ export class Chapter1Scene extends FaceDetectorScene {
   static title: string = "Lost in the Flood";
   static subtitle: string = "Chapter 1";
 
-  public sceneName: string = name; 
+  public static sceneName: string = name; 
   public sceneWidth: number = 8525;
   public sceneHeight: number = 4796;
 

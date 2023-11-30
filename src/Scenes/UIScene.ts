@@ -118,8 +118,8 @@ export class UIScene extends Phaser.Scene
 
   private launchScene(scene: typeof FaceDetectorScene)
   {
-    this.currentScene = this.scene.get(scene.name) as FaceDetectorScene;
-    console.log('Loading Scene '+ scene.name + ', Activated: ' + this.scene.isActive(scene.name));
+    this.currentScene = this.scene.get(scene.sceneName) as FaceDetectorScene;
+    console.log('Loading Scene '+ scene.sceneName + ', Activated: ' + this.scene.isActive(scene.sceneName));
     this.scene.launch(this.currentScene);
 
     this.currentScene.load.on('fileprogress', (file: any, progress: any) =>
