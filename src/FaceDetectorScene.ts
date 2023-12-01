@@ -11,13 +11,13 @@ export interface IBlinkDetectable
 	sizer: Phaser.Structs.Size;
 }
 
-export abstract class FaceDetectorScene extends Scene implements IBlinkDetectable
+export class FaceDetectorScene extends Scene implements IBlinkDetectable
 {
 	// Screen Size
 	public showUserInterface: boolean = true;
 	public static sceneName: string;
-	public abstract sceneWidth: number;
-	public abstract sceneHeight: number;
+	public sceneWidth: number = 1920;
+	public sceneHeight: number = 1080;
 
 	// Scene Title / Description
 	static title?: string;
@@ -32,7 +32,6 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 	public sceneStopped = false;
 	public parent!: Phaser.Structs.Size;
 	public sizer!: Phaser.Structs.Size;
-
 	
 	public get defaultUIScene() : UIScene 
 	{
@@ -62,12 +61,12 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
    
 	public create() 
 	{
-		// TODO
+		
 	}
    
 	public update() 
 	{
-	  // TODO
+		
 	}
 
 	onBlinkStatusChanged(status: BlinkingStatus): void 

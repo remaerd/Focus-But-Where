@@ -28,7 +28,7 @@ export class Chapter3Scene extends FaceDetectorScene
     "icons/brain.png",
     "icons/goggles.png",
   ];
-  private icons!: Phaser.GameObjects.Sprite[];
+  // private icons!: Phaser.GameObjects.Sprite[];
 
   constructor() {
     super(sceneConfig);
@@ -72,19 +72,19 @@ export class Chapter3Scene extends FaceDetectorScene
     this.blackBackground.setMask(this.mask);
 
     //load icons
-    this.icons = [];
-    for (let i = 0; i < this.iconList.length; i++) {
-      this.icons.push(
-        this.add.sprite(
-          this.windowWidth / 2 + (this.windowWidth / 8) * (i - 1.5),
-          (this.windowHeight / 10) * 9,
-          "chapter_3_factory",
-          this.iconList[i]
-        )
-      );
-      this.icons[i].setScale(this.widthScale, this.heightScale);
-      this.icons[i].setDepth(1000);
-    }
+    // this.icons = [];
+    // for (let i = 0; i < this.iconList.length; i++) {
+    //   this.icons.push(
+    //     this.add.sprite(
+    //       this.windowWidth / 2 + (this.windowWidth / 8) * (i - 1.5),
+    //       (this.windowHeight / 10) * 9,
+    //       "chapter_3_factory",
+    //       this.iconList[i]
+    //     )
+    //   );
+    //   this.icons[i].setScale(this.widthScale, this.heightScale);
+    //   this.icons[i].setDepth(1000);
+    // }
   }
 
   public update() {

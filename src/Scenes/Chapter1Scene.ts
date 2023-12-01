@@ -1,5 +1,7 @@
 import { BlinkingStatus, FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
+import { Defaults } from "../Models/Defaults";
+import { Chapter3Scene } from "./Chapter3Scene";
 
 const name = 'Chapter1Scene';
 
@@ -92,8 +94,10 @@ export class Chapter1Scene extends FaceDetectorScene {
     }
   }
 
-  public create() 
+  public override create() 
   {
+    super.create();
+
     this.backgroundSprites = this.add.group();
     this.phoneSprites = this.add.group();
 
@@ -211,8 +215,8 @@ export class Chapter1Scene extends FaceDetectorScene {
   }
 
   public update() {
-    // TODO
 
+    super.update();
     this.blackBackground.width = this.windowWidth;
     this.blackBackground.height = this.windowHeight;
 
@@ -240,7 +244,8 @@ export class Chapter1Scene extends FaceDetectorScene {
         console.log("None");
         return;
       case BlinkingStatus.LeftEye:
-        console.log("LeftEye");
+        this.checkInteraction();
+        console.log("Left Eye");
         return;
       case BlinkingStatus.RightEye:
         console.log(
@@ -248,31 +253,37 @@ export class Chapter1Scene extends FaceDetectorScene {
           Detector.default!.translateX * window.innerWidth,
           Detector.default!.translateY * window.innerHeight
         );
-
-        for (let i = 0; i < this.phoneTrigger.length; i++) {
-          if (
-            this.isNear(
-              this.phonesPosition[this.phoneTrigger[i] - 1].x,
-              this.phonesPosition[this.phoneTrigger[i] - 1].y,
-              Detector.default!.translateX * window.innerWidth,
-              Detector.default!.translateY * window.innerHeight
-            ) &&
-            !this.phoneMap.get(this.phoneTrigger[i])
-          ) {
-            this.phoneMap.set(this.phoneTrigger[i], true);
-            // FIX: Use the new Hidden Objects Model to Hide the
-            this.defaultUIScene.foundHiddenObject(0, i);
-          }
-        }
-
-        if (this.phoneMap.size === this.phonesPosition.length) {
-          this.scene.start("Chapter3Scene");
-        }
-
+        this.checkInteraction();
         return;
       case BlinkingStatus.Both:
         console.log("Both");
         return;
+    }
+  }
+
+  checkInteraction()
+  {
+    for (let i = 0; i < this.phoneTrigger.length; i++) {
+      if (
+        this.isNear(
+          this.phonesPosition[this.phoneTrigger[i] - 1].x,
+          this.phonesPosition[this.phoneTrigger[i] - 1].y,
+          Detector.default!.translateX * window.innerWidth,
+          Detector.default!.translateY * window.innerHeight
+        ) &&
+        !this.phoneMap.get(this.phoneTrigger[i])
+      ) {
+        this.phoneMap.set(this.phoneTrigger[i], true);
+        // FIX: Use the new Hidden Objects Model to Hide the
+        
+        this.defaultUIScene.foundHiddenObject(0, i);
+      }
+    }
+
+    const hiddenObjects = Defaults.shared.allHiddenObjects[0];
+    if (hiddenObjects[0].isFound,hiddenObjects[1].isFound,hiddenObjects[2].isFound) 
+    {
+      this.defaultUIScene.changeScene(Chapter3Scene);
     }
   }
 }

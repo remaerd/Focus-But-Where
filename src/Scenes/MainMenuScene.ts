@@ -34,22 +34,22 @@ export class MainMenuScene extends FaceDetectorScene
 	private allButtonSprites!: Phaser.GameObjects.Group;
 	
 	private interactionPosition = [
-    { x: 833.56, y: -1913.68 }, // Play Button
-    { x: 2475.68, y: -1279.96 }, // Music Button
-    { x: -629.34, y: -838.02 }, // Sound Button
-    { x: 350.1, y: -612.88 }, // Refresh Button
-    { x: -475.138, y: -120.91 }, // Subtitle Button
-    { x: 516.81, y: -112.57 }, // Control Button
-    { x: -1271.18, y: 341.88 }, // Hidden Object - 1
-    { x: 33.34, y: 358.55 }, // Hidden Object - 2
-    { x: -129.2, y: 1438.39 }, // Hidden Object - 3
-		{ x: -1271.18, y: 341.88 }, // Hidden Object - 4
-    { x: 33.34, y: 358.55 }, // Hidden Object - 5
-    { x: -129.2, y: 1438.39 }, // Hidden Object - 6
-		{ x: -1271.18, y: 341.88 }, // Hidden Object - 7
+    { x: -500, y: -400 }, // Play Button
+    { x: -1680, y: 1210 }, // Music Button
+    { x: -980, y: 1650 }, // Sound Button
+    { x: 1500, y: 1810 }, // Refresh Button
+    { x: 1300, y: 1100 }, // Subtitle Button
+    { x: 400, y: 1380 }, // Control Button
+    { x: -2800, y: 150 }, // Hidden Object - 1
+    { x: -2500, y: -1100 }, // Hidden Object - 2
+    { x: -1200, y: -1600 }, // Hidden Object - 3
+		{ x: 1500, y: 100 }, // Hidden Object - 4
+    { x: 3100, y: -550 }, // Hidden Object - 5
+    { x: 1600, y: -1250 }, // Hidden Object - 6
+		{ x: 3100, y: -1900 }, // Hidden Object - 7
   ];
 
-	private scope = 150;
+	private scope = 250;
 
 	isNear = (x1: number, y1: number, x2: number, y2: number) => {
     return Math.abs(x1 - x2) < this.scope && Math.abs(y1 - y2) < this.scope;
@@ -68,13 +68,13 @@ export class MainMenuScene extends FaceDetectorScene
     this.load.multiatlas( "icons", "/Interface/main_menu_icons_edit.json", "/Interface/");
 	}
    
-	public create() 
+	public override create() 
 	{
 		super.create();
 
 		this.background = this.add.sprite(0,0,'background');
+		this.background.setScale(0.1);
 		this.background.setOrigin(0.5,0.5);
-		this.background.setScale(0.5);
 		this.background.setDepth(this.depth);
 
 		this.interactionPosition = this.interactionPosition.map((position) => ({
@@ -207,47 +207,37 @@ export class MainMenuScene extends FaceDetectorScene
 
 	onBlinkStatusChanged(status: BlinkingStatus): void {
  
+		console.log(status);
     switch (status) {
-      case BlinkingStatus.None:
-        console.log("None");
-        return;
-      case BlinkingStatus.LeftEye:
-        console.log("LeftEye");
-        return;
-      case BlinkingStatus.RightEye:
-        console.log(
-          "RightEye",
-          Detector.default!.translateX * window.innerWidth,
-          Detector.default!.translateY * window.innerHeight
-        );
-
-				for (let i = 0; i < this.interactionPosition.length; i++)
-				{
-					if (this.isNear(
-						this.interactionPosition[i].x,
-            this.interactionPosition[i].y,
-						Detector.default!.translateX * window.innerWidth,
-            Detector.default!.translateY * window.innerHeight
-					))
-					{
-						switch(i)
-						{
-							case 0: this.resetAndPlayGame(); break;
-							case 1: this.triggerMusic(); break;
-							case 2: this.triggerSound(); break;
-							case 3: this.triggerRefresh(); break;
-							case 4: this.triggerSubtitle(); break;
-							case 5: this.triggerControl(); break;
-							default: this.triggerHiddenObject(i); break;
-						}
-					}
-				}
-        return;
-      case BlinkingStatus.Both:
-        console.log("Both");
-        return;
+      case BlinkingStatus.LeftEye: this.checkInteraction(); break;
+			case BlinkingStatus.RightEye: this.checkInteraction(); break;
     }
   }
+
+	private checkInteraction()
+	{
+		for (let i = 0; i < this.interactionPosition.length; i++)
+		{
+			if (this.isNear(
+				this.interactionPosition[i].x,
+				this.interactionPosition[i].y,
+				Detector.default!.translateX * window.innerWidth,
+				Detector.default!.translateY * window.innerHeight
+			))
+			{
+				switch(i)
+				{
+					case 0: this.resetAndPlayGame(); break;
+					case 1: this.triggerMusic(); break;
+					case 2: this.triggerSound(); break;
+					case 3: this.triggerRefresh(); break;
+					case 4: this.triggerSubtitle(); break;
+					case 5: this.triggerControl(); break;
+					default: this.triggerHiddenObject(i); break;
+				}
+			}
+		}
+	}
 
 	private resetAndPlayGame()
 	{

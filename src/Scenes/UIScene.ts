@@ -37,6 +37,8 @@ export class UIScene extends Phaser.Scene
   private zoomIndicator!: Phaser.GameObjects.Image;
   private zoomIndicatorBackground!: Phaser.GameObjects.Image;
 
+  private flashBackground!: Phaser.GameObjects.Rectangle;
+
   // Cutscene
   private cutsceneBackground!: Phaser.GameObjects.Rectangle;
   private cutsceneTitleText!: Phaser.GameObjects.BitmapText;
@@ -80,12 +82,18 @@ export class UIScene extends Phaser.Scene
 
     this.changeScene(PermissionScene);
     this.scale.on('resize', this.resize, this);
-    
+
+    this.flashBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0xffffff);
+		this.flashBackground.alpha = 0;
+		this.flashBackground.setDepth(200);
   }
 
   public update() 
   {
     // TODO
+
+    this.flashBackground.width = window.innerWidth * 2;
+    this.flashBackground.height = window.innerHeight * 2;
 
     if (this.cutsceneBackground)
     {
@@ -239,14 +247,18 @@ export class UIScene extends Phaser.Scene
 
   public foundHiddenObject(chapterIndex: integer, objectIndex: integer) 
   {
-    
     const hiddenObject = Defaults.shared.allHiddenObjects[chapterIndex][objectIndex];
     if (!hiddenObject.isFound)
     {
       this.iconTween(this.hiddenObjectIndicators[objectIndex]);
+      this.flashBackground.alpha = 1;
+      this.tweens.add({
+        targets: [this.flashBackground],
+        duration: 1000,
+        alpha:0,
+      });
       hiddenObject.isFound = true;
     }
-    
   }
 
   private resize (): void

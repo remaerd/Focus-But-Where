@@ -196,7 +196,8 @@ export class Detector {
         this.blinkingStatus = this._previousBlink;
         this.blinkConfirmationDelay = 0;
         let currentScene = (game.scene.getAt(0) as FaceDetectorScene);
-        if (currentScene) {
+        if (currentScene && currentScene.onBlinkStatusChanged) 
+        {
           currentScene.onBlinkStatusChanged(this.blinkingStatus);
         }
       } else if (newBlink != this._previousBlink) {
