@@ -217,6 +217,7 @@ export class Chapter1Scene extends FaceDetectorScene {
   public update() {
 
     super.update();
+    
     this.blackBackground.width = this.windowWidth;
     this.blackBackground.height = this.windowHeight;
 

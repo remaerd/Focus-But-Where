@@ -1,6 +1,7 @@
 import { FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
 import { Defaults } from "../Models/Defaults";
+import { MainMenuScene } from "./MainMenuScene";
 import { PermissionScene } from "./PermissionScene";
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
@@ -43,6 +44,8 @@ export class UIScene extends Phaser.Scene
   private cutsceneBackground!: Phaser.GameObjects.Rectangle;
   private cutsceneTitleText!: Phaser.GameObjects.BitmapText;
   private cutsceneSubtitleText!: Phaser.GameObjects.BitmapText;
+
+  private mainMenuBackCountdown? : Phaser.Time.TimerEvent
 
 	iconTween = ( object: Phaser.GameObjects.Sprite ) => 
   {
@@ -106,10 +109,23 @@ export class UIScene extends Phaser.Scene
       let zoomIndicatorY = (window.innerHeight / 2 - this.zoomIndicatorBackground.height * 0.1 ) + ((this.zoomIndicatorBackground.height - 20) / 4) * (Detector.default!.scale - 1);
       let minimumY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height * 0.1;
       let maximumY = this.zoomIndicatorBackground.y + this.zoomIndicatorBackground.height * 0.1 - 40;
-      // console.log(zoomIndicatorY, minimumY, maximumY);
       
+      // if (typeof this.currentScene != MainMenuScene.name && !this.mainMenuBackCountdown && zoomIndicatorY >= maximumY)
+      // {
+      //   this.showMainMenuCountdown();
+      // }
+      // else if (typeof this.currentScene != MainMenuScene.name && this.mainMenuBackCountdown)
+      // {
+      //   this.hideCountdownMenu();
+      // }
+
       if (zoomIndicatorY <= minimumY ) zoomIndicatorY = minimumY;
-      else if (zoomIndicatorY >= maximumY) zoomIndicatorY = maximumY;
+      else if (zoomIndicatorY >= maximumY)
+      {
+        zoomIndicatorY = maximumY;
+
+        
+      }
       this.zoomIndicator.y = zoomIndicatorY;
     }
     
@@ -134,26 +150,30 @@ export class UIScene extends Phaser.Scene
   {
     this.currentScene = this.scene.get(scene.sceneName) as FaceDetectorScene;
     console.log('Loading Scene '+ scene.sceneName + ', Activated: ' + this.scene.isActive(scene.sceneName));
-    this.scene.launch(this.currentScene);
 
-    this.currentScene.load.on('fileprogress', (file: any, progress: any) =>
+    if (this.scene.isPaused(scene.sceneName))
     {
-      // console.log(file, progress);
-    })
-
-    this.currentScene.load.on('complete', () =>
-    {
-      console.log('Launching Scene '+ scene.sceneName);
-      this.scene.setActive(true, scene.sceneName);
+      this.scene.start(scene.sceneName);
       this.scene.sendToBack(this.currentScene);
+    }
+    else
+    {
+      this.scene.launch(this.currentScene);
+    
+      this.currentScene.load.on('complete', () =>
+      {
+        console.log('Launching Scene '+ scene.sceneName);
+        this.scene.setActive(true, scene.sceneName);
+        this.scene.sendToBack(this.currentScene);
 
-      switch(scene.sceneName)
-      { 
-        case 'Chapter1Scene': this.reloadIcons(1); break;
-        case 'Chapter3Scene': this.reloadIcons(3); break;
-        default: 
-      }
-    })
+        switch(scene.sceneName)
+        { 
+          case 'Chapter1Scene': this.reloadIcons(1); break;
+          case 'Chapter3Scene': this.reloadIcons(3); break;
+          default: 
+        }
+      })
+    }
   }
 
   private reloadIcons(chapter: integer = 0)
@@ -188,6 +208,67 @@ export class UIScene extends Phaser.Scene
     };
   }
 
+  createCutscene(title: string, subtitle: string)
+  {
+    this.cutsceneBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0x000000);
+    this.cutsceneBackground.setDepth(100);
+    this.cutsceneBackground.alpha = 0;
+
+    this.cutsceneTitleText = this.add.bitmapText(0,0,headlineTypeface, title, headlineFontSize);
+    this.cutsceneTitleText.tint = 0xffffff;
+    this.cutsceneTitleText.x = window.innerWidth / 2 - this.cutsceneTitleText.width / 2
+    this.cutsceneTitleText.y = window.innerHeight / 2 - this.cutsceneTitleText.height / 2
+    this.cutsceneTitleText.setDepth(101);
+    this.cutsceneTitleText.alpha = 0;
+
+    this.cutsceneSubtitleText = this.add.bitmapText(0,0,defaultTypeface, subtitle.toUpperCase(), subtitleFontSize);
+    this.cutsceneSubtitleText.letterSpacing = 0.5;
+    this.cutsceneSubtitleText.tint = 0xffffff;
+    this.cutsceneSubtitleText.x = window.innerWidth / 2 - this.cutsceneSubtitleText.width / 2
+    this.cutsceneSubtitleText.y = window.innerHeight / 2 + this.cutsceneTitleText.height / 2
+    this.cutsceneSubtitleText.setDepth(102);
+    this.cutsceneSubtitleText.alpha = 0;
+  }
+
+  showMainMenuCountdown()
+  {
+    this.createCutscene('10', 'Continue?');
+    var countdown = 10; 
+    this.mainMenuBackCountdown = this.time.addEvent({
+      delay:1000, 
+      loop: true,
+      callback: () =>
+      {
+        this.add.bitmapText(0,0,headlineTypeface, countdown.toString(0), headlineFontSize);
+        this.cutsceneTitleText.tint = 0xffffff;
+        countdown - 1;
+      },
+    })
+    this.tweens.add({
+      targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+      duration: 700,
+      alpha:1,
+    });
+
+    this.time.delayedCall(10000, () => 
+    {
+      this.mainMenuBackCountdown?.destroy();
+      this.cutsceneBackground.removedFromScene();
+      this.cutsceneTitleText.removedFromScene();
+      this.cutsceneSubtitleText.removedFromScene();
+      console.log("Mobing back to MainMenu");
+      this.changeScene(MainMenuScene);
+    }, [], this);
+  }
+
+  hideCountdownMenu()
+  {
+    this.mainMenuBackCountdown?.destroy();
+    this.cutsceneBackground.removedFromScene();
+    this.cutsceneTitleText.removedFromScene();
+    this.cutsceneSubtitleText.removedFromScene();
+  }
+
   /**
    * Temporary display Cutscene with Title and subtitle
    * @param title Cutscene Title
@@ -196,24 +277,7 @@ export class UIScene extends Phaser.Scene
    */
   showCutscene(scene: typeof FaceDetectorScene, duration: number = 3000)
   { 
-    this.cutsceneBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0x000000);
-    this.cutsceneBackground.setDepth(100);
-    this.cutsceneBackground.alpha = 0;
-
-    this.cutsceneTitleText = this.add.bitmapText(0,0,headlineTypeface, scene.title!, headlineFontSize);
-    this.cutsceneTitleText.tint = 0xffffff;
-    this.cutsceneTitleText.x = window.innerWidth / 2 - this.cutsceneTitleText.width / 2
-    this.cutsceneTitleText.y = window.innerHeight / 2 - this.cutsceneTitleText.height / 2
-    this.cutsceneTitleText.setDepth(101);
-    this.cutsceneTitleText.alpha = 0;
-
-    this.cutsceneSubtitleText = this.add.bitmapText(0,0,defaultTypeface, scene.subtitle!.toUpperCase(), subtitleFontSize);
-    this.cutsceneSubtitleText.letterSpacing = 0.5;
-    this.cutsceneSubtitleText.tint = 0xffffff;
-    this.cutsceneSubtitleText.x = window.innerWidth / 2 - this.cutsceneSubtitleText.width / 2
-    this.cutsceneSubtitleText.y = window.innerHeight / 2 + this.cutsceneTitleText.height / 2
-    this.cutsceneSubtitleText.setDepth(102);
-    this.cutsceneSubtitleText.alpha = 0;
+    this.createCutscene(scene.title!, scene.subtitle!);
     
     this.tweens.add({
       targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
