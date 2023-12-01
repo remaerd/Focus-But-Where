@@ -111,7 +111,15 @@ export class UIScene extends Phaser.Scene
   public changeScene(scene: typeof FaceDetectorScene, _data?: object)
   {
     if (scene.title && scene.subtitle) this.showCutscene(scene);
-    else this.launchScene(scene);
+    else
+    {
+      if (this.currentScene)
+      {
+        this.scene.stop(this.currentScene);
+        this.scene.remove(this.currentScene);
+      }
+      this.launchScene(scene);
+    }
   }
 
   private launchScene(scene: typeof FaceDetectorScene)
@@ -122,7 +130,7 @@ export class UIScene extends Phaser.Scene
 
     this.currentScene.load.on('fileprogress', (file: any, progress: any) =>
     {
-      console.log(file, progress);
+      // console.log(file, progress);
     })
 
     this.currentScene.load.on('complete', () =>
@@ -203,7 +211,7 @@ export class UIScene extends Phaser.Scene
       targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
       duration: 700,
       alpha:1,
-      complete: ()=>
+      complete: () =>
       {
         if (this.currentScene)
         {

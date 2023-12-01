@@ -1,6 +1,6 @@
 import { FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
-import { Chapter1Scene } from "./Chapter1Scene";
+import { MainMenuScene } from "./MainMenuScene";
 import { bodyFontSize, buttonTextFontSize, defaultTypeface, subtitleFontSize } from "./UIScene";
 
 const name = 'PermissionScene';
@@ -103,14 +103,14 @@ export class PermissionScene extends FaceDetectorScene
 
   private enterGameWithoutCameraPermission()
   {
-    this.defaultUIScene.changeScene(Chapter1Scene);
+    this.defaultUIScene.changeScene(MainMenuScene);
   }
 
   private async askCameraPermission()
   {
     try {
       await Detector.setup();
-      this.defaultUIScene.changeScene(Chapter1Scene);
+      this.defaultUIScene.changeScene(MainMenuScene);
     } catch (error) {
       console.log(error);
     }
