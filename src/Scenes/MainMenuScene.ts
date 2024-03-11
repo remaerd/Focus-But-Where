@@ -173,7 +173,7 @@ export class MainMenuScene extends FaceDetectorScene {
 		);
 	}
 
-	public update() {
+	public async update() {
 		super.update();
 		// this.background.scale = 0.2;
 
@@ -196,6 +196,9 @@ export class MainMenuScene extends FaceDetectorScene {
 				);
 			}
 		} catch (error) {
+			//useFcalandmarkDetector to setup
+
+			await Detector.setup();
 			console.log(error);
 		}
 	}
