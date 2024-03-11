@@ -8,8 +8,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
   key: name,
 };
 
-export class Chapter3Scene extends FaceDetectorScene 
-{
+export class Chapter3Scene extends FaceDetectorScene {
   public static sceneName: string = name;
   public sceneWidth: number = 8000;
   public sceneHeight: number = 4500;
@@ -19,9 +18,9 @@ export class Chapter3Scene extends FaceDetectorScene
   public subtitle: string = "Chapter 3";
 
   private depth = 1;
-  private background! : Phaser.GameObjects.Image;
+  private background!: Phaser.GameObjects.Image;
   private blackBackground!: Phaser.GameObjects.Rectangle;
-  
+
   private iconList = [
     "icons/fight.png",
     "icons/wheel.png",
@@ -40,8 +39,8 @@ export class Chapter3Scene extends FaceDetectorScene
     //load chapter_3_factory
     this.load.multiatlas(
       "chapter_3_factory",
-      "/Chapter3/chapter_3_factory.json",
-      "/Chapter3/"
+      "Chapter3/chapter_3_factory.json",
+      "Chapter3/"
     );
   }
 

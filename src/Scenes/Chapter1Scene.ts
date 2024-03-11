@@ -12,12 +12,12 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
 };
 
 export class Chapter1Scene extends FaceDetectorScene {
- 
+
   // Cutscene
   static title: string = "Lost in the Flood";
   static subtitle: string = "Chapter 1";
 
-  public static sceneName: string = name; 
+  public static sceneName: string = name;
   public sceneWidth: number = 8525;
   public sceneHeight: number = 4796;
 
@@ -80,22 +80,21 @@ export class Chapter1Scene extends FaceDetectorScene {
     //load background
     this.load.multiatlas(
       "backgrounds",
-      "/Chapter1/background.json",
-      "/Chapter1/"
+      "Chapter1/background.json",
+      "Chapter1/"
     );
 
     //load phones
     for (let i = 0; i < this.phonesPosition.length; i++) {
       this.load.multiatlas(
         `phone_0${i + 1}`,
-        `/Chapter1/phone_0${i + 1}.json`,
-        "/Chapter1/"
+        `Chapter1/phone_0${i + 1}.json`,
+        "Chapter1/"
       );
     }
   }
 
-  public override create() 
-  {
+  public override create() {
     super.create();
 
     this.backgroundSprites = this.add.group();
@@ -217,7 +216,7 @@ export class Chapter1Scene extends FaceDetectorScene {
   public update() {
 
     super.update();
-    
+
     this.blackBackground.width = this.windowWidth;
     this.blackBackground.height = this.windowHeight;
 
@@ -239,7 +238,7 @@ export class Chapter1Scene extends FaceDetectorScene {
   }
 
   onBlinkStatusChanged(status: BlinkingStatus): void {
- 
+
     switch (status) {
       case BlinkingStatus.None:
         console.log("None");
@@ -262,8 +261,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     }
   }
 
-  checkInteraction()
-  {
+  checkInteraction() {
     for (let i = 0; i < this.phoneTrigger.length; i++) {
       if (
         this.isNear(
@@ -276,14 +274,13 @@ export class Chapter1Scene extends FaceDetectorScene {
       ) {
         this.phoneMap.set(this.phoneTrigger[i], true);
         // FIX: Use the new Hidden Objects Model to Hide the
-        
+
         this.defaultUIScene.foundHiddenObject(0, i);
       }
     }
 
     const hiddenObjects = Defaults.shared.allHiddenObjects[0];
-    if (hiddenObjects[0].isFound,hiddenObjects[1].isFound,hiddenObjects[2].isFound) 
-    {
+    if (hiddenObjects[0].isFound, hiddenObjects[1].isFound, hiddenObjects[2].isFound) {
       this.defaultUIScene.changeScene(Chapter3Scene);
     }
   }
