@@ -97,7 +97,7 @@ export class UIScene extends Phaser.Scene {
       this.cutsceneBackground.height = window.innerHeight * 2;
     }
 
-    if (Detector.default) {
+    if (Detector!.default) {
       let zoomIndicatorY = (window.innerHeight / 2 - this.zoomIndicatorBackground.height * 0.1) + ((this.zoomIndicatorBackground.height - 20) / 4) * (Detector.default!.scale - 1);
       let minimumY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height * 0.1;
       let maximumY = this.zoomIndicatorBackground.y + this.zoomIndicatorBackground.height * 0.1 - 40;

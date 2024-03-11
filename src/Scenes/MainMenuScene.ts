@@ -4,7 +4,6 @@ import { Defaults } from "../Models/Defaults";
 import { Chapter1Scene } from "./Chapter1Scene";
 
 const name = 'MainMenuScene';
-const baseUrl = '/'
 
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 {
