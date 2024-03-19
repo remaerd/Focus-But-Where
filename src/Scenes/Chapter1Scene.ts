@@ -66,7 +66,6 @@ export class Chapter1Scene extends FaceDetectorScene {
       frameRate: 0.2,
       repeat: -1,
     });
-    console.log(anim);
     object.anims.play("frameAnimation");
   };
 
@@ -128,7 +127,7 @@ export class Chapter1Scene extends FaceDetectorScene {
       x: (this.sceneWidth / 2 + phonePosition.x) * this.widthScale,
       y: (this.sceneHeight / 2 + phonePosition.y) * this.heightScale,
     }));
-    console.log(this.phonesPosition);
+    // console.log(this.phonesPosition);
 
     for (let i = 0; i < this.phonesPosition.length; i++) {
       const texture = this.textures.get(`phone_0${i + 1}`);
@@ -241,22 +240,19 @@ export class Chapter1Scene extends FaceDetectorScene {
 
     switch (status) {
       case BlinkingStatus.None:
-        console.log("None");
         return;
       case BlinkingStatus.LeftEye:
         this.checkInteraction();
-        console.log("Left Eye");
         return;
       case BlinkingStatus.RightEye:
-        console.log(
-          "RightEye",
-          Detector.default!.translateX * window.innerWidth,
-          Detector.default!.translateY * window.innerHeight
-        );
+        // console.log(
+        //   "RightEye",
+        //   Detector.default!.translateX * window.innerWidth,
+        //   Detector.default!.translateY * window.innerHeight
+        // );
         this.checkInteraction();
         return;
       case BlinkingStatus.Both:
-        console.log("Both");
         return;
     }
   }
@@ -273,14 +269,14 @@ export class Chapter1Scene extends FaceDetectorScene {
         !this.phoneMap.get(this.phoneTrigger[i])
       ) {
         this.phoneMap.set(this.phoneTrigger[i], true);
-        // FIX: Use the new Hidden Objects Model to Hide the
 
+        // FIX: Use the new Hidden Objects Model to Hide the
         this.defaultUIScene.foundHiddenObject(0, i);
       }
     }
 
     const hiddenObjects = Defaults.shared.allHiddenObjects[0];
-    if (hiddenObjects[0].isFound, hiddenObjects[1].isFound, hiddenObjects[2].isFound) {
+    if (hiddenObjects[0].isFound && hiddenObjects[1].isFound && hiddenObjects[2].isFound) {
       this.defaultUIScene.changeScene(Chapter3Scene);
     }
   }
