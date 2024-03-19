@@ -4,7 +4,7 @@ import { Defaults } from "../Models/Defaults";
 import { MainMenuScene } from "./MainMenuScene";
 import { PermissionScene } from "./PermissionScene";
 
-const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
+const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 {
   active: false,
   visible: false,
@@ -19,8 +19,7 @@ export const bodyFontSize = 22;
 export const buttonTextFontSize = 18;
 export const bubbleTextFontSize = 18;
 
-export class UIScene extends Phaser.Scene
-{
+export class UIScene extends Phaser.Scene {
   public showUserInterface: boolean = false;
 
   // Current Scene
@@ -32,7 +31,7 @@ export class UIScene extends Phaser.Scene
   public isLoadingVisible = false;
 
   // Hidden Object Icons Indicators
-	private hiddenObjectIndicators: Phaser.GameObjects.Sprite[] = []; 
+  private hiddenObjectIndicators: Phaser.GameObjects.Sprite[] = [];
 
   // Zoom Indicator
   private zoomIndicator!: Phaser.GameObjects.Image;
@@ -45,40 +44,36 @@ export class UIScene extends Phaser.Scene
   private cutsceneTitleText!: Phaser.GameObjects.BitmapText;
   private cutsceneSubtitleText!: Phaser.GameObjects.BitmapText;
 
-  private mainMenuBackCountdown? : Phaser.Time.TimerEvent
+  private mainMenuBackCountdown?: Phaser.Time.TimerEvent
 
-	iconTween = ( object: Phaser.GameObjects.Sprite ) => 
-  {
-		this.tweens.add({
+  iconTween = (object: Phaser.GameObjects.Sprite) => {
+    this.tweens.add({
       targets: object,
       duration: 1000,
       scaleX: 0.1,
       scaleY: 0.1,
-      alpha:0.3,
+      alpha: 0.3,
       repeat: 0,
-		});
-	}
+    });
+  }
 
-  constructor() 
-  {
+  constructor() {
     super(sceneConfig);
   }
 
-  public preload() 
-  {
+  public preload() {
     this.load.multiatlas("interface", "Interface/hidden_object_games_icons_edit_packed.json", "Interface");
     this.load.bitmapFont(headlineTypeface, "Fonts/RoadRage_0.png", "Fonts/RoadRage.fnt");
     this.load.bitmapFont(defaultTypeface, "Fonts/Gaegu_0.png", "Fonts/Gaegu.fnt");
   }
 
-  public create() 
-  {
-    this.zoomIndicatorBackground = this.add.image(100,100,"interface", "slider_map.png");
+  public create() {
+    this.zoomIndicatorBackground = this.add.image(100, 100, "interface", "slider_map.png");
     this.zoomIndicatorBackground.setScale(0.2);
     this.zoomIndicatorBackground.setDepth(1);
     this.zoomIndicatorBackground.setAlpha(0);
 
-    this.zoomIndicator = this.add.image(100,100,"interface", "slider_eye.png");
+    this.zoomIndicator = this.add.image(100, 100, "interface", "slider_eye.png");
     this.zoomIndicator.setScale(0.2);
     this.zoomIndicator.setDepth(2);
     this.zoomIndicator.setAlpha(0);
@@ -86,30 +81,27 @@ export class UIScene extends Phaser.Scene
     this.changeScene(PermissionScene);
     this.scale.on('resize', this.resize, this);
 
-    this.flashBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0xffffff);
-		this.flashBackground.alpha = 0;
-		this.flashBackground.setDepth(200);
+    this.flashBackground = this.add.rectangle(0, 0, window.innerWidth, window.innerHeight, 0xffffff);
+    this.flashBackground.alpha = 0;
+    this.flashBackground.setDepth(200);
   }
 
-  public update() 
-  {
+  public update() {
     // TODO
 
     this.flashBackground.width = window.innerWidth * 2;
     this.flashBackground.height = window.innerHeight * 2;
 
-    if (this.cutsceneBackground)
-    {
+    if (this.cutsceneBackground) {
       this.cutsceneBackground.width = window.innerWidth * 2;
       this.cutsceneBackground.height = window.innerHeight * 2;
     }
 
-    if (Detector.default)
-    {
-      let zoomIndicatorY = (window.innerHeight / 2 - this.zoomIndicatorBackground.height * 0.1 ) + ((this.zoomIndicatorBackground.height - 20) / 4) * (Detector.default!.scale - 1);
+    if (Detector!.default) {
+      let zoomIndicatorY = (window.innerHeight / 2 - this.zoomIndicatorBackground.height * 0.1) + ((this.zoomIndicatorBackground.height - 20) / 4) * (Detector.default!.scale - 1);
       let minimumY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height * 0.1;
       let maximumY = this.zoomIndicatorBackground.y + this.zoomIndicatorBackground.height * 0.1 - 40;
-      
+
       // if (typeof this.currentScene != MainMenuScene.name && !this.mainMenuBackCountdown && zoomIndicatorY >= maximumY)
       // {
       //   this.showMainMenuCountdown();
@@ -119,26 +111,22 @@ export class UIScene extends Phaser.Scene
       //   this.hideCountdownMenu();
       // }
 
-      if (zoomIndicatorY <= minimumY ) zoomIndicatorY = minimumY;
-      else if (zoomIndicatorY >= maximumY)
-      {
+      if (zoomIndicatorY <= minimumY) zoomIndicatorY = minimumY;
+      else if (zoomIndicatorY >= maximumY) {
         zoomIndicatorY = maximumY;
 
-        
+
       }
       this.zoomIndicator.y = zoomIndicatorY;
     }
-    
+
     this.zoomIndicatorBackground.y = window.innerHeight / 2;
   }
 
-  public changeScene(scene: typeof FaceDetectorScene, _data?: object)
-  {
+  public changeScene(scene: typeof FaceDetectorScene, _data?: object) {
     if (scene.title && scene.subtitle) this.showCutscene(scene);
-    else
-    {
-      if (this.currentScene)
-      {
+    else {
+      if (this.currentScene) {
         this.scene.stop(this.currentScene);
         this.scene.remove(this.currentScene);
       }
@@ -146,55 +134,45 @@ export class UIScene extends Phaser.Scene
     }
   }
 
-  private launchScene(scene: typeof FaceDetectorScene)
-  {
+  private launchScene(scene: typeof FaceDetectorScene) {
     this.currentScene = this.scene.get(scene.sceneName) as FaceDetectorScene;
-    console.log('Loading Scene '+ scene.sceneName + ', Activated: ' + this.scene.isActive(scene.sceneName));
+    console.log('Loading Scene ' + scene.sceneName + ', Activated: ' + this.scene.isActive(scene.sceneName));
 
-    if (this.scene.isPaused(scene.sceneName))
-    {
+    if (this.scene.isPaused(scene.sceneName)) {
       this.scene.start(scene.sceneName);
       this.scene.sendToBack(this.currentScene);
     }
-    else
-    {
+    else {
       this.scene.launch(this.currentScene);
-    
-      this.currentScene.load.on('complete', () =>
-      {
-        console.log('Launching Scene '+ scene.sceneName);
+
+      this.currentScene.load.on('complete', () => {
+        console.log('Launching Scene ' + scene.sceneName);
         this.scene.setActive(true, scene.sceneName);
         this.scene.sendToBack(this.currentScene);
 
-        switch(scene.sceneName)
-        { 
+        switch (scene.sceneName) {
           case 'Chapter1Scene': this.reloadIcons(1); break;
           case 'Chapter3Scene': this.reloadIcons(3); break;
-          default: 
+          default:
         }
       })
     }
   }
 
-  private reloadIcons(chapter: integer = 0)
-  {
-		// Remove Icons from Previous Scene
-    if (this.hiddenObjectIndicators.length != 0)
-    {
-      for (let i = 0; i < this.hiddenObjectIndicators.length; i++)
-      {
+  private reloadIcons(chapter: integer = 0) {
+    // Remove Icons from Previous Scene
+    if (this.hiddenObjectIndicators.length != 0) {
+      for (let i = 0; i < this.hiddenObjectIndicators.length; i++) {
         this.hiddenObjectIndicators[i].removedFromScene();
       }
       this.hiddenObjectIndicators = [];
     }
 
-    if (chapter != 0)
-    {
+    if (chapter != 0) {
       this.zoomIndicator.setAlpha(1);
       this.zoomIndicatorBackground.setAlpha(1);
-      const hiddenObjects = Defaults.shared.allHiddenObjects[chapter-1];
-      for (let i = 0; i < hiddenObjects.length; i++)
-      {
+      const hiddenObjects = Defaults.shared.allHiddenObjects[chapter - 1];
+      for (let i = 0; i < hiddenObjects.length; i++) {
         this.hiddenObjectIndicators.push(
           this.add.sprite(
             window.innerWidth / 2 + window.innerWidth / 6 * (i - 1),
@@ -208,20 +186,19 @@ export class UIScene extends Phaser.Scene
     };
   }
 
-  createCutscene(title: string, subtitle: string)
-  {
-    this.cutsceneBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0x000000);
+  createCutscene(title: string, subtitle: string) {
+    this.cutsceneBackground = this.add.rectangle(0, 0, window.innerWidth, window.innerHeight, 0x000000);
     this.cutsceneBackground.setDepth(100);
     this.cutsceneBackground.alpha = 0;
 
-    this.cutsceneTitleText = this.add.bitmapText(0,0,headlineTypeface, title, headlineFontSize);
+    this.cutsceneTitleText = this.add.bitmapText(0, 0, headlineTypeface, title, headlineFontSize);
     this.cutsceneTitleText.tint = 0xffffff;
     this.cutsceneTitleText.x = window.innerWidth / 2 - this.cutsceneTitleText.width / 2
     this.cutsceneTitleText.y = window.innerHeight / 2 - this.cutsceneTitleText.height / 2
     this.cutsceneTitleText.setDepth(101);
     this.cutsceneTitleText.alpha = 0;
 
-    this.cutsceneSubtitleText = this.add.bitmapText(0,0,defaultTypeface, subtitle.toUpperCase(), subtitleFontSize);
+    this.cutsceneSubtitleText = this.add.bitmapText(0, 0, defaultTypeface, subtitle.toUpperCase(), subtitleFontSize);
     this.cutsceneSubtitleText.letterSpacing = 0.5;
     this.cutsceneSubtitleText.tint = 0xffffff;
     this.cutsceneSubtitleText.x = window.innerWidth / 2 - this.cutsceneSubtitleText.width / 2
@@ -230,16 +207,14 @@ export class UIScene extends Phaser.Scene
     this.cutsceneSubtitleText.alpha = 0;
   }
 
-  showMainMenuCountdown()
-  {
+  showMainMenuCountdown() {
     this.createCutscene('10', 'Continue?');
-    var countdown = 10; 
+    var countdown = 10;
     this.mainMenuBackCountdown = this.time.addEvent({
-      delay:1000, 
+      delay: 1000,
       loop: true,
-      callback: () =>
-      {
-        this.add.bitmapText(0,0,headlineTypeface, countdown.toString(0), headlineFontSize);
+      callback: () => {
+        this.add.bitmapText(0, 0, headlineTypeface, countdown.toString(0), headlineFontSize);
         this.cutsceneTitleText.tint = 0xffffff;
         countdown - 1;
       },
@@ -247,11 +222,10 @@ export class UIScene extends Phaser.Scene
     this.tweens.add({
       targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
       duration: 700,
-      alpha:1,
+      alpha: 1,
     });
 
-    this.time.delayedCall(10000, () => 
-    {
+    this.time.delayedCall(10000, () => {
       this.mainMenuBackCountdown?.destroy();
       this.cutsceneBackground.removedFromScene();
       this.cutsceneTitleText.removedFromScene();
@@ -261,8 +235,7 @@ export class UIScene extends Phaser.Scene
     }, [], this);
   }
 
-  hideCountdownMenu()
-  {
+  hideCountdownMenu() {
     this.mainMenuBackCountdown?.destroy();
     this.cutsceneBackground.removedFromScene();
     this.cutsceneTitleText.removedFromScene();
@@ -275,31 +248,26 @@ export class UIScene extends Phaser.Scene
    * @param subtitle Cutscene Subtitle
    * @param duration Delay Millisecond
    */
-  showCutscene(scene: typeof FaceDetectorScene, duration: number = 3000)
-  { 
+  showCutscene(scene: typeof FaceDetectorScene, duration: number = 3000) {
     this.createCutscene(scene.title!, scene.subtitle!);
-    
+
     this.tweens.add({
       targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
       duration: 700,
-      alpha:1,
-      complete: () =>
-      {
-        if (this.currentScene)
-        {
+      alpha: 1,
+      complete: () => {
+        if (this.currentScene) {
           this.scene.stop(this.currentScene);
           this.scene.remove(this.currentScene);
         }
       }
     });
-    this.time.delayedCall(duration, () => 
-    {
+    this.time.delayedCall(duration, () => {
       this.tweens.add({
         targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
         duration: 700,
-        alpha:0,
-        onComplete: ()=>
-        {
+        alpha: 0,
+        onComplete: () => {
           this.cutsceneBackground.removedFromScene();
           this.cutsceneTitleText.removedFromScene();
           this.cutsceneSubtitleText.removedFromScene();
@@ -309,31 +277,28 @@ export class UIScene extends Phaser.Scene
     }, [], this);
   }
 
-  public foundHiddenObject(chapterIndex: integer, objectIndex: integer) 
-  {
+  public foundHiddenObject(chapterIndex: integer, objectIndex: integer) {
     const hiddenObject = Defaults.shared.allHiddenObjects[chapterIndex][objectIndex];
-    if (!hiddenObject.isFound)
-    {
+    if (!hiddenObject.isFound) {
       this.iconTween(this.hiddenObjectIndicators[objectIndex]);
       this.flashBackground.alpha = 1;
       this.tweens.add({
         targets: [this.flashBackground],
         duration: 1000,
-        alpha:0,
+        alpha: 0,
       });
       hiddenObject.isFound = true;
     }
   }
 
-  private resize (): void
-  {
+  private resize(): void {
     if (this.currentScene == undefined) return;
 
     const scaleWidth = this.currentScene.scale.gameSize.width;
     const scaleHeight = this.currentScene.scale.gameSize.height;
 
     this.currentScene.parent = new Phaser.Structs.Size(scaleWidth, scaleHeight);
-    this.currentScene.sizer = new Phaser.Structs.Size(this.currentScene.scale.width, this.currentScene.scale.height); 
+    this.currentScene.sizer = new Phaser.Structs.Size(this.currentScene.scale.width, this.currentScene.scale.height);
 
     const scaleX = this.currentScene.sizer.width / this.game.canvas.width
     const scaleY = this.currentScene.sizer.height / this.game.canvas.height
