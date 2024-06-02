@@ -1,25 +1,25 @@
 {
   "name": "focus-but-where",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Xingzhi Zheng",
+  "license": "MIT",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
-    "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "typescript": "*",
+    "vite": "*"
   },
   "dependencies": {
-    "@mediapipe/face_mesh": "~0.4.0",
-    "@tensorflow-models/face-detection": "~1.0.0",
-    "@tensorflow-models/face-landmarks-detection": "~1.0.3",
-    "@tensorflow/tfjs-backend-wasm": "^4.13.0",
-    "@tensorflow/tfjs-backend-webgl": "^4.13.0",
-    "@tensorflow/tfjs-converter": "^4.13.0",
-    "@tensorflow/tfjs-core": "^4.13.0",
-    "phaser": "^3.60.0"
+    "@mediapipe/face_mesh": "^0.4.1633559619",
+    "@tensorflow-models/face-landmarks-detection": "^1.0.5",
+    "@tensorflow/tfjs-backend-wasm": "^4.19.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.19.0",
+    "@tensorflow/tfjs-converter": "^4.19.0",
+    "@tensorflow/tfjs-core": "^4.19.0",
+    "phaser": "*"
   }
 }

@@ -1,6 +1,8 @@
+
 import { FaceDetectorScene } from "../FaceDetectorScene";
 import { Detector } from "../FaceLandmarkDetector";
-import { MainMenuScene } from "./MainMenuScene";
+import { Defaults } from "../Models/Defaults";
+import { MainMenuScene } from "./MainMenu/Scene";
 import { bodyFontSize, buttonTextFontSize, defaultTypeface, subtitleFontSize } from "./UIScene";
 
 const name = 'PermissionScene';
@@ -14,6 +16,9 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
   
 export class PermissionScene extends FaceDetectorScene
 {
+  public sceneId = "Permission";
+  public sceneData? = null;
+
   public static sceneName: string = name;
   static title = undefined;
   static subtitle = undefined;
@@ -36,7 +41,7 @@ export class PermissionScene extends FaceDetectorScene
 	
 	public preload()
 	{
-    this.load.image("permission", "Interface/Image_Permission.svg");
+    this.load.image("permission", "Image_Permission.png");
 	}
    
 	public create() 
@@ -55,6 +60,7 @@ export class PermissionScene extends FaceDetectorScene
     this.description.setCenterAlign();
     
     this.image = this.add.image(0,0, "permission");
+    this.image.setScale(0.25);
     
     this.input.topOnly = false;
     
@@ -64,7 +70,7 @@ export class PermissionScene extends FaceDetectorScene
     this.input.on('pointerup', (_pointer: any, gameObject: any) =>
     {
       if (gameObject[0] == this.cameraPermissionButton) this.askCameraPermission(); 
-      else this.enterGameWithoutCameraPermission(); 
+      else if (gameObject[0] == this.keyboardButton) this.enterGameWithoutCameraPermission();
     })
 	}
 
@@ -76,7 +82,10 @@ export class PermissionScene extends FaceDetectorScene
 
     const text = this.add.bitmapText(0,0,defaultTypeface, title, buttonTextFontSize);
     text.tint = 0xffffff;
-
+    text.setMaxWidth(300);
+    text.align = Phaser.GameObjects.BitmapText.ALIGN_CENTER; 
+    text.setOrigin(-0.25, -0.75);
+    
     const button = this.add.container(0,0,[background, text]);
     button.setInteractive(new Phaser.Geom.Rectangle(0, 0, 300,48), Phaser.Geom.Rectangle.Contains);
     return button;
@@ -92,7 +101,7 @@ export class PermissionScene extends FaceDetectorScene
     this.description.x = window.innerWidth / 2 - this.description.width / 2;
     this.description.y = window.innerHeight / 2 + 30;
     this.image.x = window.innerWidth / 2;
-    this.image.y = window.innerHeight / 2 - this.image.height / 2;
+    this.image.y = window.innerHeight / 2 - this.image.height * 0.25 / 2;
 
     this.cameraPermissionButton.x = window.innerWidth / 2 - 320;
     this.cameraPermissionButton.y = window.innerHeight - 150;
@@ -111,7 +120,9 @@ export class PermissionScene extends FaceDetectorScene
     try {
       await Detector.setup();
       this.defaultUIScene.changeScene(MainMenuScene);
+      Defaults.shared.faceControlEnabled = true;
     } catch (error) {
+      this.defaultUIScene.changeScene(MainMenuScene);
       console.log(error);
     }
   }

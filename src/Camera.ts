@@ -1,9 +1,3 @@
-export const VIDEO_SIZE = {
-  '640 X 480': {width: 640, height: 480},
-  '640 X 360': {width: 640, height: 360},
-  '360 X 270': {width: 360, height: 270}
-}
-
 export function isiOS() {
   return /iPhone|iPad|iPod/i.test(navigator.userAgent)
 }
@@ -31,8 +25,8 @@ export class Camera
 		'audio': false,
 		'video': {
 			facingMode: 'user',
-			width: isMobile() ? VIDEO_SIZE['360 X 270'].width : 640,
-			height: isMobile() ? VIDEO_SIZE['360 X 270'].height : 480,
+			width: isMobile() ? window.innerHeight : window.innerWidth,
+			height: isMobile() ? window.innerWidth : window.innerHeight,
 			frameRate: {
 			ideal: 60,
 			},
@@ -43,9 +37,9 @@ export class Camera
 	{
 	  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) { throw Error("No Camrea Available") }
   
-	  const stream = await navigator.mediaDevices.getUserMedia(Camera.videoConfig)
+	  const stream = await navigator.mediaDevices.getUserMedia(Camera.videoConfig);
   
-	  this.defaultCamera = new Camera()
+	  this.defaultCamera = new Camera();
 	  this.defaultCamera.video.srcObject = stream
   
 	  await new Promise((resolve) => 

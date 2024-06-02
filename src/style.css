@@ -20,3 +20,8 @@ canvas {
 #canvas-wrapper {
   position: relative;
 }
+
+video
+{
+  display: none;
+}

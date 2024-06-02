@@ -9,18 +9,20 @@ export class Defaults
   
   private static _shared = new Defaults();
 
+	faceControlEnabled:boolean = false;
+
   allHiddenObjects: Array<HiddenObject>[] = [
 		// Chapter 1
-		[new HiddenObject("oil","","",""),
-		new HiddenObject("flag","","",""),
-		new HiddenObject("flowers","","","")],
+		[new HiddenObject("Oil","Oil",""),
+		new HiddenObject("Flag","Flag",""),
+		new HiddenObject("Flower","Flower","")],
 		// Chapter 2
 		[],
 		// Chapter 3
-		[new HiddenObject("goggles","","",""),
-		new HiddenObject("wheel","","",""),
-		new HiddenObject("fight","","",""),
-		new HiddenObject("brain","","","")],
+		[new HiddenObject("Goggles","",""),
+		new HiddenObject("Wheel","",""),
+		new HiddenObject("Fight","",""),
+		new HiddenObject("Brain","","")],
 		// Chapter 4
 		[],
 		// Chapter 5

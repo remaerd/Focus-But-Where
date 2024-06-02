@@ -1,8 +1,5 @@
 import "@tensorflow/tfjs-backend-webgl";
-import * as faceMesh from "@mediapipe/face_mesh";
-import * as tfjsWasm from '@tensorflow/tfjs-backend-wasm';
-
-tfjsWasm.setWasmPaths(`https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@${tfjsWasm.version_wasm}/dist/`);
+import "@mediapipe/face_mesh";
 
 import { Camera } from "./Camera";
 
@@ -48,7 +45,7 @@ export class Detector {
     {
       runtime: 'mediapipe', // or 'tfjs'
       refineLandmarks: true,
-      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh@${faceMesh.VERSION}`,
+      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh`,
     }
 
     Detector.default.detector = await createDetector(SupportedModels.MediaPipeFaceMesh, detectorConfig);
@@ -87,13 +84,11 @@ export class Detector {
       });
     }
 
-    let faces = null;
-
     if (this.detector != null) {
       this.beginEstimateFaceStats();
 
       try {
-        faces = (await this.detector?.estimateFaces(
+        let faces = (await this.detector?.estimateFaces(
           Camera.defaultCamera.video,
           { flipHorizontal: false }
         )) as Array<Face>;
@@ -168,24 +163,24 @@ export class Detector {
       ) / 100;
 
     // 159: Left eye lid up / 145: Left eye lid down / 385: Right eye lid up / 380: Right eye lid down
-    let leftEyeLidDistance = Math.round(
+    let leftEyeLidDistance = Math.abs(Math.round(
       face.keypoints[159].y - face.keypoints[145].y
-    );
-    let rightEyeLidDistance = Math.round(
-      face.keypoints[385].y - face.keypoints[380].y
-    );
-
-    // console.log('Left Eye: ' + leftEyeLidDistance + ' / Right Eye: ' + rightEyeLidDistance)
-    // console.log('Scale : ' + this.scale)
+    ));
+    let rightEyeLidDistance = Math.abs(Math.round(
+      face.keypoints[386].y - face.keypoints[374].y
+    ));
+    
+    let blinkDistance = 9 / this.scale;
+    // console.log('Left Eye: ' + leftEyeLidDistance + ' / Right Eye: ' + rightEyeLidDistance + ' / Scale : ' + blinkDistance);
 
     let newBlink: BlinkingStatus;
     // Changing status based on the distance between eye lid
     // FIX: Need to make it more accurate when detecting blinking. The distance between eye lid is changing due to head zoom.
-    if (leftEyeLidDistance > -4 && rightEyeLidDistance > -4) {
+    if (leftEyeLidDistance > blinkDistance && rightEyeLidDistance > blinkDistance) {
       newBlink = BlinkingStatus.Both;
-    } else if (leftEyeLidDistance < -4 && rightEyeLidDistance >= -4) {
+    } else if (leftEyeLidDistance < blinkDistance && rightEyeLidDistance >= blinkDistance) {
       newBlink = BlinkingStatus.LeftEye;
-    } else if (leftEyeLidDistance >= -4 && rightEyeLidDistance < -4) {
+    } else if (leftEyeLidDistance >= blinkDistance && rightEyeLidDistance < blinkDistance) {
       newBlink = BlinkingStatus.RightEye;
     } else {
       newBlink = BlinkingStatus.None;
@@ -196,7 +191,7 @@ export class Detector {
         this.blinkingStatus = this._previousBlink;
         this.blinkConfirmationDelay = 0;
         let currentScene = (game.scene.getAt(0) as FaceDetectorScene);
-        if (currentScene && currentScene.onBlinkStatusChanged) 
+        if (currentScene && currentScene.onBlinkStatusChanged && currentScene.scene.isActive(currentScene)) 
         {
           currentScene.onBlinkStatusChanged(this.blinkingStatus);
         }
