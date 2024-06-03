@@ -1,6 +1,3 @@
-import "@tensorflow/tfjs-backend-webgl";
-import "@mediapipe/face_mesh";
-
 import { Camera } from "./Camera";
 
 import {
@@ -45,7 +42,7 @@ export class Detector {
     {
       runtime: 'mediapipe', // or 'tfjs'
       refineLandmarks: true,
-      solutionPath: `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh`,
+      solutionPath: './face_mesh',
     }
 
     Detector.default.detector = await createDetector(SupportedModels.MediaPipeFaceMesh, detectorConfig);
