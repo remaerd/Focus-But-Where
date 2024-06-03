@@ -161,7 +161,7 @@ export class Detector {
       face.keypoints[386].y - face.keypoints[374].y
     ));
     
-    let blinkDistance = 9 / this.scale;
+    let blinkDistance = 20;
     // console.log('Left Eye: ' + leftEyeLidDistance + ' / Right Eye: ' + rightEyeLidDistance + ' / Scale : ' + blinkDistance);
 
     let newBlink: BlinkingStatus;
