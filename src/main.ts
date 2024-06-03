@@ -12,7 +12,7 @@ const MIN_SIZE_HEIGHT_SCREEN = 480;
 const SIZE_WIDTH_SCREEN = 1280;
 const SIZE_HEIGHT_SCREEN = 832;
 
-console.log(window.devicePixelRatio);
+// console.log(window.devicePixelRatio);
 
 const gameConfig: Phaser.Types.Core.GameConfig = {
   title: "focus-but-where",
