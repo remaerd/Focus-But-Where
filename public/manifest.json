@@ -1,0 +1,11 @@
+{
+  "name": "Focus but... Where",
+  "description": "A Web based Hidden Object Game",
+  "short_name": "FBW",
+  "start_url": "/",
+  "lang": "en-GB",
+  "theme_color": "000",
+  "display": "minimal-ui",
+  "background_color": "#000",
+  "orientation": "landscape"
+}

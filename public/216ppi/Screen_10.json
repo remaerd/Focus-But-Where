@@ -1,0 +1,83 @@
+{
+	"textures": [
+		{
+			"image": "Screen_10-0.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1710,
+				"h": 353
+			},
+			"scale": 1,
+			"frames": [
+				{
+					"filename": "Screen_2_12",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 613,
+						"h": 354
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 584,
+						"h": 351
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 584,
+						"h": 351
+					}
+				},
+				{
+					"filename": "Screen_2_10",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 611,
+						"h": 354
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 562,
+						"h": 351
+					},
+					"frame": {
+						"x": 587,
+						"y": 1,
+						"w": 562,
+						"h": 351
+					}
+				},
+				{
+					"filename": "Screen_2_2",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 599,
+						"h": 347
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 1,
+						"w": 558,
+						"h": 344
+					},
+					"frame": {
+						"x": 1151,
+						"y": 1,
+						"w": 558,
+						"h": 344
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:a55df351a51f9d807ef73290199c195b:910c235ef75411a1e469c20bb85fb3d2:587d08d6d4471a1ae47c5b0a0e4f2b2f$"
+	}
+}

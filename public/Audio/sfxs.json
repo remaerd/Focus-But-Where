@@ -1,0 +1,65 @@
+{
+  "resources": [
+    "sfxs.ogg",
+    "sfxs.m4a",
+    "sfxs.mp3",
+    "sfxs.ac3"
+  ],
+  "spritemap": {
+    "Shutter_0": {
+      "start": 0,
+      "end": 0.5746938775510204,
+      "loop": false
+    },
+    "Shutter_1": {
+      "start": 2,
+      "end": 2.57469387755102,
+      "loop": false
+    },
+    "Shutter_2": {
+      "start": 4,
+      "end": 4.57469387755102,
+      "loop": false
+    },
+    "Shutter_3": {
+      "start": 6,
+      "end": 6.57469387755102,
+      "loop": false
+    },
+    "Shutter_4": {
+      "start": 8,
+      "end": 8.57469387755102,
+      "loop": false
+    },
+    "Shutter_5": {
+      "start": 10,
+      "end": 10.57469387755102,
+      "loop": false
+    },
+    "Shutter_6": {
+      "start": 12,
+      "end": 12.57469387755102,
+      "loop": false
+    },
+    "Sigh_1": {
+      "start": 14,
+      "end": 14.888163265306122,
+      "loop": false
+    },
+    "Sigh_2": {
+      "start": 16,
+      "end": 17.12326530612245,
+      "loop": false
+    },
+    "Sigh_3": {
+      "start": 19,
+      "end": 19.888163265306122,
+      "loop": false
+    },
+    "Woohoo_1": {
+      "start": 21,
+      "end": 21.940408163265307,
+      "loop": false
+    }
+  }
+}
