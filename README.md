@@ -22,5 +22,5 @@ Since early 2023, this project has received generous support from [Watershed Art
 3. Open [Terminal.app (macOS)](https://support.apple.com/en-gb/guide/terminal/trmld4c92d55/mac) / [PowerShell with Admin Access (Windows)](https://learn.microsoft.com/en-us/powershell/scripting/overview?view=powershell-7.3)
 4. Enable Corepack with `corepack enable` in Windows or `sudo corepack enable` in macOS
 5. Open the folder with `cd **downloaded project folder url**`
-6. Use [Yarn](https://yarnpkg.com/) to install package dependencies with the command `yarn``
+6. Use [Yarn](https://yarnpkg.com/) to install package dependencies with the command `yarn`
 7. Use [Vite](https://vitejs.dev/) to run the project locally on your device with the command `npx vite`Open a web browser and access the website based on Vite instructions.
