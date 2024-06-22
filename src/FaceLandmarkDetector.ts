@@ -1,6 +1,6 @@
 import { Camera } from "./Camera";
 
-import { Face, FaceLandmarksDetector } from "@tensorflow-models/face-landmarks-detection";
+import { Face, FaceLandmarksDetector, MediaPipeFaceMeshMediaPipeModelConfig, SupportedModels, createDetector } from "@tensorflow-models/face-landmarks-detection";
 import { BlinkingStatus, FaceDetectorScene } from "./FaceDetectorScene";
 import { game } from "./main";
 
@@ -32,14 +32,14 @@ export class Detector {
 
     await Camera.setup();
 
-    // const detectorConfig : MediaPipeFaceMeshMediaPipeModelConfig = 
-    // {
-    //   runtime: 'mediapipe', // or 'tfjs'
-    //   refineLandmarks: true,
-    //   solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh',
-    // }
+    const detectorConfig : MediaPipeFaceMeshMediaPipeModelConfig = 
+    {
+      runtime: 'mediapipe', // or 'tfjs'
+      refineLandmarks: true,
+      solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh',
+    }
 
-    Detector.default.detector = await activateDetector();
+    Detector.default.detector = await createDetector(SupportedModels.MediaPipeFaceMesh, detectorConfig);
     await Detector!.default!.renderPrediction();
   }
 
@@ -195,3 +195,7 @@ export class Detector {
     }
   }
 }
+// function activateDetector(): FaceLandmarksDetector | PromiseLike<FaceLandmarksDetector | undefined> | undefined {
+//   throw new Error("Function not implemented.");
+// }
+

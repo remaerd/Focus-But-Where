@@ -21,13 +21,15 @@ class TouchPoint
 	public x: number;
 	public y: number;
 	public ratio: number;
+	public description?: string;
 	
-	constructor(name: string, x: number,y: number, ratio: number)
+	constructor(name: string, x: number,y: number, ratio: number, description?: string)
 	{
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.ratio = ratio;
+		this.description = description;
 	}
 }
 
@@ -176,7 +178,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 		{
 			var touchpoint = this.sceneData.touchpoints[i];
 			this.touchPoints.push(
-				new TouchPoint(touchpoint.name, touchpoint.x, touchpoint.y, touchpoint.ratio)
+				new TouchPoint(touchpoint.name, touchpoint.x, touchpoint.y, touchpoint.ratio, touchpoint.description)
 			);
 		}
 
@@ -324,6 +326,23 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 		this.cameras.main.setScroll(newX, newY);
 		this.cameras.main.setZoom(Math.abs(scale));
+
+		this.onHoverOnTouchPoint();
+	}
+
+	onHoverOnTouchPoint()
+	{
+		var touchPointDescription: string | null = null;
+		this.touchPoints.forEach(touchPoint => {
+			let isNear = this.isNear(touchPoint.x + this.windowWidth / 2 - this.sceneWidth / 2 + touchPoint.ratio,
+															 touchPoint.y  + this.windowHeight / 2  - this.sceneHeight / 2 + touchPoint.ratio, 
+															 Detector.default!.translateX * window.innerWidth, 
+															 Detector.default!.translateY * window.innerHeight, 
+															 touchPoint.ratio)
+			if (isNear && touchPoint.description) touchPointDescription =  touchPoint.description;
+		});
+
+		if (touchPointDescription) this.defaultUIScene.descriptionText.setText(touchPointDescription); 
 	}
 
 	onBlinkStatusChanged(status: BlinkingStatus): void 

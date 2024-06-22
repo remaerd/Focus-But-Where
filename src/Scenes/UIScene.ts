@@ -40,6 +40,8 @@ export class UIScene extends Phaser.Scene
 
   private flashBackground!: Phaser.GameObjects.Rectangle;
 
+  public descriptionText!: Phaser.GameObjects.BitmapText;
+
   // Cutscene
   private cutsceneBackground!: Phaser.GameObjects.Rectangle;
   private cutsceneTitleText!: Phaser.GameObjects.BitmapText;
@@ -97,12 +99,20 @@ export class UIScene extends Phaser.Scene
 		this.flashBackground.setDepth(200);
 
     this.sfxs = this.sound.addAudioSprite('sfxs');
+
+    this.descriptionText = this.add.bitmapText(0,0, defaultTypeface, "", bodyFontSize, 0.5);
+    this.descriptionText.letterSpacing = 0.5;
+    this.descriptionText.tint = 0xffffff;
   }
 
   public update() 
   {
     this.flashBackground.width = window.innerWidth * 2;
     this.flashBackground.height = window.innerHeight * 2;
+
+    this.descriptionText.align = 0.5;
+    this.descriptionText.x = window.innerWidth / 2;
+    this.descriptionText.y = window.innerHeight  - 40;
 
     if (this.cutsceneBackground)
     {

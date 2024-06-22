@@ -30,7 +30,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     object: Phaser.GameObjects.Sprite,
     frameNames: string[]
   ) => {
-    const anim = object.anims.create({
+    object.anims.create({
       key: "frameAnimation",
       frames: frameNames.map((frameName) => ({
         key: object.texture.key,

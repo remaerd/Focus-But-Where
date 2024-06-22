@@ -1,5 +1,5 @@
 import SceneData from './scene.json';
-import { BlinkingStatus, FaceDetectorScene, InteractiveObject } from "../../FaceDetectorScene";
+import { BlinkingStatus, FaceDetectorScene } from "../../FaceDetectorScene";
 import { Defaults } from "../../Models/Defaults";
 import { Chapter1Scene } from "../Chapter1/Scene";
 
@@ -35,7 +35,7 @@ export class MainMenuScene extends FaceDetectorScene
 	public override create() 
 	{
 		super.create();
-		this.cameras.main.setBackgroundColor(0xffffff);
+		this.cameras.main.setBackgroundColor(0x000000);
 
 		this.interactiveObjects.forEach(object => {
 			if (object.name.startsWith("Object_")) object.imageSprite.setVisible(false);
@@ -88,10 +88,10 @@ export class MainMenuScene extends FaceDetectorScene
 					if (Defaults.shared.allHiddenObjects[0][0].isFound) window.open('https://kexinliu.net/fbw-flower/', '_blank');
 					break;
 				case "Object_1_2":
-					if (Defaults.shared.allHiddenObjects[0][1].isFound) window.open('https://kexinliu.net/fbw-xr-flag/', '_blank');
+					if (Defaults.shared.allHiddenObjects[0][1].isFound) window.open('https://kexinliu.net/fbw-oil-barrel/', '_blank');
 					break;
 				case "Object_1_3":
-					if (Defaults.shared.allHiddenObjects[0][2].isFound) window.open('https://kexinliu.net/fbw-oil-barrel/', '_blank');
+					if (Defaults.shared.allHiddenObjects[0][2].isFound) window.open('https://kexinliu.net/fbw-xr-flag/', '_blank');
 					break;
 				default:
 			}
