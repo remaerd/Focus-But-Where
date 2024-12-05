@@ -1,11 +1,11 @@
 {
 	"textures": [
 		{
-			"image": "Interface-0.png",
+			"image": "Interface.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 4051,
-				"h": 1826
+				"w": 3598,
+				"h": 2848
 			},
 			"scale": 1,
 			"frames": [
@@ -31,45 +31,45 @@
 					}
 				},
 				{
-					"filename": "Control_Zoom_Slider",
+					"filename": "Image_Loading",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 111,
-						"h": 585
+						"w": 2262,
+						"h": 1020
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 111,
-						"h": 585
+						"w": 2262,
+						"h": 1020
 					},
 					"frame": {
-						"x": 2718,
-						"y": 1,
-						"w": 111,
-						"h": 585
+						"x": 1,
+						"y": 1827,
+						"w": 2262,
+						"h": 1020
 					}
 				},
 				{
-					"filename": "Image_Permission",
+					"filename": "Background_Item_Found",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 893,
-						"h": 425
+						"w": 1332,
+						"h": 228
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 893,
-						"h": 425
+						"w": 1332,
+						"h": 228
 					},
 					"frame": {
-						"x": 2718,
-						"y": 588,
-						"w": 893,
-						"h": 425
+						"x": 2265,
+						"y": 1827,
+						"w": 1332,
+						"h": 228
 					}
 				},
 				{
@@ -87,7 +87,7 @@
 						"h": 189
 					},
 					"frame": {
-						"x": 2831,
+						"x": 2718,
 						"y": 1,
 						"w": 579,
 						"h": 189
@@ -108,10 +108,31 @@
 						"h": 256
 					},
 					"frame": {
-						"x": 3412,
+						"x": 3299,
 						"y": 1,
 						"w": 259,
 						"h": 256
+					}
+				},
+				{
+					"filename": "Control_Zoom_Background",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 36,
+						"h": 438
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 36,
+						"h": 438
+					},
+					"frame": {
+						"x": 3560,
+						"y": 1,
+						"w": 36,
+						"h": 438
 					}
 				},
 				{
@@ -129,31 +150,10 @@
 						"h": 206
 					},
 					"frame": {
-						"x": 2831,
+						"x": 2718,
 						"y": 192,
 						"w": 259,
 						"h": 206
-					}
-				},
-				{
-					"filename": "Clue_3_1",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 234,
-						"h": 259
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 234,
-						"h": 259
-					},
-					"frame": {
-						"x": 3092,
-						"y": 192,
-						"w": 234,
-						"h": 259
 					}
 				},
 				{
@@ -171,8 +171,8 @@
 						"h": 179
 					},
 					"frame": {
-						"x": 2831,
-						"y": 400,
+						"x": 2979,
+						"y": 192,
 						"w": 259,
 						"h": 179
 					}
@@ -192,31 +192,31 @@
 						"h": 230
 					},
 					"frame": {
-						"x": 3328,
+						"x": 3240,
 						"y": 259,
 						"w": 258,
 						"h": 230
 					}
 				},
 				{
-					"filename": "Control_Zoom_Indicator",
+					"filename": "Clue_3_1",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 102,
-						"h": 75
+						"w": 234,
+						"h": 259
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 102,
-						"h": 75
+						"w": 234,
+						"h": 259
 					},
 					"frame": {
-						"x": 3092,
-						"y": 453,
-						"w": 102,
-						"h": 75
+						"x": 2979,
+						"y": 373,
+						"w": 234,
+						"h": 259
 					}
 				},
 				{
@@ -234,31 +234,10 @@
 						"h": 258
 					},
 					"frame": {
-						"x": 3588,
-						"y": 259,
+						"x": 2718,
+						"y": 400,
 						"w": 198,
 						"h": 258
-					}
-				},
-				{
-					"filename": "Background_Item_Found",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 1332,
-						"h": 228
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 1332,
-						"h": 228
-					},
-					"frame": {
-						"x": 2718,
-						"y": 1015,
-						"w": 1332,
-						"h": 228
 					}
 				},
 				{
@@ -276,42 +255,73 @@
 						"h": 258
 					},
 					"frame": {
-						"x": 3613,
-						"y": 519,
+						"x": 3215,
+						"y": 491,
 						"w": 167,
 						"h": 258
 					}
-				}
-			]
-		},
-		{
-			"image": "Interface-1.png",
-			"format": "RGBA8888",
-			"size": {
-				"w": 2264,
-				"h": 1022
-			},
-			"scale": 1,
-			"frames": [
+				},
 				{
-					"filename": "Image_Loading",
+					"filename": "Control_Main_Menu",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 2262,
-						"h": 1020
+						"w": 111,
+						"h": 90
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 2262,
-						"h": 1020
+						"w": 111,
+						"h": 90
 					},
 					"frame": {
-						"x": 1,
-						"y": 1,
-						"w": 2262,
-						"h": 1020
+						"x": 3384,
+						"y": 491,
+						"w": 111,
+						"h": 90
+					}
+				},
+				{
+					"filename": "Control_Zoom_Indicator",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 102,
+						"h": 75
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 102,
+						"h": 75
+					},
+					"frame": {
+						"x": 3384,
+						"y": 583,
+						"w": 102,
+						"h": 75
+					}
+				},
+				{
+					"filename": "Image_Permission",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 893,
+						"h": 425
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 893,
+						"h": 425
+					},
+					"frame": {
+						"x": 2265,
+						"y": 2057,
+						"w": 893,
+						"h": 425
 					}
 				}
 			]
@@ -320,6 +330,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:0c4767ac658e34e32d6c965da97ac2e1:3c9f6953d548fa0ade2e4b213f8ae663:54b87496e18373c7e0c1f81b57f33241$"
+		"smartupdate": "$TexturePacker:SmartUpdate:124d05072fff504b01aada67d32cff6c:37610e99ab7c464bda9d01c2b4807a37:3f4a8c349ebea295fa43cc60c3dbcd90$"
 	}
 }

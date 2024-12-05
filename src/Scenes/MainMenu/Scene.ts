@@ -66,7 +66,7 @@ export class MainMenuScene extends FaceDetectorScene
     }
   }
 
-	private checkInteraction()
+	public override checkInteraction()
 	{
 		console.log("Blink detected");
 		var collidingTouchpoints = this.checkCollideWithTouchPoints();

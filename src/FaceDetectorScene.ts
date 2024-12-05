@@ -140,6 +140,8 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 	private _eyeMask!: Phaser.Display.Masks.BitmapMask;
 	public backgroundNusicPath?: string;
 
+	private keySpace?: Phaser.Input.Keyboard.Key;
+
 	public get defaultUIScene() : UIScene 
 	{
 		return this.scene.get('UserInterface') as UIScene; 
@@ -272,6 +274,15 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 			}
 		}
 
+		if (Defaults.shared.faceControlEnabled && this.input.keyboard)
+		{
+			this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+			this.keySpace.on('down', () => 
+			{
+				this.checkInteraction();
+			});
+		}
+
 		var focus = this.add.circle(this.windowWidth / 2 , this.windowHeight /2, 100);
 		focus.setScrollFactor(0);
 		focus.setStrokeStyle(5, 0x000000,0.1);
@@ -321,7 +332,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 		var newY = this.cameras.main.scrollY + dy * this.cameraSpeed;
 
 		// 設置鏡頭新的位置
-		if (scale >= 0.65) scale = 0.65;
+		if (scale >= 0.50) scale = 0.5;
 		else if (scale <= 0) scale = 0;
 
 		this.cameras.main.setScroll(newX, newY);
@@ -347,17 +358,15 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	onBlinkStatusChanged(status: BlinkingStatus): void 
 	{
-		switch(status)
-		{
-			case BlinkingStatus.None:
-				return
-			case BlinkingStatus.LeftEye:
-				return
-			case BlinkingStatus.RightEye:
-				return
-			case BlinkingStatus.Both:
-				return
-		}	
+		switch (status) {
+      case BlinkingStatus.LeftEye: this.checkInteraction(); break;
+			case BlinkingStatus.RightEye: this.checkInteraction(); break;
+    }
+	}
+
+	public checkInteraction(): void
+	{
+		return;
 	}
 
 	isNear = (x1: number, y1: number, x2: number, y2: number, ratio: number) => {

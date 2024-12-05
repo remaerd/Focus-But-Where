@@ -37,6 +37,7 @@ export class UIScene extends Phaser.Scene
   // Zoom Indicator
   private zoomIndicator!: Phaser.GameObjects.Image;
   private zoomIndicatorBackground!: Phaser.GameObjects.Image;
+  private mainMenuButton!: Phaser.GameObjects.Image;
 
   private flashBackground!: Phaser.GameObjects.Rectangle;
 
@@ -52,6 +53,11 @@ export class UIScene extends Phaser.Scene
   public backgroundMusic?: Phaser.Sound.NoAudioSound | Phaser.Sound.WebAudioSound | Phaser.Sound.HTML5AudioSound;
 
   public sfxs!: Phaser.Sound.WebAudioSound | Phaser.Sound.NoAudioSound | Phaser.Sound.HTML5AudioSound;
+
+
+  // Move zoomIndicator and zoomIndicatorBackground to the center left of the screen
+  private centerX = 50; // Adjust this value as needed to position it closer to the left edge
+  private centerY = window.innerHeight / 2;
 
 	iconTween = ( object: Phaser.GameObjects.Sprite ) => 
   {
@@ -81,7 +87,7 @@ export class UIScene extends Phaser.Scene
 
   public create() 
   {
-    this.zoomIndicatorBackground = this.add.image(100,100,"interface", "Control_Zoom_Slider");
+    this.zoomIndicatorBackground = this.add.image(100,100,"interface", "Control_Zoom_Background");
     this.zoomIndicatorBackground.setScale(0.5);
     this.zoomIndicatorBackground.setDepth(1);
     this.zoomIndicatorBackground.setAlpha(0);
@@ -90,6 +96,11 @@ export class UIScene extends Phaser.Scene
     this.zoomIndicator.setScale(0.5);
     this.zoomIndicator.setDepth(2);
     this.zoomIndicator.setAlpha(0);
+
+    this.mainMenuButton = this.add.image(100,100,"interface", "Control_Main_Menu");
+    this.mainMenuButton.setScale(0.5);
+    this.mainMenuButton.setDepth(1);
+    this.mainMenuButton.setAlpha(0);
 
     this.changeScene(PermissionScene);
     this.scale.on('resize', this.resize, this);
@@ -107,6 +118,16 @@ export class UIScene extends Phaser.Scene
 
   public update() 
   {
+    this.zoomIndicatorBackground.x = this.centerX;
+    this.zoomIndicatorBackground.y = this.centerY;
+
+    this.zoomIndicator.x = this.centerX;
+    this.zoomIndicator.y = this.centerY;
+
+    this.mainMenuButton.x = 50; 
+
+    if (Defaults.shared.faceControlEnabled) { this.mainMenuButton.y = this.centerY + this.zoomIndicatorBackground.height / 2; }
+    else { this.mainMenuButton.y = this.centerY + this.zoomIndicatorBackground.height - 100; }
     this.flashBackground.width = window.innerWidth * 2;
     this.flashBackground.height = window.innerHeight * 2;
 
@@ -114,33 +135,29 @@ export class UIScene extends Phaser.Scene
     this.descriptionText.x = window.innerWidth / 2;
     this.descriptionText.y = window.innerHeight  - 40;
 
-    if (this.cutsceneBackground)
-    {
+    if (this.cutsceneBackground) {
       this.cutsceneBackground.width = window.innerWidth * 2;
       this.cutsceneBackground.height = window.innerHeight * 2;
-    }
-
-    if (Detector.default)
-    {
-      let zoomIndicatorY = this.zoomIndicatorBackground.y - 80 + ((this.zoomIndicatorBackground.height *0.5)) * (Detector.default!.scale - 1);
-      let minimumY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height *0.5 / 2;
-      let maximumY = this.zoomIndicatorBackground.y + this.zoomIndicatorBackground.height - 300;
-
-      if (!(this.currentScene instanceof MainMenuScene) && !(this.currentScene instanceof PermissionScene))
-      {
-        if (!this.mainMenuCountdown && zoomIndicatorY >= maximumY) this.showMainMenuCountdown();
-        else if (this.mainMenuCountdown != undefined && zoomIndicatorY < maximumY) this.hideCountdownMenu();
+  }
+  
+  if (Detector.default) {
+      const scale = Phaser.Math.Clamp(Detector.default.scale, 0, 1.5);
+      const zoomIndicatorRange = this.zoomIndicatorBackground.height * 0.5 / 2;
+      const zoomIndicatorMinY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height * 0.5;
+      const zoomIndicatorMaxY = this.zoomIndicatorBackground.y + zoomIndicatorRange;
+      const zoomIndicatorY = Phaser.Math.Linear(
+          zoomIndicatorMinY,
+          zoomIndicatorMaxY,
+          (scale - 0) / (1.5 - 0)
+      );
+  
+      if (!(this.currentScene instanceof MainMenuScene) && !(this.currentScene instanceof PermissionScene)) {
+          if (scale >= 1.5 && this.mainMenuCountdown == undefined) this.showMainMenuCountdown();
+          else if (this.mainMenuCountdown != undefined && scale < 1.5) this.hideCountdownMenu();
       }
-
-      if (zoomIndicatorY <= minimumY ) zoomIndicatorY = minimumY;
-      else if (zoomIndicatorY >= maximumY)
-      {
-        zoomIndicatorY = maximumY;
-      }
+  
       this.zoomIndicator.y = zoomIndicatorY;
-    }
-    
-    this.zoomIndicatorBackground.y = window.innerHeight / 2;
+  }
   }
 
   public changeScene(scene: typeof FaceDetectorScene, _data?: object)
@@ -201,6 +218,7 @@ export class UIScene extends Phaser.Scene
     {
       this.zoomIndicator.setAlpha(1);
       this.zoomIndicatorBackground.setAlpha(1);
+      this.mainMenuButton.setAlpha(1);
       const hiddenObjects = Defaults.shared.allHiddenObjects[chapter-1];
       for (let i = 0; i < hiddenObjects.length; i++)
       {
@@ -218,6 +236,7 @@ export class UIScene extends Phaser.Scene
     {
       this.zoomIndicator.setAlpha(0);
       this.zoomIndicatorBackground.setAlpha(0);
+      this.mainMenuButton.setAlpha(0);
     }
   }
 
@@ -290,6 +309,10 @@ export class UIScene extends Phaser.Scene
     this.mainMenuConfirm?.destroy();
     this.mainMenuConfirm = undefined;
     
+    this.cutsceneBackground.destroy();
+    this.cutsceneTitleText.destroy();
+    this.cutsceneSubtitleText.destroy();
+        
     this.tweens.add({
       targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
       duration: 700,

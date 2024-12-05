@@ -65,15 +65,7 @@ export class Chapter1Scene extends FaceDetectorScene {
     });
   }
 
-  onBlinkStatusChanged(status: BlinkingStatus): void {
- 
-    switch (status) {
-      case BlinkingStatus.LeftEye: this.checkInteraction(); break;
-			case BlinkingStatus.RightEye: this.checkInteraction(); break;
-    }
-  }
-
-	private checkInteraction()
+	public override checkInteraction()
 	{
 		var collidingTouchpoints = this.checkCollideWithTouchPoints();
     if (collidingTouchpoints.length != 0)
