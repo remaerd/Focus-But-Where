@@ -41,12 +41,12 @@ export class UIScene extends Phaser.Scene
 
   private flashBackground!: Phaser.GameObjects.Rectangle;
 
-  public descriptionText!: Phaser.GameObjects.BitmapText;
+  private descriptionText!: Phaser.GameObjects.Text;
 
   // Cutscene
   private cutsceneBackground!: Phaser.GameObjects.Rectangle;
-  private cutsceneTitleText!: Phaser.GameObjects.BitmapText;
-  private cutsceneSubtitleText!: Phaser.GameObjects.BitmapText;
+  private cutsceneTitleText!: Phaser.GameObjects.Text;
+  private cutsceneSubtitleText!: Phaser.GameObjects.Text;
 
   private mainMenuCountdown? : Phaser.Time.TimerEvent;
   private mainMenuConfirm? : Phaser.Time.TimerEvent;
@@ -111,8 +111,9 @@ export class UIScene extends Phaser.Scene
 
     this.sfxs = this.sound.addAudioSprite('sfxs');
 
-    this.descriptionText = this.add.bitmapText(0,0, defaultTypeface, "", bodyFontSize, 0.5);
+    this.descriptionText = this.add.text(0,0, "", { fontFamily: 'Gaegu', fontSize: 18, color: '#ffffff' });
     this.descriptionText.letterSpacing = 0.5;
+    this.descriptionText.setBackgroundColor('#000000');
     this.descriptionText.tint = 0xffffff;
   }
 
@@ -131,33 +132,38 @@ export class UIScene extends Phaser.Scene
     this.flashBackground.width = window.innerWidth * 2;
     this.flashBackground.height = window.innerHeight * 2;
 
-    this.descriptionText.align = 0.5;
+    this.descriptionText.setAlign('center');
     this.descriptionText.x = window.innerWidth / 2;
     this.descriptionText.y = window.innerHeight  - 40;
+    this.descriptionText.setOrigin(0.5)
 
     if (this.cutsceneBackground) {
       this.cutsceneBackground.width = window.innerWidth * 2;
       this.cutsceneBackground.height = window.innerHeight * 2;
-  }
-  
-  if (Detector.default) {
-      const scale = Phaser.Math.Clamp(Detector.default.scale, 0, 1.5);
-      const zoomIndicatorRange = this.zoomIndicatorBackground.height * 0.5 / 2;
-      const zoomIndicatorMinY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height * 0.5;
-      const zoomIndicatorMaxY = this.zoomIndicatorBackground.y + zoomIndicatorRange;
-      const zoomIndicatorY = Phaser.Math.Linear(
+    }
+
+    if (this.currentScene instanceof PermissionScene) { this.input.setDefaultCursor('pointer'); }
+    else  { this.input.setDefaultCursor('none'); }
+    
+    if (Detector.default) {
+        const scale = Phaser.Math.Clamp(Detector.default.scale, 0, 1.5);
+        const zoomIndicatorRange = this.zoomIndicatorBackground.height * 0.5 / 2;
+        const zoomIndicatorMinY = this.zoomIndicatorBackground.y - this.zoomIndicatorBackground.height * 0.5;
+        const zoomIndicatorMaxY = this.zoomIndicatorBackground.y + zoomIndicatorRange;
+        const zoomIndicatorY = Phaser.Math.Linear(
           zoomIndicatorMinY,
           zoomIndicatorMaxY,
           (scale - 0) / (1.5 - 0)
-      );
-  
-      if (!(this.currentScene instanceof MainMenuScene) && !(this.currentScene instanceof PermissionScene)) {
+        );
+    
+        if (!(this.currentScene instanceof MainMenuScene) && !(this.currentScene instanceof PermissionScene)) 
+        {
           if (scale >= 1.5 && this.mainMenuCountdown == undefined) this.showMainMenuCountdown();
           else if (this.mainMenuCountdown != undefined && scale < 1.5) this.hideCountdownMenu();
-      }
+        }
   
-      this.zoomIndicator.y = zoomIndicatorY;
-  }
+        this.zoomIndicator.y = zoomIndicatorY;
+    }
   }
 
   public changeScene(scene: typeof FaceDetectorScene, _data?: object)
@@ -167,8 +173,9 @@ export class UIScene extends Phaser.Scene
     {
       this.scene.stop(this.currentScene);
       this.scene.sendToBack(this.currentScene);
+      this.setDescriptionText("");
     }
-    if (scene.title && scene.subtitle) this.showCutscene(scene);
+    if (scene.cutsceneVideoFileName) this.showCutsceneVideo(scene);
     else this.launchScene(scene);
   }
 
@@ -246,14 +253,14 @@ export class UIScene extends Phaser.Scene
     this.cutsceneBackground.setDepth(100);
     this.cutsceneBackground.alpha = 0;
 
-    this.cutsceneTitleText = this.add.bitmapText(0,0,headlineTypeface, title, headlineFontSize);
+    this.cutsceneTitleText = this.add.text(0,0, title, { fontFamily: 'Gaegu', fontSize: headlineFontSize, color: '#ffffff' });
     this.cutsceneTitleText.tint = 0xffffff;
     this.cutsceneTitleText.x = window.innerWidth / 2 - this.cutsceneTitleText.width / 2
     this.cutsceneTitleText.y = window.innerHeight / 2 - this.cutsceneTitleText.height / 2
     this.cutsceneTitleText.setDepth(101);
     this.cutsceneTitleText.alpha = 0;
 
-    this.cutsceneSubtitleText = this.add.bitmapText(0,0,defaultTypeface, subtitle.toUpperCase(), subtitleFontSize);
+    this.cutsceneSubtitleText = this.add.text(0,0, subtitle.toUpperCase(), { fontFamily: 'Gaegu', fontSize: subtitleFontSize, color: '#ffffff' });
     this.cutsceneSubtitleText.letterSpacing = 0.5;
     this.cutsceneSubtitleText.tint = 0xffffff;
     this.cutsceneSubtitleText.x = window.innerWidth / 2 - this.cutsceneSubtitleText.width / 2
@@ -277,7 +284,7 @@ export class UIScene extends Phaser.Scene
       },
     })
     this.tweens.add({
-      targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+      targets: [this.cutsceneBackground],
       duration: 700,
       alpha:1,
     });
@@ -288,7 +295,7 @@ export class UIScene extends Phaser.Scene
       console.log("Moving back to MainMenu");
       this.changeScene(MainMenuScene);
       this.tweens.add({
-        targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+        targets: [this.cutsceneBackground],
         duration: 700,
         alpha:0,
         complete: () =>
@@ -314,7 +321,7 @@ export class UIScene extends Phaser.Scene
     this.cutsceneSubtitleText.destroy();
         
     this.tweens.add({
-      targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+      targets: [this.cutsceneBackground,],
       duration: 700,
       alpha:0,
       complete: () =>
@@ -326,47 +333,122 @@ export class UIScene extends Phaser.Scene
     });
   }
 
+  showCutsceneVideo(scene: typeof FaceDetectorScene)
+  {
+    this.cutsceneBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0x000000);
+    this.cutsceneBackground.setDepth(100);
+    this.cutsceneBackground.alpha = 0;
+
+    const video = this.add.video(window.innerWidth/2, window.innerHeight/2).loadURL(scene.cutsceneVideoFileName, true);
+    video.setDepth(101);
+    video.setScale(0.5);
+    video.play();
+
+    // Add spacebar skip functionality
+    const spaceKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+    const continueHandler = () =>
+    {
+      // Skip the video and clean up
+      spaceKey?.off('down', skipHandler);
+      this.input.off('pointerdown', clickHandler);
+      
+      // Fade out cutscene
+      this.tweens.add({
+        targets: [this.cutsceneBackground, video],
+        duration: 700,
+        alpha: 0,
+        onComplete: () => {
+          this.cutsceneBackground.destroy();
+          video.destroy();
+          this.launchScene(scene);
+          this.setDescriptionText("");
+        }
+      });
+    }
+
+    const skipHandler = () => 
+    {
+      console.log(scene.cutsceneSectionsTimestamps);
+      if (scene.cutsceneSectionsTimestamps)
+      {
+        let lastTime = scene.cutsceneSectionsTimestamps[scene.cutsceneSectionsTimestamps.length - 1]
+        if (video.getCurrentTime() > lastTime) continueHandler();
+        else
+        {
+          for (let i = 0; i < scene.cutsceneSectionsTimestamps.length; i++)
+          {
+            if (video.getCurrentTime() < scene.cutsceneSectionsTimestamps[i])
+            {
+              video.setCurrentTime(scene.cutsceneSectionsTimestamps[i]);
+              break;
+            }
+          }
+        }
+      }
+      else continueHandler();
+    };
+    
+    // Left click skip functionality
+    const clickHandler = (pointer: Phaser.Input.Pointer) => {
+      if (pointer.leftButtonDown()) {
+        skipHandler();
+      }
+    };
+    
+    // Register event listeners
+    spaceKey?.on('down', skipHandler);
+    this.input.on('pointerdown', clickHandler);
+    
+    video.on('complete', () => 
+    {
+      skipHandler();
+    });
+
+    this.setDescriptionText("Left click or press spacebar to skip");
+  }
+
   /**
    * Temporary display Cutscene with Title and subtitle
    * @param title Cutscene Title
    * @param subtitle Cutscene Subtitle
    * @param duration Delay Millisecond
    */
-  showCutscene(scene: typeof FaceDetectorScene, duration: number = 12000)
-  { 
-    this.createCutscene(scene.title!, scene.subtitle!);
-    if (scene.introAudioFile) this.sound.play('Chapter_1_Intro');
+  // showCutscene(scene: typeof FaceDetectorScene, duration: number = 12000)
+  // { 
+  //   this.createCutscene(scene.title!, scene.subtitle!);
+  //   if (scene.introAudioFile) this.sound.play('Chapter_1_Intro');
 
-    this.tweens.add({
-      targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
-      duration: 700,
-      alpha:1,
-      complete: () =>
-      {
-        if (scene && this.currentScene)
-        { 
-          this.scene.setVisible(false, this.currentScene)
-          this.scene.setActive(false, this.currentScene);
-          this.scene.stop(this.currentScene);
-        }
-      }
-    });
-    this.time.delayedCall(duration, () => 
-    {
-      this.tweens.add({
-        targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
-        duration: 700,
-        alpha:0,
-        onComplete: ()=>
-        {
-          this.cutsceneBackground.destroy();
-          this.cutsceneTitleText.destroy();
-          this.cutsceneSubtitleText.destroy();
-          this.launchScene(scene);
-        }
-      });
-    }, [], this);
-  }
+  //   this.tweens.add({
+  //     targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+  //     duration: 700,
+  //     alpha:1,
+  //     complete: () =>
+  //     {
+  //       if (scene && this.currentScene)
+  //       { 
+  //         this.scene.setVisible(false, this.currentScene)
+  //         this.scene.setActive(false, this.currentScene);
+  //         this.scene.stop(this.currentScene);
+  //       }
+  //     }
+  //   });
+  //   this.time.delayedCall(duration, () => 
+  //   {
+  //     this.tweens.add({
+  //       targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
+  //       duration: 700,
+  //       alpha:0,
+  //       onComplete: ()=>
+  //       {
+  //         this.cutsceneBackground.destroy();
+  //         this.cutsceneTitleText.destroy();
+  //         this.cutsceneSubtitleText.destroy();
+  //         this.launchScene(scene);
+  //       }
+  //     });
+  //   }, [], this);
+  // }
 
   public foundHiddenObject(chapterIndex: integer, objectIndex: integer) 
   {
@@ -383,6 +465,14 @@ export class UIScene extends Phaser.Scene
       
       hiddenObject.isFound = true;
     }
+  }
+
+  public setDescriptionText(text: string)
+  {
+    console.log(text == "");
+    if (text == "") this.descriptionText.setPadding(0);
+    else { this.descriptionText.setPadding(10,5,10,5) }
+    this.descriptionText.setText(text);
   }
 
   private resize (): void

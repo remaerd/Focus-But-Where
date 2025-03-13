@@ -2,6 +2,7 @@ import SceneData from './scene.json';
 import { BlinkingStatus, FaceDetectorScene } from "../../FaceDetectorScene";
 import { Defaults } from "../../Models/Defaults";
 import { Chapter1Scene } from "../Chapter1/Scene";
+import { Detector } from '../../FaceLandmarkDetector';
 
 const name = 'MainMenuScene';
 
@@ -59,17 +60,20 @@ export class MainMenuScene extends FaceDetectorScene
 		}
 	}
 
-	onBlinkStatusChanged(status: BlinkingStatus): void {
+	onBlinkStatusChanged(status: BlinkingStatus): void 
+	{
+		let inputX = Detector.default!.translateX * window.innerWidth;
+		let inputY = Detector.default!.translateY * window.innerHeight;
     switch (status) {
-      case BlinkingStatus.LeftEye: this.checkInteraction(); break;
-			case BlinkingStatus.RightEye: this.checkInteraction(); break;
+      case BlinkingStatus.LeftEye: this.checkInteraction(inputX,inputY); break;
+			case BlinkingStatus.RightEye: this.checkInteraction(inputX,inputY); break;
     }
   }
 
-	public override checkInteraction()
+	public override checkInteraction(inputX:number, inputY:number)
 	{
 		console.log("Blink detected");
-		var collidingTouchpoints = this.checkCollideWithTouchPoints();
+		var collidingTouchpoints = this.checkCollideWithTouchPoints(inputX, inputY);
 		if (collidingTouchpoints.length == 0)
 		{
 			let sfxNum = Math.floor(Math.random() * 2+1);
@@ -84,15 +88,15 @@ export class MainMenuScene extends FaceDetectorScene
 					this.defaultUIScene.sfxs.play('Woohoo_1');
 					this.resetAndPlayGame(); 
 					break;
-				case "Object_1_1":
-					if (Defaults.shared.allHiddenObjects[0][0].isFound) window.open('https://kexinliu.net/fbw-flower/', '_blank');
-					break;
-				case "Object_1_2":
-					if (Defaults.shared.allHiddenObjects[0][1].isFound) window.open('https://kexinliu.net/fbw-oil-barrel/', '_blank');
-					break;
-				case "Object_1_3":
-					if (Defaults.shared.allHiddenObjects[0][2].isFound) window.open('https://kexinliu.net/fbw-xr-flag/', '_blank');
-					break;
+				// case "Object_1_1":
+				// 	if (Defaults.shared.allHiddenObjects[0][0].isFound) window.open('https://kexinliu.net/fbw-flower/', '_blank');
+				// 	break;
+				// case "Object_1_2":
+				// 	if (Defaults.shared.allHiddenObjects[0][1].isFound) window.open('https://kexinliu.net/fbw-oil-barrel/', '_blank');
+				// 	break;
+				// case "Object_1_3":
+				// 	if (Defaults.shared.allHiddenObjects[0][2].isFound) window.open('https://kexinliu.net/fbw-xr-flag/', '_blank');
+				// 	break;
 				default:
 			}
 		});

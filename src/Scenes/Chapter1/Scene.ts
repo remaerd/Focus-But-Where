@@ -1,25 +1,26 @@
 import SceneData from './scene.json';
-import { BlinkingStatus, FaceDetectorScene } from "../../FaceDetectorScene";
+import { FaceDetectorScene } from "../../FaceDetectorScene";
 import { Defaults } from "../../Models/Defaults";
 import { MainMenuScene } from '../MainMenu/Scene';
 
 const name = 'Chapter1Scene';
 
-const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
+const sceneConfig: Phaser.Types.Scenes.SettingsConfig = 
+{
   active: false,
   visible: false,
   key: name,
 };
 
-export class Chapter1Scene extends FaceDetectorScene {
-
+export class Chapter1Scene extends FaceDetectorScene 
+{
   // Cutscene
   public sceneId = 'Chapter1';
-  static title: string = "Lost in the Flood";
-  static subtitle: string = "Chapter 1";
-  public sceneData? = SceneData;
-  public static introAudioFile? = 'Audio/Chapter_1_Intro.mp3';
+  static cutsceneVideoFileName? = 'Videos/Chapter_1.mp4';
+  static cutsceneSectionsTimestamps? = [0, 2, 10];
 
+  public sceneData? = SceneData;
+  
   public static sceneName: string = name; 
   public backgroundNusicPath?: string | undefined = 'Audio/BGM_Chapter_1.mp3';
   
@@ -65,13 +66,10 @@ export class Chapter1Scene extends FaceDetectorScene {
     });
   }
 
-	public override checkInteraction()
+	public override checkInteraction(inputX:number, inputY:number)
 	{
-		var collidingTouchpoints = this.checkCollideWithTouchPoints();
-    if (collidingTouchpoints.length != 0)
-    {
-      this.defaultUIScene.sfxs.play('Woohoo_1');
-    }
+		var collidingTouchpoints = this.checkCollideWithTouchPoints(inputX, inputY);
+    if (collidingTouchpoints.length != 0) this.defaultUIScene.sfxs.play('Woohoo_1');
     else
     {
       let sfxInt = Math.round(Math.random()*2+1);

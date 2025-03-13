@@ -27,8 +27,8 @@ export class PermissionScene extends FaceDetectorScene
   public sceneHeight: number = 1080;
 
   private background!: Phaser.GameObjects.Rectangle;
-  private headline!: Phaser.GameObjects.BitmapText;
-  private description!: Phaser.GameObjects.BitmapText;
+  private headline!: Phaser.GameObjects.Text;
+  private description!: Phaser.GameObjects.Text;
   private image!: Phaser.GameObjects.Image;
 
   private cameraPermissionButton!: Phaser.GameObjects.Container;
@@ -48,16 +48,17 @@ export class PermissionScene extends FaceDetectorScene
 	{
     this.background = this.add.rectangle(0,0, window.innerWidth, window.innerHeight, 0xffffff);
 
-    this.headline = this.add.bitmapText(0,0, defaultTypeface, "Hi there, little eye.\nHow would you like to play this game ?", subtitleFontSize);
+    this.headline = this.add.text(0,0, "Hi there, little eye.\nHow would you like to play this game ?", { fontFamily: 'Gaegu', fontSize: subtitleFontSize, color: '#ffffff' });
     this.headline.tint = 0x000000;
     this.headline.lineSpacing = 0.5;
-    this.headline.setCenterAlign();
+    this.headline.setAlign("center");
+    this.headline.setResolution(3);
 
     const description = "We recommend granting us access to your camera.\nThen, blink, wink, and bob your way through this game using face tracking.\nIf people around you start to stare,\nyou can always switch to using your cursor."
-    this.description = this.add.bitmapText(0,0, defaultTypeface, description, bodyFontSize, 0.5);
-    
+    this.description = this.add.text(0,0, description, { fontFamily: 'Gaegu', fontSize: bodyFontSize, color: '#ffffff' });
+    this.description.setResolution(3);
     this.description.tint = 0x000000;
-    this.description.setCenterAlign();
+    this.description.setAlign("center");  
     
     this.image = this.add.image(0,0, "permission");
     this.image.setScale(0.25);
@@ -80,11 +81,11 @@ export class PermissionScene extends FaceDetectorScene
     background.fillStyle(0x000000);
     background.fillRoundedRect(0,0,300,48,24);
 
-    const text = this.add.bitmapText(0,0,defaultTypeface, title, buttonTextFontSize);
+    const text = this.add.text(0,0,title, { fontFamily:"Gaegu", fontSize: buttonTextFontSize, color: '#ffffff' });
     text.tint = 0xffffff;
-    text.setMaxWidth(300);
-    text.align = Phaser.GameObjects.BitmapText.ALIGN_CENTER; 
+    text.setAlign("center");
     text.setOrigin(-0.25, -0.75);
+    text.setResolution(2);
     
     const button = this.add.container(0,0,[background, text]);
     button.setInteractive(new Phaser.Geom.Rectangle(0, 0, 300,48), Phaser.Geom.Rectangle.Contains);

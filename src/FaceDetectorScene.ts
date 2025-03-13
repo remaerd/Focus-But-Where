@@ -105,14 +105,19 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	public abstract sceneId? : string;
 	public static sceneName: string;
-	public static introAudioFile?: string;
+
 
 	public sceneWidth: number = 0;
 	public sceneHeight: number = 0;
 
 	// Scene Title / Description
-	static title?: string;
-	static subtitle?: string;
+	// static title?: string;
+	// static subtitle?: string;
+	// public static introAudioFile?: string;
+
+	static cutsceneVideoFileName?: string;
+	static cutsceneSectionsTimestamps?: number[];
+
 	public sceneData? : any;
 	public interactiveObjectSpritesFileName?: string;
 
@@ -139,6 +144,8 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 	private _eyeMaskImage!: Phaser.GameObjects.Sprite;
 	private _eyeMask!: Phaser.Display.Masks.BitmapMask;
 	public backgroundNusicPath?: string;
+
+	private _mouseTrackpadScale: number = 0.5;
 
 	private keySpace?: Phaser.Input.Keyboard.Key;
 
@@ -273,13 +280,34 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 				gameObject.imageSprite.setDepth(1000+i);
 			}
 		}
+		
+		// Add mouse click support
+		this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => 
+		{
+			if (pointer.leftButtonDown())
+				{
+					if (!Defaults.shared.faceControlEnabled) this.checkInteraction(pointer.x, pointer.y);
+					else 
+					{
+						let inputX = Detector.default!.translateX * window.innerWidth;
+						let inputY = Detector.default!.translateY * window.innerHeight;
+						this.checkInteraction(inputX, inputY);
+					}
+				}
+		});
 
-		if (Defaults.shared.faceControlEnabled && this.input.keyboard)
+		if (this.input.keyboard)
 		{
 			this.keySpace = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 			this.keySpace.on('down', () => 
 			{
-				this.checkInteraction();
+				if (!Defaults.shared.faceControlEnabled) this.checkInteraction(this.input.x, this.input.y);
+				else 
+				{
+					let inputX = Detector.default!.translateX * window.innerWidth;
+					let inputY = Detector.default!.translateY * window.innerHeight;
+					this.checkInteraction(inputX, inputY);
+				}
 			});
 		}
 
@@ -301,8 +329,14 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 		let inputY: number;
 		let boundWidth: number;
 		let boundHeight: number;
-		let scale = 1;
+		let scale = 0.5;
 
+		this.input.on('wheel', (_object:any, _target:any, _x:any, y:number, _z:any) => 
+		{
+			if (y > 2) { this._mouseTrackpadScale += 0.1; }
+			else if (y < -2) { this._mouseTrackpadScale -= 0.1; }
+		});
+		
 		if (Defaults.shared.faceControlEnabled)
 		{
 			scale = 1.7-Detector.default!.scale;
@@ -313,6 +347,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 		}
 		else
 		{
+			scale = this._mouseTrackpadScale;
 			inputX = this.input.x;
 			inputY = this.input.y;
 			boundWidth = this.cameras.main.width;
@@ -332,39 +367,38 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 		var newY = this.cameras.main.scrollY + dy * this.cameraSpeed;
 
 		// 設置鏡頭新的位置
-		if (scale >= 0.50) scale = 0.5;
+		if (scale >= 2) scale = 2;
 		else if (scale <= 0) scale = 0;
 
 		this.cameras.main.setScroll(newX, newY);
 		this.cameras.main.setZoom(Math.abs(scale));
 
-		this.onHoverOnTouchPoint();
+		this.onHoverOnTouchPoint(inputX, inputY);
 	}
 
-	onHoverOnTouchPoint()
+	onHoverOnTouchPoint(inputX: number, inputY: number): void
 	{
 		var touchPointDescription: string | null = null;
 		this.touchPoints.forEach(touchPoint => {
 			let isNear = this.isNear(touchPoint.x + this.windowWidth / 2 - this.sceneWidth / 2 + touchPoint.ratio,
-															 touchPoint.y  + this.windowHeight / 2  - this.sceneHeight / 2 + touchPoint.ratio, 
-															 Detector.default!.translateX * window.innerWidth, 
-															 Detector.default!.translateY * window.innerHeight, 
-															 touchPoint.ratio)
+															touchPoint.y  + this.windowHeight / 2  - this.sceneHeight / 2 + touchPoint.ratio, 
+															inputX, inputY, touchPoint.ratio)
 			if (isNear && touchPoint.description) touchPointDescription =  touchPoint.description;
 		});
-
-		if (touchPointDescription) this.defaultUIScene.descriptionText.setText(touchPointDescription); 
+		if (touchPointDescription) this.defaultUIScene.setDescriptionText(touchPointDescription); 
 	}
 
 	onBlinkStatusChanged(status: BlinkingStatus): void 
 	{
-		switch (status) {
-      case BlinkingStatus.LeftEye: this.checkInteraction(); break;
-			case BlinkingStatus.RightEye: this.checkInteraction(); break;
-    }
+		// let inputX = Detector.default!.translateX * window.innerWidth;
+		// let inputY = Detector.default!.translateY * window.innerHeight;
+		// switch (status) {
+    //   case BlinkingStatus.LeftEye: this.checkInteraction(inputX, inputY); break;
+		// 	case BlinkingStatus.RightEye: this.checkInteraction(inputX, inputY); break;
+    // }
 	}
 
-	public checkInteraction(): void
+	public checkInteraction(inputX:number, inputY:number): void
 	{
 		return;
 	}
@@ -375,7 +409,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 		return Math.abs(x1 - x2) < ratio && Math.abs(y1 - y2) < ratio;
 	};
 
-	checkCollideWithTouchPoints(): TouchPoint[]
+	checkCollideWithTouchPoints(inputX: number, inputY: number): TouchPoint[]
 	{
 		var collidingTouchPoints: TouchPoint[] = [];
 		
@@ -395,9 +429,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 		this.touchPoints.forEach(touchpoint => {
 			let isNear = this.isNear(touchpoint.x + this.windowWidth / 2 - this.sceneWidth / 2 + touchpoint.ratio,
 																touchpoint.y  + this.windowHeight / 2  - this.sceneHeight / 2 + touchpoint.ratio, 
-																Detector.default!.translateX * window.innerWidth, 
-																Detector.default!.translateY * window.innerHeight, 
-																touchpoint.ratio)
+																inputX, inputY, touchpoint.ratio);
 			if (isNear) 
 			{
 				collidingTouchPoints.push(touchpoint);
