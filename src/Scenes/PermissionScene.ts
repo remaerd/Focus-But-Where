@@ -32,7 +32,7 @@ export class PermissionScene extends FaceDetectorScene
   private image!: Phaser.GameObjects.Image;
 
   private cameraPermissionButton!: Phaser.GameObjects.Container;
-  private keyboardButton!: Phaser.GameObjects.Container;
+  // private keyboardButton!: Phaser.GameObjects.Container;
 
 	constructor() 
 	{
@@ -66,12 +66,12 @@ export class PermissionScene extends FaceDetectorScene
     this.input.topOnly = false;
     
     this.cameraPermissionButton = this.createButton("Great, face tracking it is!");
-    this.keyboardButton = this.createButton("I wanna use cursor instead");
+    // this.keyboardButton = this.createButton("I wanna use cursor instead");
     
     this.input.on('pointerup', (_pointer: any, gameObject: any) =>
     {
       if (gameObject[0] == this.cameraPermissionButton) this.askCameraPermission(); 
-      else if (gameObject[0] == this.keyboardButton) this.enterGameWithoutCameraPermission();
+      // else if (gameObject[0] == this.keyboardButton) this.enterGameWithoutCameraPermission();
     })
 	}
 
@@ -104,11 +104,11 @@ export class PermissionScene extends FaceDetectorScene
     this.image.x = window.innerWidth / 2;
     this.image.y = window.innerHeight / 2 - this.image.height * 0.25 / 2;
 
-    this.cameraPermissionButton.x = window.innerWidth / 2 - 320;
+    this.cameraPermissionButton.x = window.innerWidth / 2 - 150;
     this.cameraPermissionButton.y = window.innerHeight - 150;
 
-    this.keyboardButton.x = window.innerWidth / 2 + 20;
-    this.keyboardButton.y = window.innerHeight - 150;
+    // this.keyboardButton.x = window.innerWidth / 2 + 20;
+    // this.keyboardButton.y = window.innerHeight - 150;
   }
 
   private enterGameWithoutCameraPermission()

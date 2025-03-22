@@ -1,159 +1,33 @@
 {
 	"textures": [
 		{
-			"image": "MainMenu_Objects-0.png",
+			"image": "MainMenu_Objects.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 480,
-				"h": 243
+				"w": 821,
+				"h": 255
 			},
-			"scale": 0.5,
+			"scale": 0.666,
 			"frames": [
 				{
 					"filename": "Object_3_3",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 133,
-						"h": 114
+						"w": 177,
+						"h": 151
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 133,
-						"h": 114
+						"w": 177,
+						"h": 151
 					},
 					"frame": {
 						"x": 1,
 						"y": 1,
-						"w": 133,
-						"h": 114
-					}
-				},
-				{
-					"filename": "Object_3_1",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 125,
-						"h": 112
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 125,
-						"h": 112
-					},
-					"frame": {
-						"x": 1,
-						"y": 117,
-						"w": 125,
-						"h": 112
-					}
-				},
-				{
-					"filename": "Button_Play",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 87,
-						"h": 82
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 87,
-						"h": 82
-					},
-					"frame": {
-						"x": 128,
-						"y": 117,
-						"w": 87,
-						"h": 82
-					}
-				},
-				{
-					"filename": "Button_Control_Mouse",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 92,
-						"h": 52
-					},
-					"spriteSourceSize": {
-						"x": 22,
-						"y": 5,
-						"w": 52,
-						"h": 40
-					},
-					"frame": {
-						"x": 128,
-						"y": 201,
-						"w": 52,
-						"h": 40
-					}
-				},
-				{
-					"filename": "Button_Control_Face",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 79,
-						"h": 46
-					},
-					"spriteSourceSize": {
-						"x": 11,
-						"y": 6,
-						"w": 57,
-						"h": 34
-					},
-					"frame": {
-						"x": 182,
-						"y": 201,
-						"w": 57,
-						"h": 34
-					}
-				},
-				{
-					"filename": "Object_3_4",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 148,
-						"h": 80
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 148,
-						"h": 80
-					},
-					"frame": {
-						"x": 136,
-						"y": 1,
-						"w": 148,
-						"h": 80
-					}
-				},
-				{
-					"filename": "Button_Sound_On",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 55,
-						"h": 32
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 55,
-						"h": 32
-					},
-					"frame": {
-						"x": 136,
-						"y": 83,
-						"w": 55,
-						"h": 32
+						"w": 177,
+						"h": 151
 					}
 				},
 				{
@@ -161,20 +35,41 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 163,
-						"h": 75
+						"w": 216,
+						"h": 100
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 163,
-						"h": 75
+						"w": 216,
+						"h": 100
 					},
 					"frame": {
-						"x": 286,
+						"x": 1,
+						"y": 154,
+						"w": 216,
+						"h": 100
+					}
+				},
+				{
+					"filename": "Object_3_1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 166,
+						"h": 149
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 166,
+						"h": 149
+					},
+					"frame": {
+						"x": 180,
 						"y": 1,
-						"w": 163,
-						"h": 75
+						"w": 166,
+						"h": 149
 					}
 				},
 				{
@@ -182,62 +77,62 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 131,
-						"h": 75
+						"w": 174,
+						"h": 100
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 131,
-						"h": 75
+						"w": 174,
+						"h": 100
 					},
 					"frame": {
-						"x": 217,
-						"y": 83,
-						"w": 131,
-						"h": 75
+						"x": 219,
+						"y": 152,
+						"w": 174,
+						"h": 100
 					}
 				},
 				{
-					"filename": "Button_Sound_Off",
+					"filename": "Button_Play",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 57,
-						"h": 34
+						"w": 116,
+						"h": 109
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 57,
-						"h": 34
+						"w": 116,
+						"h": 109
 					},
 					"frame": {
-						"x": 217,
-						"y": 160,
-						"w": 57,
-						"h": 34
+						"x": 348,
+						"y": 1,
+						"w": 116,
+						"h": 109
 					}
 				},
 				{
-					"filename": "Button_Sound_CC",
+					"filename": "Object_3_4",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 79,
-						"h": 46
+						"w": 197,
+						"h": 106
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 79,
-						"h": 46
+						"w": 197,
+						"h": 106
 					},
 					"frame": {
-						"x": 241,
-						"y": 196,
-						"w": 79,
-						"h": 46
+						"x": 395,
+						"y": 112,
+						"w": 197,
+						"h": 106
 					}
 				},
 				{
@@ -245,20 +140,20 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 129,
-						"h": 73
+						"w": 171,
+						"h": 97
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 129,
-						"h": 73
+						"w": 171,
+						"h": 97
 					},
 					"frame": {
-						"x": 350,
-						"y": 78,
-						"w": 129,
-						"h": 73
+						"x": 466,
+						"y": 1,
+						"w": 171,
+						"h": 97
 					}
 				},
 				{
@@ -266,20 +161,125 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 154,
-						"h": 70
+						"w": 204,
+						"h": 93
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 154,
-						"h": 70
+						"w": 204,
+						"h": 93
 					},
 					"frame": {
-						"x": 322,
-						"y": 160,
-						"w": 154,
-						"h": 70
+						"x": 594,
+						"y": 100,
+						"w": 204,
+						"h": 93
+					}
+				},
+				{
+					"filename": "Button_Control_Mouse",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 123,
+						"h": 69
+					},
+					"spriteSourceSize": {
+						"x": 29,
+						"y": 7,
+						"w": 69,
+						"h": 53
+					},
+					"frame": {
+						"x": 594,
+						"y": 195,
+						"w": 69,
+						"h": 53
+					}
+				},
+				{
+					"filename": "Button_Control_Face",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 105,
+						"h": 61
+					},
+					"spriteSourceSize": {
+						"x": 14,
+						"y": 8,
+						"w": 77,
+						"h": 45
+					},
+					"frame": {
+						"x": 665,
+						"y": 195,
+						"w": 77,
+						"h": 45
+					}
+				},
+				{
+					"filename": "Button_Sound_Off",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 76,
+						"h": 45
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 76,
+						"h": 45
+					},
+					"frame": {
+						"x": 744,
+						"y": 195,
+						"w": 76,
+						"h": 45
+					}
+				},
+				{
+					"filename": "Button_Sound_CC",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 105,
+						"h": 61
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 105,
+						"h": 61
+					},
+					"frame": {
+						"x": 639,
+						"y": 1,
+						"w": 105,
+						"h": 61
+					}
+				},
+				{
+					"filename": "Button_Sound_On",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 73,
+						"h": 43
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 73,
+						"h": 43
+					},
+					"frame": {
+						"x": 746,
+						"y": 1,
+						"w": 73,
+						"h": 43
 					}
 				}
 			]
@@ -288,6 +288,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:966719ab3bdbbe28f0f43e6590cf32c8:60f98ebb751ab2bb8276c5c026cfc0a7:73da1ace95cbb48c22609ef2b3703628$"
+		"smartupdate": "$TexturePacker:SmartUpdate:159d702d225ce911bf3465d307726931:60f98ebb751ab2bb8276c5c026cfc0a7:81098abd6c9ce086bc0263a594a78569$"
 	}
 }

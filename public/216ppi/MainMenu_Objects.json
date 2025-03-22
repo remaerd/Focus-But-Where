@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "MainMenu_Objects-0.png",
+			"image": "MainMenu_Objects.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 972,
@@ -288,6 +288,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:966719ab3bdbbe28f0f43e6590cf32c8:60f98ebb751ab2bb8276c5c026cfc0a7:73da1ace95cbb48c22609ef2b3703628$"
+		"smartupdate": "$TexturePacker:SmartUpdate:159d702d225ce911bf3465d307726931:60f98ebb751ab2bb8276c5c026cfc0a7:81098abd6c9ce086bc0263a594a78569$"
 	}
 }
