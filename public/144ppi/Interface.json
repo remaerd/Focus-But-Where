@@ -4,8 +4,8 @@
 			"image": "Interface.png",
 			"format": "RGBA8888",
 			"size": {
-				"w": 3915,
-				"h": 1217
+				"w": 1810,
+				"h": 1938
 			},
 			"scale": 0.666,
 			"frames": [
@@ -31,24 +31,66 @@
 					}
 				},
 				{
-					"filename": "Image_Loading",
+					"filename": "Image_Face_Tracking",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 876,
+						"h": 338
+					},
+					"spriteSourceSize": {
+						"x": 3,
+						"y": 2,
+						"w": 870,
+						"h": 329
+					},
+					"frame": {
+						"x": 1,
+						"y": 1218,
+						"w": 870,
+						"h": 329
+					}
+				},
+				{
+					"filename": "Background_Item_Found",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 1506,
-						"h": 679
+						"w": 887,
+						"h": 152
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 1506,
-						"h": 679
+						"w": 887,
+						"h": 152
 					},
 					"frame": {
-						"x": 1811,
-						"y": 1,
-						"w": 1506,
-						"h": 679
+						"x": 873,
+						"y": 1218,
+						"w": 887,
+						"h": 152
+					}
+				},
+				{
+					"filename": "Image_Indicator_Mouse",
+					"rotated": false,
+					"trimmed": true,
+					"sourceSize": {
+						"w": 733,
+						"h": 287
+					},
+					"spriteSourceSize": {
+						"x": 2,
+						"y": 3,
+						"w": 728,
+						"h": 282
+					},
+					"frame": {
+						"x": 1,
+						"y": 1549,
+						"w": 728,
+						"h": 282
 					}
 				},
 				{
@@ -66,35 +108,140 @@
 						"h": 283
 					},
 					"frame": {
-						"x": 3319,
-						"y": 1,
+						"x": 873,
+						"y": 1372,
 						"w": 595,
 						"h": 283
 					}
 				},
 				{
-					"filename": "Image_Face_Tracking",
+					"filename": "Background_Loading",
 					"rotated": false,
-					"trimmed": true,
+					"trimmed": false,
 					"sourceSize": {
-						"w": 876,
-						"h": 338
+						"w": 386,
+						"h": 126
 					},
 					"spriteSourceSize": {
-						"x": 3,
-						"y": 2,
-						"w": 870,
-						"h": 329
+						"x": 0,
+						"y": 0,
+						"w": 386,
+						"h": 126
 					},
 					"frame": {
-						"x": 1811,
-						"y": 682,
-						"w": 870,
-						"h": 329
+						"x": 731,
+						"y": 1657,
+						"w": 386,
+						"h": 126
+					}
+				},
+				{
+					"filename": "Clue_3_1",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 215,
+						"h": 152
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 215,
+						"h": 152
+					},
+					"frame": {
+						"x": 731,
+						"y": 1785,
+						"w": 215,
+						"h": 152
 					}
 				},
 				{
 					"filename": "Clue_3_3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 198,
+						"h": 160
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 198,
+						"h": 160
+					},
+					"frame": {
+						"x": 1470,
+						"y": 1372,
+						"w": 198,
+						"h": 160
+					}
+				},
+				{
+					"filename": "Clue_2_2",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 204,
+						"h": 117
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 204,
+						"h": 117
+					},
+					"frame": {
+						"x": 1119,
+						"y": 1657,
+						"w": 204,
+						"h": 117
+					}
+				},
+				{
+					"filename": "Clue_1_3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 161,
+						"h": 144
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 161,
+						"h": 144
+					},
+					"frame": {
+						"x": 948,
+						"y": 1785,
+						"w": 161,
+						"h": 144
+					}
+				},
+				{
+					"filename": "Clue_2_3",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 166,
+						"h": 134
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 166,
+						"h": 134
+					},
+					"frame": {
+						"x": 1470,
+						"y": 1534,
+						"w": 166,
+						"h": 134
+					}
+				},
+				{
+					"filename": "Clue_3_2",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -108,8 +255,8 @@
 						"h": 184
 					},
 					"frame": {
-						"x": 1811,
-						"y": 1013,
+						"x": 1325,
+						"y": 1657,
 						"w": 142,
 						"h": 184
 					}
@@ -129,8 +276,8 @@
 						"h": 163
 					},
 					"frame": {
-						"x": 1955,
-						"y": 1013,
+						"x": 1469,
+						"y": 1670,
 						"w": 163,
 						"h": 163
 					}
@@ -150,8 +297,8 @@
 						"h": 161
 					},
 					"frame": {
-						"x": 2120,
-						"y": 1013,
+						"x": 1670,
+						"y": 1372,
 						"w": 107,
 						"h": 161
 					}
@@ -161,27 +308,6 @@
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 198,
-						"h": 160
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 198,
-						"h": 160
-					},
-					"frame": {
-						"x": 2229,
-						"y": 1013,
-						"w": 198,
-						"h": 160
-					}
-				},
-				{
-					"filename": "Clue_3_1",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
 						"w": 145,
 						"h": 159
 					},
@@ -192,31 +318,31 @@
 						"h": 159
 					},
 					"frame": {
-						"x": 2429,
-						"y": 1013,
+						"x": 1638,
+						"y": 1535,
 						"w": 145,
 						"h": 159
 					}
 				},
 				{
-					"filename": "Background_Item_Found",
+					"filename": "Clue_2_1",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
-						"w": 887,
-						"h": 152
+						"w": 138,
+						"h": 170
 					},
 					"spriteSourceSize": {
 						"x": 0,
 						"y": 0,
-						"w": 887,
-						"h": 152
+						"w": 138,
+						"h": 170
 					},
 					"frame": {
-						"x": 2576,
-						"y": 1013,
-						"w": 887,
-						"h": 152
+						"x": 1634,
+						"y": 1696,
+						"w": 138,
+						"h": 170
 					}
 				},
 				{
@@ -234,52 +360,10 @@
 						"h": 294
 					},
 					"frame": {
-						"x": 2683,
-						"y": 682,
+						"x": 1779,
+						"y": 1218,
 						"w": 29,
 						"h": 294
-					}
-				},
-				{
-					"filename": "Image_Indicator_Mouse",
-					"rotated": false,
-					"trimmed": true,
-					"sourceSize": {
-						"w": 733,
-						"h": 287
-					},
-					"spriteSourceSize": {
-						"x": 2,
-						"y": 3,
-						"w": 728,
-						"h": 282
-					},
-					"frame": {
-						"x": 2714,
-						"y": 682,
-						"w": 728,
-						"h": 282
-					}
-				},
-				{
-					"filename": "Background_Loading",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 386,
-						"h": 126
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 386,
-						"h": 126
-					},
-					"frame": {
-						"x": 3465,
-						"y": 286,
-						"w": 386,
-						"h": 126
 					}
 				},
 				{
@@ -297,8 +381,8 @@
 						"h": 60
 					},
 					"frame": {
-						"x": 3319,
-						"y": 286,
+						"x": 731,
+						"y": 1549,
 						"w": 74,
 						"h": 60
 					}
@@ -318,52 +402,10 @@
 						"h": 50
 					},
 					"frame": {
-						"x": 3395,
-						"y": 286,
+						"x": 1,
+						"y": 1833,
 						"w": 68,
 						"h": 50
-					}
-				},
-				{
-					"filename": "Clue_3_2",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 215,
-						"h": 152
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 215,
-						"h": 152
-					},
-					"frame": {
-						"x": 3319,
-						"y": 414,
-						"w": 215,
-						"h": 152
-					}
-				},
-				{
-					"filename": "Clue_1_3",
-					"rotated": false,
-					"trimmed": false,
-					"sourceSize": {
-						"w": 161,
-						"h": 144
-					},
-					"spriteSourceSize": {
-						"x": 0,
-						"y": 0,
-						"w": 161,
-						"h": 144
-					},
-					"frame": {
-						"x": 3536,
-						"y": 414,
-						"w": 161,
-						"h": 144
 					}
 				}
 			]
@@ -372,6 +414,6 @@
 	"meta": {
 		"app": "https://www.codeandweb.com/texturepacker",
 		"version": "3.0",
-		"smartupdate": "$TexturePacker:SmartUpdate:b5244cee238fc546cd909d1488e97f4f:1cb9092523c0b1fbf8e5a4aa355e001d:3f4a8c349ebea295fa43cc60c3dbcd90$"
+		"smartupdate": "$TexturePacker:SmartUpdate:7aafe4bf19e40ee9b703041034cdf024:3721a6c4f93bbcf394c1ebfc79cb8183:3f4a8c349ebea295fa43cc60c3dbcd90$"
 	}
 }

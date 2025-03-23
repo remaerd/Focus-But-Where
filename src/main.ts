@@ -3,6 +3,9 @@ import { UIScene } from './Scenes/UIScene';
 import { Chapter1Scene } from './Scenes/Chapter1/Scene';
 import { PermissionScene } from "./Scenes/PermissionScene";
 import { MainMenuScene } from "./Scenes/MainMenu/Scene";
+import { Chapter3Scene } from "./Scenes/Chapter3/Scene";
+import { Chapter2Scene } from "./Scenes/Chapter2/Scene";
+import { Chapter4Scene } from "./Scenes/Chapter4/Scene";
 
 
 const MAX_SIZE_WIDTH_SCREEN = 1920;
@@ -41,7 +44,10 @@ const gameConfig: Phaser.Types.Core.GameConfig = {
     UIScene,
     PermissionScene,
     MainMenuScene,
-    Chapter1Scene
+    Chapter1Scene,
+    Chapter2Scene,
+    Chapter3Scene,
+    Chapter4Scene
   ],
 };
 

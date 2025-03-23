@@ -11,19 +11,25 @@ export class Defaults
 
 	faceControlEnabled:boolean = false;
 
+	currentChapter:number = 0;
+
   allHiddenObjects: Array<HiddenObject>[] = [
 
 		// Chapter 1
-		[new HiddenObject("Oil","The Oil Barrel","Climate protesters from This is Rigged blocked Scottish Oil plants"),
-		new HiddenObject("Flag","The XR Flag","Extinction Rebellion halted disruptive tactics in mass London protest"),
-		new HiddenObject("Flower","The Wreath","Climate activist-Wynn Bruce dies after setting himself on fire outside U.S. Supreme Court on Earth Day")],
+		[new HiddenObject("Oil","The Oil Barrel",""),
+		new HiddenObject("Flag","The XR Flag",""),
+		new HiddenObject("Flower","The Wreath","")
+	],
 		// Chapter 2
-		[], 
+		[new HiddenObject("Dust","The Dust Protector",""),
+		 new HiddenObject("Soup","The Soup Can",""),
+		 new HiddenObject("Suffragetes","The Suffragettes",""),
+		], 
 		// Chapter 3
-		[new HiddenObject("Goggles","",""),
-		new HiddenObject("Wheel","",""),
-		new HiddenObject("Fight","",""),
-		new HiddenObject("Brain","","")],
+		[new HiddenObject("Wheel","The Hamster",""),
+		 new HiddenObject("Goggles","The Trapped One",""),
+		 new HiddenObject("Fight","The Reactors",""),
+		 new HiddenObject("Brain","The Guinea Pig","")],
 		// Chapter 4
 		[],
 		// Chapter 5

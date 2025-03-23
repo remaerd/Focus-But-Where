@@ -14,7 +14,6 @@ export interface IBlinkDetectable
 	sizer: Phaser.Structs.Size;
 }
 
-
 class TouchPoint
 {
 	public name: string;
@@ -106,7 +105,6 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 	public abstract sceneId? : string;
 	public static sceneName: string;
 
-
 	public sceneWidth: number = 0;
 	public sceneHeight: number = 0;
 
@@ -117,9 +115,11 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	static cutsceneVideoFileName?: string;
 	static cutsceneSectionsTimestamps?: number[];
+	static cutsceneSectionsSubtitles?: {"timestamp": number, "caption": string}[];
 
 	public sceneData? : any;
 	public interactiveObjectSpritesFileName?: string;
+	public isStarted: boolean = false;
 
 	startPointX: number = 0;
 	startPointY: number = 0;
@@ -143,7 +143,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	private _eyeMaskImage!: Phaser.GameObjects.Sprite;
 	private _eyeMask!: Phaser.Display.Masks.BitmapMask;
-	public backgroundNusicPath?: string;
+	public backgroundMusicPath?: string;
 
 	private _mouseTrackpadScale: number = 0.5;
 
@@ -178,8 +178,10 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 	{
 		console.log('Preloading Scene');
 
-		if (this.backgroundNusicPath) this.load.audio(this.backgroundNusicPath!, this.backgroundNusicPath!);
+		if (this.backgroundMusicPath) this.load.audio(this.backgroundMusicPath!, this.backgroundMusicPath!);
 
+		if (this.sceneData == null) return;
+		
 		this.startPointX = this.sceneData.startpoint.x;
 		this.startPointY = this.sceneData.startpoint.y;
 		

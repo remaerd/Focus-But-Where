@@ -1,7 +1,9 @@
 import SceneData from './scene.json';
+import Subtitle from './subtitle.json';
+
 import { FaceDetectorScene } from "../../FaceDetectorScene";
 import { Defaults } from "../../Models/Defaults";
-import { MainMenuScene } from '../MainMenu/Scene';
+import { Chapter2Scene } from '../Chapter2/Scene';
 
 const name = 'Chapter1Scene';
 
@@ -17,31 +19,32 @@ export class Chapter1Scene extends FaceDetectorScene
   // Cutscene
   public sceneId = 'Chapter1';
   static cutsceneVideoFileName? = 'Videos/Chapter_1.mp4';
-  static cutsceneSectionsTimestamps? = [0, 2, 10];
+  static cutsceneSectionsTimestamps? = [0,2,6];
+  static cutsceneSectionsSubtitles? = Subtitle;
 
   public sceneData? = SceneData;
   
   public static sceneName: string = name; 
-  public backgroundNusicPath?: string | undefined = 'Audio/BGM_Chapter_1.mp3';
+  public backgroundMusicPath?: string | undefined = 'Audio/BGM_Chapter_1.mp3';
   
   public sceneWidth: number = 2048;
-  public sceneHeight: number = 1152;
+  public sceneHeight: number = 1204;
 
-  playFrameAnimation = (
-    object: Phaser.GameObjects.Sprite,
-    frameNames: string[]
-  ) => {
-    object.anims.create({
-      key: "frameAnimation",
-      frames: frameNames.map((frameName) => ({
-        key: object.texture.key,
-        frame: frameName,
-      })),
-      frameRate: 0.2,
-      repeat: -1,
-    });
-    object.anims.play("frameAnimation");
-  };
+  // playFrameAnimation = (
+  //   object: Phaser.GameObjects.Sprite,
+  //   frameNames: string[]
+  // ) => {
+  //   object.anims.create({
+  //     key: "frameAnimation",
+  //     frames: frameNames.map((frameName) => ({
+  //       key: object.texture.key,
+  //       frame: frameName,
+  //     })),
+  //     frameRate: 0.2,
+  //     repeat: -1,
+  //   });
+  //   object.anims.play("frameAnimation");
+  // };
 
   constructor() {
     super(sceneConfig);
@@ -49,9 +52,9 @@ export class Chapter1Scene extends FaceDetectorScene
 
   public override preload() 
   {
-    this.load.image('Screen_Final', '144ppi/Screen_Final-0.png');
-    this.load.image('Screen_Outro',  '144ppi/Screen_Outro.jpg')
-    this.load.audio('Chapter_1_Outro', 'Audio/Chapter_1_Outro.mp3');
+    // this.load.image('Screen_Final', '144ppi/Screen_Final-0.png');
+    // this.load.image('Screen_Outro',  '144ppi/Screen_Outro.jpg')
+    // this.load.audio('Chapter_1_Outro', 'Audio/Chapter_1_Outro.mp3');
     super.preload();
   }
 
@@ -59,11 +62,13 @@ export class Chapter1Scene extends FaceDetectorScene
   {
     super.create();
 
-    //Load Phones
-    this.animationSprites.forEach(object => {
-      this.playFrameAnimation(object.imageSprite, object.imageSprite.texture.getFrameNames());
-      return true;
-    });
+    // //Load Phones
+    // this.animationSprites.forEach(object => {
+    //   this.playFrameAnimation(object.imageSprite, object.imageSprite.texture.getFrameNames());
+    //   return true;
+    // });
+
+    Defaults.shared.currentChapter = 1;
   }
 
 	public override checkInteraction(inputX:number, inputY:number)
@@ -83,42 +88,17 @@ export class Chapter1Scene extends FaceDetectorScene
         case "Touchpoint_2": this.defaultUIScene.foundHiddenObject(0, 1); break;
         case "Touchpoint_3": this.defaultUIScene.foundHiddenObject(0, 2); break;
       }
-
       const hiddenObjects = Defaults.shared.allHiddenObjects[0];
-      if (hiddenObjects[0].isFound && hiddenObjects[1].isFound && hiddenObjects[2].isFound)
-      {
-        this.replaceScreens();
-        this.sound.play('Chapter_1_Outro');
-        this.time.addEvent({
-          delay:20000, 
-          loop: true,
-          callback: () =>
+          let isAllFound = true;
+          for (let i = 0; i < hiddenObjects.length; i++) 
           {
-            this.defaultUIScene.changeScene(MainMenuScene);
-          },
-        })
-      }
+            if (!hiddenObjects[i].isFound) 
+            {
+              isAllFound = false;
+              break;
+            }
+          }
+          if (isAllFound) this.defaultUIScene.changeScene(Chapter2Scene);
 		});
 	}
-
-  private replaceScreens()
-  {
-    this.defaultUIScene.backgroundMusic?.stop();
-    this.animationSprites.forEach(object => {
-      object.imageSprite.destroy();
-      object.imageSprite  = this.add.sprite(0, 0, 'Screen_Final');
-      object.imageSprite.setScale(0.7);
-			object.imageSprite.setOrigin(0);
-			object.imageSprite.x = object.x + this.windowWidth / 2 - this.sceneWidth / 2;
-			object.imageSprite.y = object.y + this.windowHeight / 2  - this.sceneHeight / 2;
-			object.imageSprite.setMask(this.mask);
-    }); 
-
-    let background = this.add.rectangle(0,0,this.windowWidth, this.windowHeight, 0x000000, 0.5);
-    background.setOrigin(0);
-    background.setScrollFactor(0);
-    let finalImage = this.add.image(this.windowWidth/ 2,this.windowHeight/2,'Screen_Outro');
-    finalImage.setOrigin(0.5);
-    finalImage.setScrollFactor(0);
-  }
 }

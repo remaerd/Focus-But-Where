@@ -13,7 +13,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 
 export const headlineTypeface = 'Road Rage';
 export const defaultTypeface = 'Gaegu';
-export const headlineFontSize = 128;
+export const headlineFontSize = 96;
 export const subtitleFontSize = 32;
 export const bodyFontSize = 22;
 export const buttonTextFontSize = 18;
@@ -175,7 +175,7 @@ export class UIScene extends Phaser.Scene
       this.scene.sendToBack(this.currentScene);
       this.setDescriptionText("");
     }
-    if (scene.cutsceneVideoFileName) this.showCutsceneVideo(scene);
+    if (scene.cutsceneVideoFileName && this.currentScene?.isStarted == false) this.showCutsceneVideo(scene);
     else this.launchScene(scene);
   }
 
@@ -193,13 +193,14 @@ export class UIScene extends Phaser.Scene
       switch(scene.sceneName)
       { 
         case 'Chapter1Scene': this.reloadIcons(1); break;
+        case 'Chapter2Scene': this.reloadIcons(2); break;
         case 'Chapter3Scene': this.reloadIcons(3); break;
         default: this.reloadIcons(0);
       }
 
-      if (this.currentScene?.backgroundNusicPath)
+      if (this.currentScene?.backgroundMusicPath)
       {
-        this.backgroundMusic = this.sound.add(this.currentScene!.backgroundNusicPath!);
+        this.backgroundMusic = this.sound.add(this.currentScene!.backgroundMusicPath!);
         this.backgroundMusic.setLoop(true);
         this.backgroundMusic.setVolume(0.5);
         this.backgroundMusic.play();
@@ -221,11 +222,8 @@ export class UIScene extends Phaser.Scene
       this.hiddenObjectIndicators = [];
     }
 
-    if (chapter != 0)
+    if (chapter != 0) 
     {
-      this.zoomIndicator.setAlpha(1);
-      this.zoomIndicatorBackground.setAlpha(1);
-      this.mainMenuButton.setAlpha(1);
       const hiddenObjects = Defaults.shared.allHiddenObjects[chapter-1];
       for (let i = 0; i < hiddenObjects.length; i++)
       {
@@ -238,12 +236,23 @@ export class UIScene extends Phaser.Scene
         this.hiddenObjectIndicators.push(objectIndicator);
         this.hiddenObjectIndicators[i].setDepth(1);
       }
+      this.setUserInterfacesTransparency(1);
     }
     else
     {
-      this.zoomIndicator.setAlpha(0);
-      this.zoomIndicatorBackground.setAlpha(0);
-      this.mainMenuButton.setAlpha(0);
+      this.setUserInterfacesTransparency(0);
+    };
+    
+  }
+
+  private setUserInterfacesTransparency(alpha: number)
+  {
+    this.zoomIndicator.setAlpha(alpha);
+    this.zoomIndicatorBackground.setAlpha(alpha);
+    this.mainMenuButton.setAlpha(alpha);
+    for (let i = 0; i < this.hiddenObjectIndicators.length; i++)
+    {
+      this.hiddenObjectIndicators[i].setAlpha(alpha);
     }
   }
 
@@ -253,14 +262,14 @@ export class UIScene extends Phaser.Scene
     this.cutsceneBackground.setDepth(100);
     this.cutsceneBackground.alpha = 0;
 
-    this.cutsceneTitleText = this.add.text(0,0, title, { fontFamily: 'Gaegu', fontSize: headlineFontSize, color: '#ffffff' });
+    this.cutsceneTitleText = this.add.text(0,0, title, { fontFamily: defaultTypeface, fontSize: headlineFontSize, color: '#ffffff' });
     this.cutsceneTitleText.tint = 0xffffff;
     this.cutsceneTitleText.x = window.innerWidth / 2 - this.cutsceneTitleText.width / 2
     this.cutsceneTitleText.y = window.innerHeight / 2 - this.cutsceneTitleText.height / 2
     this.cutsceneTitleText.setDepth(101);
     this.cutsceneTitleText.alpha = 0;
 
-    this.cutsceneSubtitleText = this.add.text(0,0, subtitle.toUpperCase(), { fontFamily: 'Gaegu', fontSize: subtitleFontSize, color: '#ffffff' });
+    this.cutsceneSubtitleText = this.add.text(0,0, subtitle.toUpperCase(), { fontFamily: defaultTypeface, fontSize: subtitleFontSize, color: '#ffffff' });
     this.cutsceneSubtitleText.letterSpacing = 0.5;
     this.cutsceneSubtitleText.tint = 0xffffff;
     this.cutsceneSubtitleText.x = window.innerWidth / 2 - this.cutsceneSubtitleText.width / 2
@@ -284,12 +293,12 @@ export class UIScene extends Phaser.Scene
       },
     })
     this.tweens.add({
-      targets: [this.cutsceneBackground],
+      targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],
       duration: 700,
       alpha:1,
     });
 
-    this.mainMenuConfirm = this.time.delayedCall(3000, () => 
+    this.mainMenuConfirm = this.time.delayedCall(4000, () => 
     {
       this.mainMenuCountdown?.remove();
       console.log("Moving back to MainMenu");
@@ -338,14 +347,70 @@ export class UIScene extends Phaser.Scene
     this.cutsceneBackground = this.add.rectangle(0,0,window.innerWidth, window.innerHeight, 0x000000);
     this.cutsceneBackground.setDepth(100);
     this.cutsceneBackground.alpha = 0;
+    this.zoomIndicator.setAlpha(0);
+    this.zoomIndicatorBackground.setAlpha(0);
+    this.mainMenuButton.setAlpha(0);
+    this.setUserInterfacesTransparency(0);
 
-    const video = this.add.video(window.innerWidth/2, window.innerHeight/2).loadURL(scene.cutsceneVideoFileName, true);
+    const video = this.add.video(window.innerWidth/2, window.innerHeight/2).loadURL(scene.cutsceneVideoFileName, false);
     video.setDepth(101);
-    video.setScale(0.5);
+    video.setScale(0.25);
     video.play();
 
     // Add spacebar skip functionality
     const spaceKey = this.input.keyboard?.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    let subtitleTimer: Phaser.Time.TimerEvent;
+    if (scene.cutsceneSectionsSubtitles)
+    {
+      let subtitles = scene.cutsceneSectionsSubtitles!;
+      // Create timer to check for subtitles
+      let currentSubtitleIndex = -1;
+      subtitleTimer = this.time.addEvent({
+        delay: 100, // Check every 100ms
+        callback: () => {
+
+          const currentTime = video.getCurrentTime();
+          
+          // Find the subtitle that should be displayed
+          let subtitleToShow = -1;
+          for (let i = 0; i < subtitles.length; i++) {
+            if (currentTime >= subtitles[i].timestamp) {
+              subtitleToShow = i;
+            } else {
+              break;
+            }
+          }
+          
+          // If subtitle changed or should be cleared
+          if (subtitleToShow !== currentSubtitleIndex) {
+            currentSubtitleIndex = subtitleToShow;
+            
+            if (subtitleToShow >= 0 && subtitleToShow < subtitles.length) {
+              // Show the subtitle
+              this.descriptionText.setText(subtitles[subtitleToShow].caption);
+              
+              // If there's a next subtitle, schedule clearing this one
+              if (subtitleToShow + 1 < subtitles.length) {
+                const nextTime = subtitles[subtitleToShow + 1].timestamp;
+                // Clear slightly before the next subtitle
+                // But only if there's a gap (some subtitles might be back-to-back)
+                if (nextTime - subtitles[subtitleToShow].timestamp > 0.5) {
+                  this.time.delayedCall((nextTime - currentTime - 0.2) * 1000, () => {
+                    if (currentSubtitleIndex === subtitleToShow) {
+                      this.descriptionText.setText('');
+                    }
+                  });
+                }
+              }
+            } else {
+              // No subtitle at this time
+              this.descriptionText.setText('');
+            }
+          }
+        },
+        loop: true
+      });
+    }
 
     const continueHandler = () =>
     {
@@ -361,6 +426,8 @@ export class UIScene extends Phaser.Scene
         onComplete: () => {
           this.cutsceneBackground.destroy();
           video.destroy();
+          subtitleTimer.destroy();
+          this.setUserInterfacesTransparency(1);
           this.launchScene(scene);
           this.setDescriptionText("");
         }
@@ -405,7 +472,7 @@ export class UIScene extends Phaser.Scene
       skipHandler();
     });
 
-    this.setDescriptionText("Left click or press spacebar to skip");
+    this.setDescriptionText("[Left click or press spacebar to skip]");
   }
 
   /**
@@ -416,8 +483,8 @@ export class UIScene extends Phaser.Scene
    */
   // showCutscene(scene: typeof FaceDetectorScene, duration: number = 12000)
   // { 
-  //   this.createCutscene(scene.title!, scene.subtitle!);
-  //   if (scene.introAudioFile) this.sound.play('Chapter_1_Intro');
+  //   // this.createCutscene(scene.title!, scene.subtitle!);
+  //   // if (scene.introAudioFile) this.sound.play('Chapter_1_Intro');
 
   //   this.tweens.add({
   //     targets: [this.cutsceneBackground, this.cutsceneSubtitleText, this.cutsceneTitleText],

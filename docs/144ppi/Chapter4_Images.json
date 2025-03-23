@@ -1,0 +1,62 @@
+{
+	"textures": [
+		{
+			"image": "Chapter4_Images.png",
+			"format": "RGBA8888",
+			"size": {
+				"w": 1731,
+				"h": 633
+			},
+			"scale": 0.666,
+			"frames": [
+				{
+					"filename": "Image_Loading",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 1455,
+						"h": 631
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 1455,
+						"h": 631
+					},
+					"frame": {
+						"x": 1,
+						"y": 1,
+						"w": 1455,
+						"h": 631
+					}
+				},
+				{
+					"filename": "Image_QRCode",
+					"rotated": false,
+					"trimmed": false,
+					"sourceSize": {
+						"w": 272,
+						"h": 272
+					},
+					"spriteSourceSize": {
+						"x": 0,
+						"y": 0,
+						"w": 272,
+						"h": 272
+					},
+					"frame": {
+						"x": 1458,
+						"y": 1,
+						"w": 272,
+						"h": 272
+					}
+				}
+			]
+		}
+	],
+	"meta": {
+		"app": "https://www.codeandweb.com/texturepacker",
+		"version": "3.0",
+		"smartupdate": "$TexturePacker:SmartUpdate:2d744ecb682e3fb9d28d061858d00b18:480dcb6ad830489913297ab1a50b8439:b6b7e6e438bf228d53072d6da1ee6f28$"
+	}
+}

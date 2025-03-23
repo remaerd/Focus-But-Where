@@ -48,14 +48,14 @@ export class PermissionScene extends FaceDetectorScene
 	{
     this.background = this.add.rectangle(0,0, window.innerWidth, window.innerHeight, 0xffffff);
 
-    this.headline = this.add.text(0,0, "Hi there, little eye.\nHow would you like to play this game ?", { fontFamily: 'Gaegu', fontSize: subtitleFontSize, color: '#ffffff' });
+    this.headline = this.add.text(0,0, "Hi there, little eye.\nHow would you like to play this game ?", { fontFamily: defaultTypeface, fontSize: subtitleFontSize, color: '#ffffff' });
     this.headline.tint = 0x000000;
     this.headline.lineSpacing = 0.5;
     this.headline.setAlign("center");
     this.headline.setResolution(3);
 
     const description = "We recommend granting us access to your camera.\nThen, blink, wink, and bob your way through this game using face tracking.\nIf people around you start to stare,\nyou can always switch to using your cursor."
-    this.description = this.add.text(0,0, description, { fontFamily: 'Gaegu', fontSize: bodyFontSize, color: '#ffffff' });
+    this.description = this.add.text(0,0, description, { fontFamily: defaultTypeface, fontSize: bodyFontSize, color: '#ffffff' });
     this.description.setResolution(3);
     this.description.tint = 0x000000;
     this.description.setAlign("center");  
@@ -81,7 +81,7 @@ export class PermissionScene extends FaceDetectorScene
     background.fillStyle(0x000000);
     background.fillRoundedRect(0,0,300,48,24);
 
-    const text = this.add.text(0,0,title, { fontFamily:"Gaegu", fontSize: buttonTextFontSize, color: '#ffffff' });
+    const text = this.add.text(0,0,title, { fontFamily:defaultTypeface, fontSize: buttonTextFontSize, color: '#ffffff' });
     text.tint = 0xffffff;
     text.setAlign("center");
     text.setOrigin(-0.25, -0.75);

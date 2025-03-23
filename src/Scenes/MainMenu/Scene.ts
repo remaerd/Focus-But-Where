@@ -1,8 +1,9 @@
 import SceneData from './scene.json';
 import { BlinkingStatus, FaceDetectorScene } from "../../FaceDetectorScene";
 import { Defaults } from "../../Models/Defaults";
-import { Chapter1Scene } from "../Chapter1/Scene";
-import { Detector } from '../../FaceLandmarkDetector';
+import { Chapter1Scene } from '../Chapter1/Scene';
+import { Chapter2Scene } from '../Chapter2/Scene';
+import { Chapter3Scene } from '../Chapter3/Scene';
 
 const name = 'MainMenuScene';
 
@@ -16,7 +17,7 @@ const sceneConfig: Phaser.Types.Scenes.SettingsConfig =
 export class MainMenuScene extends FaceDetectorScene
 {
 	public static sceneName: string = name;
-	public backgroundNusicPath?: string | undefined = 'Audio/BGM_Main_Menu.mp3';
+	public backgroundMusicPath?: string | undefined = 'Audio/BGM_Main_Menu.mp3';
 	public interactiveObjectSpritesFileName?: string = 'MainMenu_Objects';
 
 	public sceneId? = 'MainMenu';
@@ -40,6 +41,7 @@ export class MainMenuScene extends FaceDetectorScene
 
 		this.interactiveObjects.forEach(object => {
 			if (object.name.startsWith("Object_")) object.imageSprite.setVisible(false);
+			object.imageSprite.setScale(0.5);
 		});
 	}
 
@@ -62,12 +64,14 @@ export class MainMenuScene extends FaceDetectorScene
 
 	onBlinkStatusChanged(status: BlinkingStatus): void 
 	{
-		let inputX = Detector.default!.translateX * window.innerWidth;
-		let inputY = Detector.default!.translateY * window.innerHeight;
-    switch (status) {
-      case BlinkingStatus.LeftEye: this.checkInteraction(inputX,inputY); break;
-			case BlinkingStatus.RightEye: this.checkInteraction(inputX,inputY); break;
-    }
+		// FIXME: Due to the inaccuracy of the blinking detection, this is now disabled until we found a solution
+		
+		// let inputX = Detector.default!.translateX * window.innerWidth;
+		// let inputY = Detector.default!.translateY * window.innerHeight;
+    // switch (status) {
+    //   case BlinkingStatus.LeftEye: this.checkInteraction(inputX,inputY); break;
+		// 	case BlinkingStatus.RightEye: this.checkInteraction(inputX,inputY); break;
+    // }
   }
 
 	public override checkInteraction(inputX:number, inputY:number)
@@ -104,7 +108,12 @@ export class MainMenuScene extends FaceDetectorScene
 
 	private resetAndPlayGame()
 	{
-		this.defaultUIScene.changeScene(Chapter1Scene);
+		switch(Defaults.shared.currentChapter)
+		{
+			case 2: this.defaultUIScene.changeScene(Chapter2Scene); break;
+			case 3: this.defaultUIScene.changeScene(Chapter3Scene); break;
+			default: this.defaultUIScene.changeScene(Chapter1Scene); break;
+		}
 	}
 
 	// private triggerSound()
