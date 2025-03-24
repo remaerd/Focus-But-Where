@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@babel/cli": "^7.27.0",
+    "@babel/core": "^7.26.10",
     "typescript": "*",
     "vite": "*"
   },
@@ -19,7 +21,7 @@
     "@tensorflow/tfjs-backend-webgl": "^4.13.0",
     "@tensorflow/tfjs-converter": "^4.13.0",
     "@tensorflow/tfjs-core": "^4.13.0",
-    "scatter-gl": "0.0.8",
-    "phaser": "^3.80.1"
+    "phaser": "^3.80.1",
+    "scatter-gl": "^0.0.13"
   }
 }

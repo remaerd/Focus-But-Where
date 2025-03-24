@@ -1,5 +1,5 @@
 import SceneData from './scene.json';
-import { BlinkingStatus, FaceDetectorScene } from "../../FaceDetectorScene";
+import { FaceDetectorScene } from "../../FaceDetectorScene";
 import { Defaults } from "../../Models/Defaults";
 import { Chapter1Scene } from '../Chapter1/Scene';
 import { Chapter2Scene } from '../Chapter2/Scene';
@@ -62,8 +62,8 @@ export class MainMenuScene extends FaceDetectorScene
 		}
 	}
 
-	onBlinkStatusChanged(status: BlinkingStatus): void 
-	{
+	// onBlinkStatusChanged(status: BlinkingStatus): void 
+	// {
 		// FIXME: Due to the inaccuracy of the blinking detection, this is now disabled until we found a solution
 		
 		// let inputX = Detector.default!.translateX * window.innerWidth;
@@ -72,7 +72,7 @@ export class MainMenuScene extends FaceDetectorScene
     //   case BlinkingStatus.LeftEye: this.checkInteraction(inputX,inputY); break;
 		// 	case BlinkingStatus.RightEye: this.checkInteraction(inputX,inputY); break;
     // }
-  }
+  // }
 
 	public override checkInteraction(inputX:number, inputY:number)
 	{

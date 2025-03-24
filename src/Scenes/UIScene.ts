@@ -354,7 +354,7 @@ export class UIScene extends Phaser.Scene
 
     const video = this.add.video(window.innerWidth/2, window.innerHeight/2).loadURL(scene.cutsceneVideoFileName, false);
     video.setDepth(101);
-    video.setScale(0.25);
+    video.setScale(0.5);
     video.play();
 
     // Add spacebar skip functionality

@@ -111,10 +111,10 @@ export class PermissionScene extends FaceDetectorScene
     // this.keyboardButton.y = window.innerHeight - 150;
   }
 
-  private enterGameWithoutCameraPermission()
-  {
-    this.defaultUIScene.changeScene(MainMenuScene);
-  }
+  // private enterGameWithoutCameraPermission()
+  // {
+  //   this.defaultUIScene.changeScene(MainMenuScene);
+  // }
 
   private async askCameraPermission()
   {

@@ -392,6 +392,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	onBlinkStatusChanged(status: BlinkingStatus): void 
 	{
+		console.log(status);
 		// let inputX = Detector.default!.translateX * window.innerWidth;
 		// let inputY = Detector.default!.translateY * window.innerHeight;
 		// switch (status) {
@@ -402,7 +403,7 @@ export abstract class FaceDetectorScene extends Scene implements IBlinkDetectabl
 
 	public checkInteraction(inputX:number, inputY:number): void
 	{
-		return;
+		console.log(inputX, inputY);
 	}
 
 	isNear = (x1: number, y1: number, x2: number, y2: number, ratio: number) => {
