@@ -43,6 +43,8 @@ export class UIScene extends Phaser.Scene
 
   private descriptionText!: Phaser.GameObjects.Text;
 
+  public spacebarIndicator!: Phaser.GameObjects.Image;
+
   // Cutscene
   private cutsceneBackground!: Phaser.GameObjects.Rectangle;
   private cutsceneTitleText!: Phaser.GameObjects.Text;
@@ -96,6 +98,11 @@ export class UIScene extends Phaser.Scene
     this.zoomIndicator.setScale(0.5);
     this.zoomIndicator.setDepth(2);
     this.zoomIndicator.setAlpha(0);
+
+    this.spacebarIndicator = this.add.image(100,100,"interface", "Image_Face_Tracking");
+    this.spacebarIndicator.setScale(0.5);
+    this.spacebarIndicator.setDepth(1);
+    this.spacebarIndicator.setAlpha(0);
 
     this.mainMenuButton = this.add.image(100,100,"interface", "Control_Main_Menu");
     this.mainMenuButton.setScale(0.5);
@@ -220,6 +227,13 @@ export class UIScene extends Phaser.Scene
         this.hiddenObjectIndicators[i].destroy();
       }
       this.hiddenObjectIndicators = [];
+    }
+
+    if (chapter == 1)
+    {
+      this.spacebarIndicator.setAlpha(1);
+      this.spacebarIndicator.x = window.innerWidth / 2;
+      this.spacebarIndicator.y = window.innerHeight / 12 * 9;
     }
 
     if (chapter != 0) 

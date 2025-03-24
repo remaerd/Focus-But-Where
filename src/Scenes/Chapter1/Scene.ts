@@ -61,7 +61,6 @@ export class Chapter1Scene extends FaceDetectorScene
   public override create() 
   {
     super.create();
-
     // //Load Phones
     // this.animationSprites.forEach(object => {
     //   this.playFrameAnimation(object.imageSprite, object.imageSprite.texture.getFrameNames());
@@ -73,6 +72,7 @@ export class Chapter1Scene extends FaceDetectorScene
 
 	public override checkInteraction(inputX:number, inputY:number)
 	{
+    this.defaultUIScene.spacebarIndicator.setVisible(false);
 		var collidingTouchpoints = this.checkCollideWithTouchPoints(inputX, inputY);
     if (collidingTouchpoints.length != 0) this.defaultUIScene.sfxs.play('Woohoo_1');
     else
@@ -89,16 +89,21 @@ export class Chapter1Scene extends FaceDetectorScene
         case "Touchpoint_3": this.defaultUIScene.foundHiddenObject(0, 2); break;
       }
       const hiddenObjects = Defaults.shared.allHiddenObjects[0];
-          let isAllFound = true;
-          for (let i = 0; i < hiddenObjects.length; i++) 
-          {
-            if (!hiddenObjects[i].isFound) 
-            {
-              isAllFound = false;
-              break;
-            }
-          }
-          if (isAllFound) this.defaultUIScene.changeScene(Chapter2Scene);
+      let isAllFound = true;
+      for (let i = 0; i < hiddenObjects.length; i++) 
+      {
+        if (!hiddenObjects[i].isFound) 
+        {
+          isAllFound = false;
+          break;
+        }
+      }
+      if (isAllFound) 
+      {
+        this.time.delayedCall(1100, () => {
+          this.defaultUIScene.changeScene(Chapter2Scene);
+        });
+      }
 		});
 	}
 }

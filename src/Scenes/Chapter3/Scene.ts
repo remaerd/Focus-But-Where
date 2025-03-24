@@ -76,6 +76,11 @@ export class Chapter3Scene extends FaceDetectorScene
         break;
       }
     }
-    if (isAllFound) this.defaultUIScene.changeScene(Chapter4Scene);
+    if (isAllFound) 
+    {
+      this.time.delayedCall(1100, () => {
+        this.defaultUIScene.changeScene(Chapter4Scene);
+      });
+    }
 	}
 }
